@@ -3,7 +3,8 @@ const express = require("express")
 require("dotenv").config()
 const dbConnect = require("./config/db/dbConnect")
 const userRoutes = require("./controllers/users/usersRoute")
-const { errorHandler, notFound } = require("./middlewares/error/errorHandler")
+const { errorHandler} = require("./middlewares/error/errorHandler")
+const cookieParser = require('cookie-parser')
 
 
 
@@ -13,6 +14,7 @@ const { errorHandler, notFound } = require("./middlewares/error/errorHandler")
 const app = express()
 dbConnect()
 //middleware
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 

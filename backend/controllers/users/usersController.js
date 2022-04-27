@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler")
 const generateToken = require("../../config/token/generateToken")
 const validateId = require("../utils/validateId")
 
-
 //--------------------------------------Register
 const userRegisterCtrl = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req.body.email })
@@ -34,6 +33,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       lastName: userFound?.lastName,
       email: userFound?.email,
       isAdmin: userFound?.isAdmin,
+      password:userFound?.password,
       token: generateToken(userFound?._id),
     })
   } else {
@@ -114,6 +114,22 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
 })
 
 //update password
+const updateUserPasswordCtrl = asyncHandler(async (req, res) => {
+  const { id } = req.user
+  const { password } = req.body
+  console.log(req.user)
+  validateId(id)
+  const user = await User.findById(id)
+  
+  console.log(user)
+  
+  if (password) {
+    user.password = password
+    const updatedUser = await user.save()
+    
+  }
+  
+})
 
 module.exports = {
   userRegisterCtrl,
@@ -123,4 +139,5 @@ module.exports = {
   fetchUserDetailsCtrl,
   userProfileCtrl,
   updateUserCtrl,
+  updateUserPasswordCtrl,
 }
