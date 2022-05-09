@@ -1,13 +1,15 @@
-const mongoose = require('mongoose');
-require("dotenv").config()
+const mongoose = require("mongoose")
 
 const dbConnect = async () => {
   try {
-    const conn = await mongoose.connect(process.env.DB_URL);
-    console.log(`Connected to dabase: ${conn.connection.host}`.blue)
+    await mongoose.connect(process.env.DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    })
+    console.log(`${mongoose.connection.host}`.yellow)
   } catch (error) {
-    console.log(error)
-    process.exit(1)
+    console.log(`Error ${error.message}`)
   }
 }
-module.exports = dbConnect;
+
+module.exports = dbConnect

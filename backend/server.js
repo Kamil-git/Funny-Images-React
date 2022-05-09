@@ -2,25 +2,26 @@ const colors = require("colors")
 const express = require("express")
 require("dotenv").config()
 const dbConnect = require("./config/db/dbConnect")
-const userRoutes = require("./controllers/users/usersRoute")
+const userRoutes = require("./routes/user/usersRoute")
 const { errorHandler} = require("./middlewares/error/errorHandler")
-const cookieParser = require('cookie-parser')
-
-
-
-
-
+const itemRoutes = require("./routes/item/itemRoutes")
+const commentRoute = require('./routes/comment/commentRoute')
+const categoryRoute = require("./routes/category/categoryRoute")
+const cors = require("cors")
+dbConnect()
 //server
 const app = express()
-dbConnect()
+
 //middleware
-app.use(cookieParser())
+app.use(cors())
+app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
 
 //users route
 app.use("/api/users", userRoutes)
-
+app.use('/api/items', itemRoutes)
+app.use('/api/comments', commentRoute)
+app.use("/api/category", categoryRoute)
 //error handler
 app.use(errorHandler)
 //server

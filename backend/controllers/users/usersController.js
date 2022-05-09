@@ -10,8 +10,7 @@ const userRegisterCtrl = asyncHandler(async (req, res) => {
   try {
     //Register user
     const user = await User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      name:req.body.name,
       email: req.body.email,
       password: req.body.password,
     })
@@ -28,12 +27,10 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   //Check if password is match
   if (userFound && (await userFound.isPasswordMatched(password))) {
     res.json({
-      id: userFound?._id,
-      firstName: userFound?.firstName,
-      lastName: userFound?.lastName,
+      _id: userFound?._id,
+      name:userFound?.name,
       email: userFound?.email,
       isAdmin: userFound?.isAdmin,
-      password:userFound?.password,
       token: generateToken(userFound?._id),
     })
   } else {
@@ -44,7 +41,6 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
 
 //Users
 const fetchUsersCtrl = asyncHandler(async (req, res) => {
-  console.log(req.headers)
   try {
     const users = await User.find({})
     res.json(users)
@@ -70,7 +66,6 @@ const fetchUserDetailsCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
   //check if user id is valid
   validateId(id)
-
   try {
     const user = await User.findById(id)
     res.json(user)
@@ -85,7 +80,7 @@ const userProfileCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
   validateId(id)
   try {
-    const myProfile = await User.findById(id)
+    const myProfile = await User.findById(id).populate("items")
     res.json(myProfile)
   } catch (error) {
     res.json(error)
@@ -100,8 +95,7 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     id,
     {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      name:req.body.name,
       email: req.body.email,
     },
     {
@@ -110,26 +104,57 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
     }
   )
 
-  res.json(user)
+  // res.json(user)
 })
 
 //update password
 const updateUserPasswordCtrl = asyncHandler(async (req, res) => {
   const { id } = req.user
   const { password } = req.body
-  console.log(req.user)
   validateId(id)
-  const user = await User.findById(id)
-  
-  console.log(user)
-  
+  //Find the user by _id
+  const user = await User.findOne({ id })
+
   if (password) {
     user.password = password
     const updatedUser = await user.save()
-    
+    res.json(updatedUser)
+  } else {
+    res.json(user)
   }
-  
 })
+
+//block user
+
+const blockUserCtrl = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  validateId(id)
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      isBlocked: true,
+    },
+    { new: true }
+  )
+  res.json(user)
+})
+const unBlockUserCtrl = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  validateId(id)
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      isBlocked: false,
+    },
+    { new: true }
+  )
+  res.json(user)
+})
+
+
+
 
 module.exports = {
   userRegisterCtrl,
@@ -140,4 +165,6 @@ module.exports = {
   userProfileCtrl,
   updateUserCtrl,
   updateUserPasswordCtrl,
+  blockUserCtrl,
+  unBlockUserCtrl,
 }

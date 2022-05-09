@@ -4,13 +4,9 @@ const bcrypt = require("bcryptjs")
 //create schema
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
+    name: {
       required:true,
       type: String
-    },
-    lastName: {
-      required: true,
-      type: String,
     },
     email: {
       type: String,
@@ -20,10 +16,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       require:true,
     },
-    postCount: {
-      type: Number,
-      default: 0,
-    },
+
     isBlocked: {
       type: Boolean,
       default: false,
@@ -58,9 +51,14 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 )
+//populate
+userSchema.virtual('items', {
+  ref:'Item',
+  foreignField:'user',
+  localField:'_id'
+})
 
 //Hash password
-
 userSchema.pre("save", async function (next) {
   if(!this.isModified('password')){
     next();
