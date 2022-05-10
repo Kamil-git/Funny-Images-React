@@ -1,16 +1,22 @@
 import React from "react"
-import ColorMode from "../page/ColorMode"
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { logoutAction } from "../../redux/slices/users/usersSlices"
+import DarkModeSwitch from "./DarkModeSwitch"
 function Navbar() {
-  const { userInfo } = useSelector((state) => state.users)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { userAuth } = useSelector((state) => state.users)
 
   return (
-    <nav className="navbar navbar-expand-lg ">
+    <nav className="navbar navbar-expand-lg " style={{marginBottom:'1rem'}}>
       <div className="container-fluid">
-        <ul className="navbar-nav">
-          <ColorMode />
-          <li className="nav-item dropdown ">
+        <div className="d-flex justify-content-start ">
+          <span>
+            <DarkModeSwitch />
+          </span>
+          <div className="nav-item dropdown ">
             <Link
               className="nav-link dropdown-toggle text-reset"
               to="#"
@@ -37,8 +43,8 @@ function Navbar() {
                 </Link>
               </li>
             </ul>
-          </li>
-        </ul>
+          </div>
+        </div>
         <div className="d-flex justifty-content-end">
           <button
             className="navbar-toggler"
@@ -53,7 +59,31 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {userInfo ? (
+              {userAuth?.isAdmin ? (
+                <li className="nav-item dropdown">
+                  <Link
+                    to=""
+                    className="nav-link dropdown-toggle text-reset"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Admin
+                  </Link>
+                  <ul
+                    className="dropdown-menu text-reset"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li className="nav-item">
+                      <Link to="/manage-users" className="nav-link">
+                        Manage Users
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              ) : null}
+              {userAuth ? (
                 <li className="nav-item dropdown">
                   <Link
                     to=""
@@ -70,17 +100,17 @@ function Navbar() {
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li className="nav-item">
-                      <Link to="" className="nav-link text-reset">
+                      <Link to="/create-collection" className="nav-link">
                         Create Collection
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="" className="nav-link text-reset">
+                      <Link to="/view-collections" className="nav-link">
                         View Collections
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="" className="nav-link text-reset">
+                      <Link to="" className="nav-link">
                         Edit Collections
                       </Link>
                     </li>
@@ -103,15 +133,15 @@ function Navbar() {
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li className="nav-item">
-                      <Link to="" className="nav-link text-reset">
-                        View Collections
+                      <Link to="/view-collections" className="nav-link">
+                        View collections
                       </Link>
                     </li>
                   </ul>
                 </li>
               )}
 
-              {userInfo ? null : (
+              {userAuth ? null : (
                 <li className="nav-item">
                   <Link className="nav-link text-reset" to="/">
                     Register
@@ -119,11 +149,19 @@ function Navbar() {
                 </li>
               )}
 
-              {userInfo ? (
+              {userAuth ? (
                 <li className="nav-item">
-                  <Link className="nav-link text-reset" to="/">
+                  <span
+                    className="nav-link text-reset"
+                    type="button"
+                    onClick={() =>
+                      dispatch(logoutAction()).then(() => {
+                        navigate("/")
+                      })
+                    }
+                  >
                     Logout
-                  </Link>
+                  </span>
                 </li>
               ) : null}
             </ul>
@@ -131,7 +169,7 @@ function Navbar() {
               <input
                 type="search"
                 className="form-control"
-                placeholder="Type query"
+                placeholder="Search"
                 aria-label="Search"
               />
               <button

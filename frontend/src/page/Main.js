@@ -1,13 +1,14 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
-import ColorMode from "./ColorMode"
 import * as Yup from "yup"
 import { useDispatch, useSelector } from "react-redux"
 import {
   loginUserAction,
   registerUserAction,
 } from "../redux/slices/users/usersSlices"
+import DarkModeSwitch from "../components/Navs/DarkModeSwitch"
+
 //register schema
 const formSchema = Yup.object({
   name: Yup.string().required("First Name is required"),
@@ -22,9 +23,10 @@ const loginSchema = Yup.object({
 })
 
 function Main() {
+  const navigate = useNavigate()
   //dispatch
   const dispatch = useDispatch()
-  //-----------------------------------------------register
+  //-----------------------------------------------register form
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -39,7 +41,7 @@ function Main() {
     },
     validationSchema: formSchema,
   })
-  //---------------------------------------------------login
+  //---------------------------------------------------login form
   const formikLogin = useFormik({
     initialValues: {
       email: "",
@@ -47,7 +49,6 @@ function Main() {
     },
     onSubmit: (values) => {
       dispatch(loginUserAction(values))
-      console.log(values)
     },
     validationSchema: loginSchema,
   })
@@ -55,13 +56,18 @@ function Main() {
   //select state from store
   const storeData = useSelector((store) => store?.users)
   const { loading, appErr, serverErr, registered, userAuth } = storeData
-  if (registered) {
-    return <Link to="/profile" />
-  }
-  console.log(userAuth)
-  // if (userAuth) {
-  //   return <Link to="/profile" />
-  // }
+ 
+
+  React.useEffect(() => {
+     if (registered) {
+       return navigate("/view-collections")
+     }
+
+     if (userAuth) {
+       return navigate("/view-collections")
+     }
+  }, [userAuth, registered])
+  
 
   return (
     <div className="w-100 p-4 d-flex justify-content-center pb-4">
@@ -99,7 +105,8 @@ function Main() {
           </li>
         </ul>
 
-        <div className="tab-content">
+        <div className="tab-content min-vh-100">
+          {/* ------------Login-------------  */}
           <div
             className="tab-pane active"
             id="login"
@@ -165,14 +172,16 @@ function Main() {
 
               <div className="text-center">
                 <p>
-                  <ColorMode /> Not a member?<span> </span>
-                  <Link className="text-reset" to="/home">
+                  <DarkModeSwitch />
+                  Not a member?<span> </span>
+                  <Link className="text-reset" to="/view-collections">
                     Continue
                   </Link>
                 </p>
               </div>
             </form>
           </div>
+          {/* ------------Register-------------  */}
           <div
             className="tab-pane"
             id="register"
@@ -250,7 +259,7 @@ function Main() {
                   <span className="visually-hidden">Loading...</span>
                 </div>
               ) : (
-                <button type="submit" className="btn btn-block mb-3">
+                <button type="submit" className="btn btn-block mb-3 text-center">
                   Sign in
                 </button>
               )}

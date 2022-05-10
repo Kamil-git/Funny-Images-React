@@ -2,20 +2,35 @@ import * as React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Main from "./page/Main"
 import "./App.css"
+import ManageUsers from "./components/admin/ManageUsers"
+import ViewCollection from "./components/collection/ViewCollection"
+import CreateCollection from "./components/collection/CreateCollection"
 
-import Home from "./page/Home"
+
+
+
 
 
 function App() {
   return (
-    <BrowserRouter>
-      <div>
+   
+      <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Main />}></Route>
-          <Route exact path="/home" element={<Home />}></Route>
+          <Route path="/" element={<Main />}></Route>
+          <Route
+            exact
+            path="/create-collection"
+            element={<CreateCollection />}
+          ></Route>
+          <Route exact path="/manage-users" element={<ManageUsers />}></Route>
+          <Route
+            exact
+            path="/view-collections"
+            element={<ViewCollection />}
+          ></Route>
         </Routes>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    
   )
 }
 

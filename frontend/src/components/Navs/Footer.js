@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 function Footer() {
   return (
-    <footer className=" text-center ">
+    <footer className="text-center">
       <div className="container p-4 pb-0">
         <section className="mb-4">
           <Link className="btn  btn-floating m-1" to="#" role="button">
@@ -31,7 +31,7 @@ function Footer() {
         </section>
       </div>
 
-      <div className="text-center p-3">© 2022 Copyright: Kamil Kwiatkowski</div>
+      <div className="text-center p-3" style={{color:'inherit'}}>© 2022 Copyright: Kamil Kwiatkowski</div>
     </footer>
   )
 }
