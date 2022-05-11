@@ -4291,7 +4291,7 @@ a > .bootstrap-dark code {
 .bootstrap-dark .navbar .container-sm,
 .bootstrap-dark .navbar .container-xl {
   display: flex;
-  flex-wrap: wrap;
+  
   align-items: center;
   justify-content: space-between;
 }

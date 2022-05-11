@@ -11,31 +11,6 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required:true
     },
-    // itemsCollection: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "itemsCollection",
-    //   required: true,
-    // },
-    isLiked: {
-      type: Boolean,
-      default: false,
-    },
-    isDisliked: {
-      type: Boolean,
-      default: false,
-    },
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    disLikes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

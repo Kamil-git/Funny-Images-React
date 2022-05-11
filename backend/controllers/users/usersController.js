@@ -80,8 +80,8 @@ const userProfileCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
   validateId(id)
   try {
-    const myProfile = await User.findById(id).populate("items")
-    res.json(myProfile)
+    const myProfile = await User.findById(id).populate("collections")
+    res.json(myProfile?.collections)
   } catch (error) {
     res.json(error)
   }

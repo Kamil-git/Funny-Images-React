@@ -52,8 +52,8 @@ const userSchema = new mongoose.Schema(
   }
 )
 //populate
-userSchema.virtual('items', {
-  ref:'Item',
+userSchema.virtual('collections', {
+  ref:'Collection',
   foreignField:'user',
   localField:'_id'
 })

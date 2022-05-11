@@ -72,6 +72,12 @@ export default function ManageUsers() {
         <Button color="success" variant="contained">
           Unblock
         </Button>
+        <Button color="info" variant="contained">
+          Add Admin
+        </Button>        
+        <Button color="info" variant="contained">
+          Remove Admin
+        </Button>        
       </div>
       <Footer />
     </div>

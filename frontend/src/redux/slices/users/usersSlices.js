@@ -28,6 +28,35 @@ export const registerUserAction = createAsyncThunk(
     }
   }
 )
+//fetch by user id
+export const fetchUsersCollection = createAsyncThunk(
+  "users/collections",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+    const user = getState()?.users
+
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    //http call
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/api/users/profile/${userAuth?._id}`,
+        config
+      )
+
+      return data
+    } catch (error) {
+      if (!error?.response) {
+        throw error
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
 //-----------------------------------login
 export const loginUserAction = createAsyncThunk(
   "user/login",
@@ -122,10 +151,25 @@ const usersSlices = createSlice({
       state.appErr = undefined
       state.serverErr = undefined
     })
-    builder.addCase(logoutAction.rejected, (state,action)=> {
-      state.appErr = action.payload.message;
-      state.serverErr = action.error.message;
-      state.loading = false;
+    builder.addCase(logoutAction.rejected, (state, action) => {
+      state.appErr = action.payload.message
+      state.serverErr = action.error.message
+      state.loading = false
+    })
+    //fetch users collections
+    builder.addCase(fetchUsersCollection.pending, (state, action) => {
+      state.loading = true
+    })
+    builder.addCase(fetchUsersCollection.fulfilled, (state, action) => {
+      state.userCollections = action?.payload
+      state.loading = false
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(fetchUsersCollection.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
     })
   },
 })

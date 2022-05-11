@@ -5,6 +5,8 @@ import "./App.css"
 import ManageUsers from "./components/admin/ManageUsers"
 import ViewCollection from "./components/collection/ViewCollection"
 import CreateCollection from "./components/collection/CreateCollection"
+import MyCollections from "./components/collection/MyCollections"
+
 
 
 
@@ -27,6 +29,11 @@ function App() {
             exact
             path="/view-collections"
             element={<ViewCollection />}
+          ></Route>
+          <Route
+            exact
+            path="/my-collections"
+            element={<MyCollections />}
           ></Route>
         </Routes>
       </BrowserRouter>

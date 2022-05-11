@@ -2,23 +2,19 @@ import React, { useEffect } from "react"
 import Footer from "../Navs/Footer"
 import Navbar from "../Navs/Navbar"
 import Grid from "@mui/material/Grid"
-import { fetchCollectionAction } from "../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
+import { fetchUsersCollection } from "../../redux/slices/users/usersSlices"
 import { Alert, CircularProgress } from "@mui/material"
-import ViewCollectionCard from "./cards/ViewCollectionCard"
-import NewNavbar from "../Navs/NewNavbar"
-import { useNavigate } from "react-router-dom"
-export default function ViewCollection() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const user = useSelector((state) => state?.users)
-  const { userAuth } = user
-  useEffect(() => {
-    dispatch(fetchCollectionAction())
-  }, [dispatch, navigate])
+import MyCollectionsCard from "./cards/MyCollectionsCard"
 
-  const collection = useSelector((state) => state?.collection)
-  const { collectionList, loading, appErr, serverErr } = collection
+export default function MyCollections() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUsersCollection())
+  }, [dispatch])
+  const users = useSelector((state) => state?.users)
+
+  const { userCollections, loading, appErr, serverErr } = users
 
   return (
     <div>
@@ -30,7 +26,7 @@ export default function ViewCollection() {
           {appErr}
           {serverErr}
         </Alert>
-      ) : !collectionList ? (
+      ) : userCollections?.length <= 0 ? (
         <div className="min-vh-100 text-center">
           <h2>No collection found</h2>
         </div>
@@ -43,11 +39,11 @@ export default function ViewCollection() {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {collectionList?.map((_, index) => (
-              <ViewCollectionCard
-                collection={collectionList[index]}
+            {userCollections?.map((_, index) => (
+              <MyCollectionsCard
+                collection={userCollections[index]}
                 key={index}
-              ></ViewCollectionCard>
+              ></MyCollectionsCard>
             ))}
           </Grid>
         </div>

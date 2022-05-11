@@ -13,7 +13,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
-import {TextField} from "@mui/material"
+import { TextField } from "@mui/material"
+import { Box } from "@mui/system"
+import Moment from "react-moment"
+import CustomizedMenu from "./CardElements/CustomizedMenu"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -25,7 +28,7 @@ const ExpandMore = styled((props) => {
   }),
 }))
 
-export default function RecipeReviewCard() {
+export default function MyCollectionsCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
 
@@ -35,9 +38,10 @@ export default function RecipeReviewCard() {
   const handleCommentsClick = () => {
     setComments(!comments)
   }
-  const commentSubmitHandler = (e) =>{
+  const commentSubmitHandler = (e) => {
     e.preventDefault()
   }
+  
 
   return (
     <Card
@@ -56,28 +60,32 @@ export default function RecipeReviewCard() {
         }
         action={
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            <CustomizedMenu/>
           </IconButton>
         }
-        title="UserName"
-        subheader="2022-05-10"
+        title={``}
+        subheader={
+          <Moment format="D MMM YYYY" withTitle>
+         
+          </Moment>
+        }
       />
       <CardMedia component="img" height="194" image="" alt="" />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Name
-        </Typography>
+        <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <CommentIcon
+        <Box>
+          <ExpandMore
             sx={{ backgroundColor: "unset" }}
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
             aria-label="show more"
-          />
-        </IconButton>
+          >
+            <CommentIcon />
+          </ExpandMore>
+        </Box>
 
         <ExpandMore
           expand={expanded}
@@ -97,7 +105,7 @@ export default function RecipeReviewCard() {
               variant="standard"
             ></TextField>
             <IconButton type="submit">
-              <AddIcon/>
+              <AddIcon />
             </IconButton>
           </form>
 
@@ -110,7 +118,6 @@ export default function RecipeReviewCard() {
       </Collapse>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          
           <Typography paragraph>#biba #siłka #lecimy z tematem</Typography>
         </CardContent>
       </Collapse>

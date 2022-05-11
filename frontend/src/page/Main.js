@@ -8,6 +8,7 @@ import {
   registerUserAction,
 } from "../redux/slices/users/usersSlices"
 import DarkModeSwitch from "../components/Navs/DarkModeSwitch"
+import { Alert, Button, CircularProgress, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material"
 
 //register schema
 const formSchema = Yup.object({
@@ -23,6 +24,9 @@ const loginSchema = Yup.object({
 })
 
 function Main() {
+  const [alignment, setAlignment] = React.useState("login")
+
+  
   const navigate = useNavigate()
   //dispatch
   const dispatch = useDispatch()
@@ -52,34 +56,39 @@ function Main() {
     },
     validationSchema: loginSchema,
   })
-
+const handleChange = (event, newAlignment) => {
+  setAlignment(newAlignment)
+}
   //select state from store
   const storeData = useSelector((store) => store?.users)
   const { loading, appErr, serverErr, registered, userAuth } = storeData
- 
 
   React.useEffect(() => {
-     if (registered) {
-       return navigate("/view-collections")
-     }
+    if (registered) {
+      return navigate("/view-collections")
+    }
 
-     if (userAuth) {
-       return navigate("/view-collections")
-     }
-  }, [userAuth, registered])
-  
+    if (userAuth) {
+      return navigate("/view-collections")
+    }
+  }, [userAuth, registered, navigate])
 
   return (
     <div className="w-100 p-4 d-flex justify-content-center pb-4">
       <div style={{ width: "26rem" }}>
-        <ul
-          className="nav nav-tabs justify-content-center mb-3"
+        <ToggleButtonGroup
+          className="d-flex nav nav-tabs justify-content-center mb-3"
           id="myTab"
           role="tablist"
+          color="primary"
+          value={alignment}
+          exclusive
+          onChange={handleChange}
         >
-          <li className="nav-item">
-            <a
-              className="nav-link active"
+         
+            <ToggleButton
+              color="standard"
+              size="medium"
               id="login-tab"
               data-toggle="tab"
               href="#login"
@@ -88,11 +97,12 @@ function Main() {
               aria-selected="true"
             >
               Login
-            </a>
-          </li>
-          <li className="nav-item">
-            <a
-              className="nav-link"
+            </ToggleButton>
+          
+         
+            <ToggleButton
+            color="standard"
+              size="medium"
               id="register-tab"
               data-toggle="tab"
               href="#register"
@@ -101,9 +111,9 @@ function Main() {
               aria-selected="false"
             >
               Register
-            </a>
-          </li>
-        </ul>
+            </ToggleButton>
+          
+        </ToggleButtonGroup>
 
         <div className="tab-content min-vh-100">
           {/* ------------Login-------------  */}
@@ -136,7 +146,9 @@ function Main() {
               <p className="text-center">or:</p>
 
               <div className="form-outline mb-4 text-center">
-                <input
+                <TextField
+                  variant="standard"
+                  fullWidth
                   onChange={formikLogin.handleChange("email")}
                   value={formikLogin.values.email}
                   onBlur={formikLogin.handleBlur("email")}
@@ -148,7 +160,9 @@ function Main() {
               </div>
 
               <div className="form-outline mb-4 text-center">
-                <input
+                <TextField
+                  variant="standard"
+                  fullWidth
                   onChange={formikLogin.handleChange("password")}
                   value={formikLogin.values.password}
                   onBlur={formikLogin.handleBlur("password")}
@@ -161,14 +175,23 @@ function Main() {
                 </label>
               </div>
               {loading ? (
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
+                <CircularProgress />
               ) : (
-                <button type="submit" className="btn btn-block mb-4">
-                  Sign in
-                </button>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  color="inherit"
+                  fullWidth
+                >
+                  Login
+                </Button>
               )}
+              {appErr || serverErr ? (
+                <Alert variant="outlined" severity="error">
+                  {appErr}
+                  {serverErr}
+                </Alert>
+              ) : null}
 
               <div className="text-center">
                 <p>
@@ -211,7 +234,9 @@ function Main() {
               <p className="text-center">or:</p>
 
               <div className="form-outline mb-4">
-                <input
+                <TextField
+                  fullWidth
+                  variant="standard"
                   type="text"
                   className="form-control active"
                   onChange={formik.handleChange("name")}
@@ -222,7 +247,9 @@ function Main() {
               </div>
 
               <div className="form-outline mb-4">
-                <input
+                <TextField
+                  fullWidth
+                  variant="standard"
                   type="email"
                   className="form-control active"
                   value={formik.values.email}
@@ -233,7 +260,9 @@ function Main() {
               </div>
 
               <div className="form-outline mb-4">
-                <input
+                <TextField
+                  fullWidth
+                  variant="standard"
                   type="password"
                   className="form-control active"
                   value={formik.values.password}
@@ -244,7 +273,9 @@ function Main() {
               </div>
 
               <div className="form-outline mb-4">
-                <input
+                <TextField
+                  variant="standard"
+                  fullWidth
                   value={formik.values.password2}
                   onChange={formik.handleChange("password2")}
                   onBlur={formik.handleBlur("password2")}
@@ -255,39 +286,22 @@ function Main() {
               </div>
 
               {loading ? (
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
+                <CircularProgress />
               ) : (
-                <button type="submit" className="btn btn-block mb-3 text-center">
-                  Sign in
-                </button>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  color="inherit"
+                  fullWidth
+                >
+                  Register
+                </Button>
               )}
               {appErr || serverErr ? (
-                <div
-                  className="toast show fade text-white bg-danger"
-                  role="alert"
-                  aria-live="assertive"
-                  aria-atomic="true"
-                  data-mdb-color="danger"
-                  data-mdb-autohide="false"
-                >
-                  <div className="toast-header text-white bg-danger">
-                    <i className="fas fa-exclamation-circle fa-lg me-2"></i>
-                    <strong className="me-auto">Error</strong>
-                    <small>Try again later</small>
-                    <button
-                      type="button"
-                      className="btn-close btn-close-white"
-                      data-mdb-dismiss="toast"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="toast-body">
-                    {appErr}
-                    {serverErr}
-                  </div>
-                </div>
+                <Alert variant="outlined" severity="error">
+                  {appErr}
+                  {serverErr}
+                </Alert>
               ) : null}
             </form>
           </div>

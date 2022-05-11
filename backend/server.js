@@ -6,7 +6,7 @@ const userRoutes = require("./routes/user/usersRoute")
 const { errorHandler} = require("./middlewares/error/errorHandler")
 const itemRoutes = require("./routes/item/itemRoutes")
 const commentRoute = require('./routes/comment/commentRoute')
-const categoryRoute = require("./routes/category/categoryRoute")
+const collectionRoutes = require('./routes/collection/collectionRoutes')
 const cors = require("cors")
 dbConnect()
 //server
@@ -21,7 +21,7 @@ app.use(express.json())
 app.use("/api/users", userRoutes)
 app.use('/api/items', itemRoutes)
 app.use('/api/comments', commentRoute)
-app.use("/api/category", categoryRoute)
+app.use("/api/collection", collectionRoutes)
 //error handler
 app.use(errorHandler)
 //server
