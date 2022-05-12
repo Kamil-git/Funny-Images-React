@@ -5,6 +5,8 @@ const {
   fetchCollCtrl,
   fetchCollectionCtrl,
   createCollectionCtrl,
+  addDislike,
+  addLike
 } = require("../../controllers/collection/collectionCtrl")
 const authMiddleware = require('../../middlewares/auth/authMiddleware')
 const collectionRoutes = express.Router()
@@ -14,7 +16,8 @@ collectionRoutes.get("/", fetchCollectionCtrl)
 collectionRoutes.get("/:id", authMiddleware, fetchCollCtrl)
 collectionRoutes.put("/:id", authMiddleware, updateCollectionCtrl)
 collectionRoutes.delete("/:id", authMiddleware, deleteCollection)
-
+collectionRoutes.put("/like", authMiddleware, addLike)
+collectionRoutes.put("/dislike", authMiddleware, addDislike)
 
 
 

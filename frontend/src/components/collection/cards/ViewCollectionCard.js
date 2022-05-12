@@ -119,7 +119,7 @@ export default function ViewCollectionCard(props) {
       </Collapse>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>#biba #siłka #lecimy z tematem</Typography>
+          <Typography paragraph>{collection?.tags}</Typography>
         </CardContent>
       </Collapse>
     </Card>

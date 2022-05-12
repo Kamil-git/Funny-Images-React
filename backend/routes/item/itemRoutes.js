@@ -6,8 +6,7 @@ const {
   fetchItemsCtrl,
   updateItemCtrl,
   deleteItemCtrl,
-  addLike,
-  addDislike
+  
 } = require("../../controllers/items/itemCtrl")
 
 const authMiddleware = require("../../middlewares/auth/authMiddleware")
@@ -24,18 +23,7 @@ itemRoutes.post(
   imageResize,
   createItemCtrl
 )
-itemRoutes.put(
-  "/like",
-  authMiddleware,
-  addLike,
-  
-)
-itemRoutes.put(
-  "/dislike",
-  authMiddleware,
-  addDislike,
-  
-)
+
 itemRoutes.get("/", fetchItemsCtrl)
 itemRoutes.get("/:id", fetchItemCtrl)
 itemRoutes.put("/:id", updateItemCtrl)

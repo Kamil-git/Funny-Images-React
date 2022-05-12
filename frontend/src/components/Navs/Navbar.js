@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
 import DarkModeSwitch from "./DarkModeSwitch"
+import UserIcon from "./NavIcons/UserIcon"
 function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
-
+  console.log(userAuth)
   return (
     <div className="navbar navbar-expand-lg " style={{ marginBottom: "1rem" }}>
       <button
@@ -163,6 +164,9 @@ function Navbar() {
                 </li>
               </>
             )}
+            <li className="nav-link">
+              <UserIcon />
+            </li>
             <li className="nav-item">
               <form>
                 <TextField

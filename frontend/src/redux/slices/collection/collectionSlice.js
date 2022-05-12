@@ -19,6 +19,7 @@ export const createCollectionAction = createAsyncThunk(
         `${baseUrl}/api/collection`,
         {
           name: collection?.name,
+          tags:collection?.tags
         },
         config
       )

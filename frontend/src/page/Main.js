@@ -8,7 +8,14 @@ import {
   registerUserAction,
 } from "../redux/slices/users/usersSlices"
 import DarkModeSwitch from "../components/Navs/DarkModeSwitch"
-import { Alert, Button, CircularProgress, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material"
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material"
 
 //register schema
 const formSchema = Yup.object({
@@ -26,7 +33,6 @@ const loginSchema = Yup.object({
 function Main() {
   const [alignment, setAlignment] = React.useState("login")
 
-  
   const navigate = useNavigate()
   //dispatch
   const dispatch = useDispatch()
@@ -56,22 +62,20 @@ function Main() {
     },
     validationSchema: loginSchema,
   })
-const handleChange = (event, newAlignment) => {
-  setAlignment(newAlignment)
-}
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment)
+  }
   //select state from store
   const storeData = useSelector((store) => store?.users)
   const { loading, appErr, serverErr, registered, userAuth } = storeData
 
   React.useEffect(() => {
-    if (registered) {
-      return navigate("/view-collections")
-    }
+    
 
-    if (userAuth) {
+    if ( userAuth !== undefined || null) {
       return navigate("/view-collections")
     }
-  }, [userAuth, registered, navigate])
+  }, [userAuth, navigate])
 
   return (
     <div className="w-100 p-4 d-flex justify-content-center pb-4">
@@ -85,34 +89,32 @@ const handleChange = (event, newAlignment) => {
           exclusive
           onChange={handleChange}
         >
-         
-            <ToggleButton
-              color="standard"
-              size="medium"
-              id="login-tab"
-              data-toggle="tab"
-              href="#login"
-              role="tab"
-              aria-controls="login"
-              aria-selected="true"
-            >
-              Login
-            </ToggleButton>
-          
-         
-            <ToggleButton
+          <ToggleButton
+            
             color="standard"
-              size="medium"
-              id="register-tab"
-              data-toggle="tab"
-              href="#register"
-              role="tab"
-              aria-controls="register"
-              aria-selected="false"
-            >
-              Register
-            </ToggleButton>
-          
+            size="medium"
+            id="login-tab"
+            data-toggle="tab"
+            href="#login"
+            role="tab"
+            aria-controls="login"
+            aria-selected="true"
+          >
+            Login
+          </ToggleButton>
+
+          <ToggleButton
+            color="standard"
+            size="medium"
+            id="register-tab"
+            data-toggle="tab"
+            href="#register"
+            role="tab"
+            aria-controls="register"
+            aria-selected="false"
+          >
+            Register
+          </ToggleButton>
         </ToggleButtonGroup>
 
         <div className="tab-content min-vh-100">

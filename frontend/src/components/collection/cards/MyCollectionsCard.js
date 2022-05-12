@@ -10,7 +10,7 @@ import Avatar from "@mui/material/Avatar"
 import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
 import { TextField } from "@mui/material"
@@ -60,21 +60,20 @@ export default function MyCollectionsCard(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <CustomizedMenu/>
+            <CustomizedMenu />
           </IconButton>
         }
-        title={``}
-        subheader={
-          <Moment format="D MMM YYYY" withTitle>
-         
-          </Moment>
-        }
+        title={`${props.collection.name}`}
+        subheader={<Moment format="D MMM YYYY" withTitle></Moment>}
       />
       <CardMedia component="img" height="194" image="" alt="" />
       <CardContent>
         <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
       <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
         <Box>
           <ExpandMore
             sx={{ backgroundColor: "unset" }}
@@ -118,7 +117,7 @@ export default function MyCollectionsCard(props) {
       </Collapse>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>#biba #siłka #lecimy z tematem</Typography>
+          <Typography paragraph>{props.collection.tags}</Typography>
         </CardContent>
       </Collapse>
     </Card>
