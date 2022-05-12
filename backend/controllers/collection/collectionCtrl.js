@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-
+const validateId = require("../utils/validateId")
 
 const Collection = require("../../model/collection/collection")
 
@@ -20,6 +20,7 @@ const fetchCollectionCtrl = asyncHandler(async (req, res) => {
   try {
     const collections = await Collection.find({})
       .populate("user")
+      .populate("comments")
       .sort("-createdAt")
     res.json(collections)
   } catch (error) {
@@ -28,9 +29,11 @@ const fetchCollectionCtrl = asyncHandler(async (req, res) => {
 })
 const fetchCollCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
+  validateId(id)
   try {
     const collection = await Collection.findById(id)
       .populate("user")
+      .populate("comments")
       .sort("-createdAt")
     res.json(collection)
   } catch (error) {
@@ -39,11 +42,13 @@ const fetchCollCtrl = asyncHandler(async (req, res) => {
 })
 const updateCollectionCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
+  
   try {
     const collection = await Collection.findByIdAndUpdate(
       id,
       {
         name: req.body.name,
+        tags:req.body.tags
       },
       { new: true, runValidators: true }
       
@@ -54,6 +59,7 @@ const updateCollectionCtrl = asyncHandler(async (req, res) => {
 
 const deleteCollection = asyncHandler(async(req,res)=>{
     const {id} = req.params;
+    validateId(id)
     try {
         const collection = await Collection.findByIdAndDelete(id)
         res.json(collection)
@@ -62,29 +68,32 @@ const deleteCollection = asyncHandler(async(req,res)=>{
     }
 })
 
-const addLike = asyncHandler(async (req, res) => {
-  console.log(req.user)
-  //1.Find the post to be liked
+const toggleAddLikeToCollectionCtrl = asyncHandler(async (req, res) => {
+  //1.Find the collection to be liked
   const { collectionId } = req.body
   const collection = await Collection.findById(collectionId)
+  //2. Find the login user
   const loginUserId = req?.user?._id
-  const isLiked = collection.isLiked
-  const isDisliked = collection.disLikes.find(
+  //3. Find is this user has liked this collection?
+  const isLiked = collection?.isLiked
+  //4.Chech if this user has dislikes this collection
+  const alreadyDisliked = collection?.disLikes?.find(
     (userId) => userId?.toString() === loginUserId?.toString()
   )
-
-  if (isDisliked) {
+  //5.remove the user from dislikes array if exists
+  if (alreadyDisliked) {
     const collection = await Collection.findByIdAndUpdate(
       collectionId,
       {
         $pull: { disLikes: loginUserId },
-        isDisliked: false,
+        isDisLiked: false,
       },
       { new: true }
     )
     res.json(collection)
   }
-
+  //Toggle
+  //Remove the user if he has liked the collection
   if (isLiked) {
     const collection = await Collection.findByIdAndUpdate(
       collectionId,
@@ -96,8 +105,9 @@ const addLike = asyncHandler(async (req, res) => {
     )
     res.json(collection)
   } else {
-    const collection = await Item.findByIdAndUpdate(
-      itemId,
+    //add to likes
+    const collection = await Collection.findByIdAndUpdate(
+      collectionId,
       {
         $push: { likes: loginUserId },
         isLiked: true,
@@ -107,35 +117,43 @@ const addLike = asyncHandler(async (req, res) => {
     res.json(collection)
   }
 })
-const addDislike = asyncHandler(async (req, res) => {
+
+//------------------------------
+//disLikes
+//------------------------------
+
+const toggleAddDislikeToCollectionCtrl = asyncHandler(async (req, res) => {
+  //1.Find the collection to be disLiked
   const { collectionId } = req.body
   const collection = await Collection.findById(collectionId)
-
-  const loginUserId = req.user._id
-  const isDisliked = collection.isDisliked
-  const alreadyLiked = collection.likes.find(
+  //2.Find the login user
+  const loginUserId = req?.user?._id
+  //3.Check if this user has already disLikes
+  const isDisLiked = collection?.isDisLiked
+  //4. Check if already like this collection
+  const alreadyLiked = collection?.likes?.find(
     (userId) => userId.toString() === loginUserId?.toString()
   )
-
+  //Remove this user from likes array if it exists
   if (alreadyLiked) {
-    const collection= await Collection.findOneAndUpdate(
+    const collection = await Collection.findOneAndUpdate(
       collectionId,
       {
         $pull: { likes: loginUserId },
         isLiked: false,
       },
-      {
-        new: true,
-      }
+      { new: true }
     )
     res.json(collection)
   }
-  if (isDisliked) {
+  //Toggling
+  //Remove this user from dislikes if already disliked
+  if (isDisLiked) {
     const collection = await Collection.findByIdAndUpdate(
       collectionId,
       {
         $pull: { disLikes: loginUserId },
-        isDisliked: false,
+        isDisLiked: false,
       },
       { new: true }
     )
@@ -145,7 +163,7 @@ const addDislike = asyncHandler(async (req, res) => {
       collectionId,
       {
         $push: { disLikes: loginUserId },
-        isDisliked: true,
+        isDisLiked: true,
       },
       { new: true }
     )
@@ -159,6 +177,6 @@ module.exports = {
   fetchCollCtrl,
   fetchCollectionCtrl,
   createCollectionCtrl,
-  addLike,
-  addDislike,
+  toggleAddLikeToCollectionCtrl,
+  toggleAddDislikeToCollectionCtrl
 }

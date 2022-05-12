@@ -31,7 +31,7 @@ const loginSchema = Yup.object({
 })
 
 function Main() {
-  const [alignment, setAlignment] = React.useState("login")
+  
 
   const navigate = useNavigate()
   //dispatch
@@ -62,20 +62,22 @@ function Main() {
     },
     validationSchema: loginSchema,
   })
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment)
-  }
+
   //select state from store
   const storeData = useSelector((store) => store?.users)
   const { loading, appErr, serverErr, registered, userAuth } = storeData
 
   React.useEffect(() => {
-    
-
-    if ( userAuth !== undefined || null) {
-      return navigate("/view-collections")
+    if (userAuth) {
+      navigate("/view-collections")
     }
-  }, [userAuth, navigate])
+    
+   
+    return()=>{
+        
+        
+    }
+  }, [navigate, userAuth, registered])
 
   return (
     <div className="w-100 p-4 d-flex justify-content-center pb-4">
@@ -85,12 +87,11 @@ function Main() {
           id="myTab"
           role="tablist"
           color="primary"
-          value={alignment}
+          
           exclusive
-          onChange={handleChange}
+         
         >
           <ToggleButton
-            
             color="standard"
             size="medium"
             id="login-tab"
@@ -189,7 +190,11 @@ function Main() {
                 </Button>
               )}
               {appErr || serverErr ? (
-                <Alert variant="outlined" severity="error">
+                <Alert
+                  variant="outlined"
+                  severity="error"
+                  sx={{ maxWidth: "350" }}
+                >
                   {appErr}
                   {serverErr}
                 </Alert>

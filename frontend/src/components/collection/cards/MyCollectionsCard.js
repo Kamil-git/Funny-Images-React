@@ -60,7 +60,7 @@ export default function MyCollectionsCard(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <CustomizedMenu />
+            <CustomizedMenu _id={props.collection._id} />
           </IconButton>
         }
         title={`${props.collection.name}`}

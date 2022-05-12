@@ -13,6 +13,9 @@ const formSchema = Yup.object({
   imageLink: Yup.string(),
 })
 
+
+
+
 function CreateCollection() {
   const dispatch = useDispatch()
   const formik = useFormik({

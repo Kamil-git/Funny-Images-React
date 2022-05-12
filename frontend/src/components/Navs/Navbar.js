@@ -10,7 +10,7 @@ function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
-  console.log(userAuth)
+  
   return (
     <div className="navbar navbar-expand-lg " style={{ marginBottom: "1rem" }}>
       <button
@@ -25,13 +25,13 @@ function Navbar() {
         <i className="fas fa-bars"></i>
       </button>
       <div className="collapse navbar-collapse p-1" id="navbarTogglerDemo01">
-        <ul className="container-fluid navbar-nav">
+        <div className="container-fluid navbar-nav">
           <div className="d-flex" style={{ flexBasis: "100%" }}>
-            <li>
+            <span>
               <DarkModeSwitch />
-            </li>
-            <li className="nav-item dropdown ">
-              <li
+            </span>
+            <div className="nav-item dropdown ">
+              <span
                 className="nav-link dropdown-toggle text-reset"
                 to="#"
                 id="navbarDropdown"
@@ -40,54 +40,54 @@ function Navbar() {
                 aria-expanded="false"
               >
                 <i className="flag-united-kingdom flag m-0"></i>
-              </li>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
+              </span>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <span>
                   <p className="dropdown-item" to="#">
-                    <i className="flag-united-kingdom flag"></i>English
+                    <i className="flag-united-kingdom flag"></i>Engspansh
                     <i className="fa fa-check text-success ms-2"></i>
                   </p>
-                </li>
-                <li>
+                </span>
+                <span>
                   <hr className="dropdown-divider" />
-                </li>
-                <li>
+                </span>
+                <span>
                   <p className="dropdown-item" to="#">
                     <i className="flag-poland flag"></i>Polski
                   </p>
-                </li>
-              </ul>
-            </li>
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="d-flex">
             {userAuth?.isAdmin ? (
-              <li className="nav-item dropdown">
+              <div className="nav-item dropdown">
                 <Link
                   to=""
                   className="nav-link dropdown-toggle text-reset"
-                  id="navbarDropdownMenuLink"
+                  id="navbarDropdownMenuspannk"
                   role="button"
                   data-mdb-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Admin
                 </Link>
-                <ul
+                <span
                   className="dropdown-menu text-reset"
-                  aria-labelledby="navbarDropdownMenuLink"
+                  aria-labelledby="navbarDropdownMenuspannk"
                 >
-                  <li className="dropdown-item">
+                  <span className="dropdown-item">
                     <Link to="/manage-users" className="nav-link">
                       Manage Users
                     </Link>
-                  </li>
-                </ul>
-              </li>
+                  </span>
+                </span>
+              </div>
             ) : null}
             {userAuth ? (
               <>
-                <li className="nav-item dropdown">
+                <div className="nav-item dropdown">
                   <Link
                     to=""
                     className="nav-link dropdown-toggle text-reset"
@@ -98,28 +98,28 @@ function Navbar() {
                   >
                     Collection
                   </Link>
-                  <ul
+                  <span
                     className="dropdown-menu text-reset"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <li className="dropdown-item">
+                    <span className="dropdown-item">
                       <Link to="/create-collection" className="nav-link">
                         Create Collection
                       </Link>
-                    </li>
-                    <li className="dropdown-item">
+                    </span>
+                    <span className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
                         View Collections
                       </Link>
-                    </li>
-                    <li className="dropdown-item">
+                    </span>
+                    <span className="dropdown-item">
                       <Link to="/my-collections" className="nav-link">
                         My Collections
                       </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
+                    </span>
+                  </span>
+                </div>
+                <div className="nav-item">
                   <span
                     className="nav-link text-reset"
                     type="button"
@@ -131,11 +131,11 @@ function Navbar() {
                   >
                     Logout
                   </span>
-                </li>
+                </div>
               </>
             ) : (
               <>
-                <li className="nav-item dropdown">
+                <div className="nav-item dropdown">
                   <Link
                     to=""
                     className="nav-link dropdown-toggle text-reset"
@@ -146,28 +146,28 @@ function Navbar() {
                   >
                     Collection
                   </Link>
-                  <ul
+                  <span
                     className="dropdown-menu text-reset"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <li className="dropdown-item">
+                    <span className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
                         View collections
                       </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
+                    </span>
+                  </span>
+                </div>
+                <span className="nav-item">
                   <Link className="nav-link text-reset" to="/">
                     Register
                   </Link>
-                </li>
+                </span>
               </>
             )}
-            <li className="nav-link">
+            <span className="nav-link">
               <UserIcon />
-            </li>
-            <li className="nav-item">
+            </span>
+            <span className="nav-item">
               <form>
                 <TextField
                   sx={{ minWidth: "5rem", color: "inherit" }}
@@ -176,9 +176,9 @@ function Navbar() {
                   placeholder="Search"
                 />
               </form>
-            </li>
+            </span>
           </div>
-        </ul>
+        </div>
       </div>
     </div>
   )

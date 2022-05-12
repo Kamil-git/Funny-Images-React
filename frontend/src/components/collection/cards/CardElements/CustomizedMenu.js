@@ -2,11 +2,13 @@ import * as React from "react"
 import { styled, alpha } from "@mui/material/styles"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-
+import Alert from "@mui/material/Alert"
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { ButtonGroup, Modal } from "@mui/material"
-import ModalEditCard from "./ModalEditCard"
+import ModalEditCard from "./CustomizedMenuElement/ModalEditCard"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteCollectionAction } from "../../../../redux/slices/collection/collectionSlice"
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -41,9 +43,11 @@ const StyledMenu = styled((props) => (
   },
 }))
 
-export default function CustomizedMenu() {
+export default function CustomizedMenu(props) {
+  //props._id === id
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
+  const dispatch = useDispatch()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -51,6 +55,13 @@ export default function CustomizedMenu() {
     setAnchorEl(null)
   }
 
+  const state = useSelector((state) => state?.collection)
+  const {deletedCollection} = state
+  //how to display succesfull popup if deleted item
+  // console.log(deletedCollection)
+
+ 
+  
   return (
     <div>
       <ButtonGroup
@@ -73,15 +84,16 @@ export default function CustomizedMenu() {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem  disableRipple>
-          
-          <ModalEditCard/>
-          
+        <MenuItem disableRipple>
+          <ModalEditCard _id={props} />
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
-          <ArchiveIcon />
+          <ArchiveIcon
+            onClick={() => dispatch(deleteCollectionAction(props._id))}
+          />
           Delete
         </MenuItem>
+        
       </StyledMenu>
     </div>
   )

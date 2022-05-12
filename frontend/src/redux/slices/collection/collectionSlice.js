@@ -1,6 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit"
 import axios from "axios"
 import { baseUrl } from "../../../utils/baseURL"
+
+const resetEditAction = createAction("collection/reset")
+const resetDeleteAction = createAction("collection/delete-reset")
+const resetCollectionAction = createAction("collection/created-reset")
+
 //create
 export const createCollectionAction = createAsyncThunk(
   "collection/create",
@@ -19,7 +24,7 @@ export const createCollectionAction = createAsyncThunk(
         `${baseUrl}/api/collection`,
         {
           name: collection?.name,
-          tags:collection?.tags
+          tags: collection?.tags,
         },
         config
       )
@@ -37,8 +42,6 @@ export const createCollectionAction = createAsyncThunk(
 export const fetchCollectionAction = createAsyncThunk(
   "collection/fetch",
   async (collection, { rejectWithValue, getState, dispatch }) => {
-   
-    
     //http call
     try {
       const { data } = await axios.get(`${baseUrl}/api/collection`)
@@ -54,10 +57,11 @@ export const fetchCollectionAction = createAsyncThunk(
 //Update
 export const updateCollectionAction = createAsyncThunk(
   "collection/update",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (collection, { rejectWithValue, getState, dispatch }) => {
     //get user token
     const user = getState()?.users
     const { userAuth } = user
+    
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -65,7 +69,11 @@ export const updateCollectionAction = createAsyncThunk(
     }
     //http call
     try {
-      const { data } = await axios.put(`${baseUrl}/api/collection${id}`, config)
+      const { data } = await axios.put(
+        `${baseUrl}/api/collection/${collection.id}`,
+        collection,
+        config
+      )
       return data
     } catch (error) {
       if (!error?.response) {
@@ -88,7 +96,10 @@ export const deleteCollectionAction = createAsyncThunk(
     }
     //http call
     try {
-      const { data } = await axios.put(`${baseUrl}/api/collection${id}`, config)
+      const { data } = await axios.delete(
+        `${baseUrl}/api/collection/${id}`,
+        config
+      )
       return data
     } catch (error) {
       if (!error?.response) {
@@ -107,6 +118,9 @@ const collectionSlices = createSlice({
     //create
     builder.addCase(createCollectionAction.pending, (state, action) => {
       state.loading = true
+    })
+    builder.addCase(resetCollectionAction, (state, action) => {
+      state.isCreated = true
     })
     builder.addCase(createCollectionAction.fulfilled, (state, action) => {
       state.collection = action?.payload
@@ -138,8 +152,12 @@ const collectionSlices = createSlice({
     builder.addCase(updateCollectionAction.pending, (state, action) => {
       state.loading = true
     })
+    builder.addCase(resetEditAction, (state, action) => {
+      state.isEdited = true
+    })
     builder.addCase(updateCollectionAction.fulfilled, (state, action) => {
       state.updateCollection = action?.payload
+      state.isEdited = false
       state.loading = false
       state.appErr = undefined
       state.serverErr = undefined
@@ -153,6 +171,9 @@ const collectionSlices = createSlice({
     builder.addCase(deleteCollectionAction.pending, (state, action) => {
       state.loading = true
     })
+    builder.addCase(resetDeleteAction, (state, action) => {
+      state.isDeleted = true
+    })
     builder.addCase(deleteCollectionAction.fulfilled, (state, action) => {
       state.deletedCollection = action?.payload
       state.loading = false
@@ -164,7 +185,6 @@ const collectionSlices = createSlice({
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
     })
-    
   },
 })
 
