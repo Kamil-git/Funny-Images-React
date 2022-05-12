@@ -10,14 +10,15 @@ import Avatar from "@mui/material/Avatar"
 import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
 import {TextField} from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
-
-
+import CollectionsIcon from "@mui/icons-material/Collections"
+import { useSelector } from "react-redux"
+import ViewCollectionItem from './CardElements/ViewCollectionItem'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -32,6 +33,7 @@ const ExpandMore = styled((props) => {
 export default function ViewCollectionCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
+  const [collectionItems, setCollectionItems] = React.useState(false)
 
   const handleExpandClick = () => {
     setExpanded(!expanded)
@@ -39,15 +41,21 @@ export default function ViewCollectionCard(props) {
   const handleCommentsClick = () => {
     setComments(!comments)
   }
+  const handleCollectionItemsClick = () => {
+    setCollectionItems(!collectionItems)
+  }
   const commentSubmitHandler = (e) =>{
     e.preventDefault()
   }
-  const collection = props?.collection
   
+  const collection = props?.collection
+  const state = useSelector(state => state.users)
+  const {userAuth} = state
   return (
     <Card
       sx={{
         minWidth: 345,
+        maxHeight:"min-content",
         margin: "2rem",
         backgroundColor: "unset",
         color: "unset",
@@ -59,11 +67,7 @@ export default function ViewCollectionCard(props) {
             R
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            
-          </IconButton>
-        }
+        action={<IconButton aria-label="settings"></IconButton>}
         title={`${collection?.name}`}
         subheader={
           <Moment format="D MMM YYYY" withTitle>
@@ -76,23 +80,37 @@ export default function ViewCollectionCard(props) {
         <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
       <CardActions disableSpacing>
+        {userAuth ? (
+          <IconButton aria-label="like">
+            <FavoriteIcon />
+          </IconButton>
+        ) : null}
         <Box>
           <ExpandMore
             sx={{ backgroundColor: "unset" }}
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
-            aria-label="show more"
+            
           >
             <CommentIcon />
           </ExpandMore>
         </Box>
+        <ExpandMore
+          sx={{ backgroundColor: "unset" }}
+          expand={collectionItems}
+          onClick={handleCollectionItemsClick}
+          aria-expanded={collectionItems}
+          
+        >
+          <CollectionsIcon />
+        </ExpandMore>
 
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
-          aria-label="show more"
+          
         >
           <ExpandMoreIcon />
         </ExpandMore>
@@ -117,11 +135,19 @@ export default function ViewCollectionCard(props) {
           ))}
         </CardContent>
       </Collapse>
+      <Collapse in={collectionItems} timeout="auto" unmountOnExit>
+        <CardContent>
+          {Array.from(Array(3)).map((_, index) => (
+            <ViewCollectionItem key={index} />
+          ))}
+        </CardContent>
+      </Collapse>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>{collection?.tags}</Typography>
         </CardContent>
       </Collapse>
     </Card>
+    
   )
 }

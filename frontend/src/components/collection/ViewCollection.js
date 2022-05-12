@@ -4,10 +4,11 @@ import Navbar from "../Navs/Navbar"
 import Grid from "@mui/material/Grid"
 import { fetchCollectionAction } from "../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { Alert, CircularProgress } from "@mui/material"
+import { Alert, CircularProgress,} from "@mui/material"
 import ViewCollectionCard from "./cards/ViewCollectionCard"
-import NewNavbar from "../Navs/NewNavbar"
+
 import { useNavigate } from "react-router-dom"
+
 export default function ViewCollection() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -24,12 +25,16 @@ export default function ViewCollection() {
     <div>
       <Navbar />
       {loading ? (
-        <CircularProgress />
+        <div>
+          <CircularProgress />
+        </div>
       ) : appErr || serverErr ? (
-        <Alert variant="outlined" severity="error">
-          {appErr}
-          {serverErr}
-        </Alert>
+        <div className="min-vh-100">
+          <Alert variant="outlined" severity="error">
+            {appErr}
+            {serverErr}
+          </Alert>
+        </div>
       ) : !collectionList ? (
         <div className="min-vh-100 text-center">
           <h2>No collection found</h2>
@@ -38,16 +43,16 @@ export default function ViewCollection() {
         <div className="min-vh-100">
           <Grid
             justifyContent="center"
-            alignItems="center"
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
             {collectionList?.map((_, index) => (
-              <ViewCollectionCard
-                collection={collectionList[index]}
-                key={index}
-              ></ViewCollectionCard>
+              <div key={index}>
+                <ViewCollectionCard
+                  collection={collectionList[index]}
+                ></ViewCollectionCard>
+              </div>
             ))}
           </Grid>
         </div>

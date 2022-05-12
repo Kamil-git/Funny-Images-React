@@ -17,6 +17,8 @@ import { TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
 import CustomizedMenu from "./CardElements/CustomizedMenu"
+import CollectionsIcon from "@mui/icons-material/Collections"
+import MyCollectionItem from "./CardElements/MyCollectionItem"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -31,13 +33,16 @@ const ExpandMore = styled((props) => {
 export default function MyCollectionsCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
-
+const [collectionItems, setCollectionItems] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
   const handleCommentsClick = () => {
     setComments(!comments)
   }
+   const handleCollectionItemsClick = () => {
+     setCollectionItems(!collectionItems)
+   }
   const commentSubmitHandler = (e) => {
     e.preventDefault()
   }
@@ -47,6 +52,7 @@ export default function MyCollectionsCard(props) {
     <Card
       sx={{
         minWidth: 345,
+        maxHeight:"100%",
         margin: "2rem",
         backgroundColor: "unset",
         color: "unset",
@@ -66,6 +72,7 @@ export default function MyCollectionsCard(props) {
         title={`${props.collection.name}`}
         subheader={<Moment format="D MMM YYYY" withTitle></Moment>}
       />
+
       <CardMedia component="img" height="194" image="" alt="" />
       <CardContent>
         <Typography variant="body2" color="text.secondary"></Typography>
@@ -74,6 +81,7 @@ export default function MyCollectionsCard(props) {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
+
         <Box>
           <ExpandMore
             sx={{ backgroundColor: "unset" }}
@@ -85,7 +93,15 @@ export default function MyCollectionsCard(props) {
             <CommentIcon />
           </ExpandMore>
         </Box>
-
+        <ExpandMore
+          sx={{ backgroundColor: "unset" }}
+          expand={collectionItems}
+          onClick={handleCollectionItemsClick}
+          aria-expanded={collectionItems}
+          aria-label="show more"
+        >
+          <CollectionsIcon />
+        </ExpandMore>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -112,6 +128,13 @@ export default function MyCollectionsCard(props) {
             <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
               User: Zajebista
             </Typography>
+          ))}
+        </CardContent>
+      </Collapse>
+      <Collapse in={collectionItems} timeout="auto" unmountOnExit>
+        <CardContent>
+          {Array.from(Array(3)).map((_, index) => (
+            <MyCollectionItem key={index} />
           ))}
         </CardContent>
       </Collapse>

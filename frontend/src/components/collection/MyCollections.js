@@ -34,16 +34,16 @@ export default function MyCollections() {
         <div className="min-vh-100">
           <Grid
             justifyContent="center"
-            alignItems="center"
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
             {userCollections?.map((_, index) => (
-              <MyCollectionsCard
-                collection={userCollections[index]}
-                key={index}
-              ></MyCollectionsCard>
+              <div key={index}>
+                <MyCollectionsCard
+                  collection={userCollections[index]}
+                ></MyCollectionsCard>
+              </div>
             ))}
           </Grid>
         </div>

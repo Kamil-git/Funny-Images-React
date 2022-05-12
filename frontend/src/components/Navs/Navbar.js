@@ -44,7 +44,7 @@ function Navbar() {
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <span>
                   <p className="dropdown-item" to="#">
-                    <i className="flag-united-kingdom flag"></i>Engspansh
+                    <i className="flag-united-kingdom flag"></i>English
                     <i className="fa fa-check text-success ms-2"></i>
                   </p>
                 </span>
