@@ -11,10 +11,10 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required:true
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    collectionId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Collection',
+      required:true
     },
     itemImg: {
       type: String,
@@ -30,6 +30,8 @@ const itemSchema = new mongoose.Schema(
     timestamps: true,
   }
 )
+
+
 
 const Item = mongoose.model("Item", itemSchema)
 module.exports = Item

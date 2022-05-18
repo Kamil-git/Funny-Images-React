@@ -1,7 +1,7 @@
 const express = require("express")
 const {
   createItemCtrl,
-  itemImgUploadCtrl,
+ 
   fetchItemCtrl,
   fetchItemsCtrl,
   updateItemCtrl,
@@ -19,9 +19,10 @@ const itemRoutes = express.Router()
 itemRoutes.post(
   "/",
   authMiddleware,
-  imageUpload.single("image"),
+  imageUpload.single("itemImg"),
   imageResize,
   createItemCtrl
+    
 )
 
 itemRoutes.get("/", fetchItemsCtrl)

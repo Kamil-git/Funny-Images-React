@@ -6,9 +6,13 @@ import Alert from "@mui/material/Alert"
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { ButtonGroup, Modal } from "@mui/material"
-import ModalEditCard from "./CustomizedMenuElement/ModalEditCard"
+import EditCollection from './EditCollection'
 import { useDispatch, useSelector } from "react-redux"
-import { deleteCollectionAction } from "../../../../redux/slices/collection/collectionSlice"
+import CreateItem from "./CreateItem"
+import { useNavigate } from "react-router-dom"
+import { deleteCollectionAction } from "../../../redux/slices/collection/collectionSlice"
+import { useTranslation } from "react-i18next"
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -44,10 +48,13 @@ const StyledMenu = styled((props) => (
 }))
 
 export default function CustomizedMenu(props) {
-  //props._id === id
+  //props id collection
+  const id = props.collection.collection._id
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -55,13 +62,11 @@ export default function CustomizedMenu(props) {
     setAnchorEl(null)
   }
 
-  const state = useSelector((state) => state?.collection)
-  const {deletedCollection} = state
+ 
   //how to display succesfull popup if deleted item
   // console.log(deletedCollection)
-
- 
   
+ 
   return (
     <div>
       <ButtonGroup
@@ -85,15 +90,15 @@ export default function CustomizedMenu(props) {
         onClose={handleClose}
       >
         <MenuItem disableRipple>
-          <ModalEditCard _id={props} />
+          <EditCollection collection={props} />
+        </MenuItem>
+        <MenuItem disableRipple>
+          <CreateItem _id={id} />
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
-          <ArchiveIcon
-            onClick={() => dispatch(deleteCollectionAction(props._id))}
-          />
-          Delete
+          <ArchiveIcon onClick={() => dispatch(deleteCollectionAction(id))} />
+          {t("Delete")}
         </MenuItem>
-        
       </StyledMenu>
     </div>
   )

@@ -16,6 +16,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material"
+import { useTranslation } from "react-i18next"
 
 //register schema
 const formSchema = Yup.object({
@@ -31,8 +32,7 @@ const loginSchema = Yup.object({
 })
 
 function Main() {
-  
-
+  const {t} = useTranslation()
   const navigate = useNavigate()
   //dispatch
   const dispatch = useDispatch()
@@ -68,28 +68,28 @@ function Main() {
   const { loading, appErr, serverErr, registered, userAuth } = storeData
 
   React.useEffect(() => {
-    if (userAuth) {
+    if (userAuth && !userAuth.isBlocked) {
       navigate("/view-collections")
     }
-    
-   
-    return()=>{
-        
-        
+    if(registered){
+      window.location.reload()
+
     }
+    return () => {}
   }, [navigate, userAuth, registered])
 
   return (
-    <div className="w-100 p-4 d-flex justify-content-center pb-4">
+    <div
+      id="mainsection"
+      className="w-100 p-4 d-flex justify-content-center pb-4"
+    >
       <div style={{ width: "26rem" }}>
         <ToggleButtonGroup
           className="d-flex nav nav-tabs justify-content-center mb-3"
           id="myTab"
           role="tablist"
           color="primary"
-          
           exclusive
-         
         >
           <ToggleButton
             color="standard"
@@ -100,8 +100,9 @@ function Main() {
             role="tab"
             aria-controls="login"
             aria-selected="true"
+            value="login"
           >
-            Login
+            {t("Login")}
           </ToggleButton>
 
           <ToggleButton
@@ -113,8 +114,9 @@ function Main() {
             role="tab"
             aria-controls="register"
             aria-selected="false"
+            value="register"
           >
-            Register
+            {t("Register")}
           </ToggleButton>
         </ToggleButtonGroup>
 
@@ -125,10 +127,11 @@ function Main() {
             id="login"
             role="tabpanel"
             aria-labelledby="login-tab"
+            
           >
             <form onSubmit={formikLogin.handleSubmit}>
               <div className="text-center mb-4">
-                <p>Sign in with:</p>
+                <p>{t("Sign_in_with")}:</p>
                 <Link to="#" className="btn  btn-floating mx-1">
                   <i className="fab fa-facebook-f"></i>
                 </Link>
@@ -146,7 +149,7 @@ function Main() {
                 </Link>
               </div>
 
-              <p className="text-center">or:</p>
+              <p className="text-center">{t("or")}:</p>
 
               <div className="form-outline mb-4 text-center">
                 <TextField
@@ -174,7 +177,7 @@ function Main() {
                   className="form-control active"
                 />
                 <label className="form-label" htmlFor="loginPassword">
-                  Password
+                  {t("Password")}
                 </label>
               </div>
               {loading ? (
@@ -186,7 +189,7 @@ function Main() {
                   color="inherit"
                   fullWidth
                 >
-                  Login
+                  {t("Login")}
                 </Button>
               )}
               {appErr || serverErr ? (
@@ -203,9 +206,9 @@ function Main() {
               <div className="text-center">
                 <p>
                   <DarkModeSwitch />
-                  Not a member?<span> </span>
+                  {t("Not_a_member")}?
                   <Link className="text-reset" to="/view-collections">
-                    Continue
+                    {t("Continue")}
                   </Link>
                 </p>
               </div>
@@ -220,7 +223,7 @@ function Main() {
           >
             <form onSubmit={formik.handleSubmit}>
               <div className="text-center mb-3">
-                <p>Sign up with:</p>
+                <p>{t("Sign_up_with")}:</p>
                 <button type="button" className="btn btn-floating mx-1">
                   <i className="fab fa-facebook-f"></i>
                 </button>
@@ -250,7 +253,7 @@ function Main() {
                   value={formik.values.name}
                   onBlur={formik.handleBlur("name")}
                 />
-                <label className="form-label">Name</label>
+                <label className="form-label">{t("Name")}</label>
               </div>
 
               <div className="form-outline mb-4">
@@ -276,7 +279,7 @@ function Main() {
                   onChange={formik.handleChange("password")}
                   onBlur={formik.handleBlur("password")}
                 />
-                <label className="form-label">Password</label>
+                <label className="form-label">{t("Password")}</label>
               </div>
 
               <div className="form-outline mb-4">
@@ -289,7 +292,9 @@ function Main() {
                   type="password"
                   className="form-control active"
                 />
-                <label className="form-label">Repeat password</label>
+                <label className="form-label">
+                  {t("Repeat")} {t("Password")}
+                </label>
               </div>
 
               {loading ? (
@@ -301,7 +306,7 @@ function Main() {
                   color="inherit"
                   fullWidth
                 >
-                  Register
+                  {t("Register")}
                 </Button>
               )}
               {appErr || serverErr ? (

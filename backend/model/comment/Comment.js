@@ -2,10 +2,10 @@ const mongoose = require("mongoose")
 
 const commentSchema = new mongoose.Schema(
   {
-    item: {
+    collectionId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Item",
-      required: [true, "Item is required"],
+      ref: "Collection",
+      required: [true, "Collection is required"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

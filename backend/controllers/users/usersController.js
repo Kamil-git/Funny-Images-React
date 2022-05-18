@@ -10,7 +10,7 @@ const userRegisterCtrl = asyncHandler(async (req, res) => {
   try {
     //Register user
     const user = await User.create({
-      name:req.body.name,
+      name: req.body.name,
       email: req.body.email,
       password: req.body.password,
     })
@@ -28,10 +28,11 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   if (userFound && (await userFound.isPasswordMatched(password))) {
     res.json({
       _id: userFound?._id,
-      name:userFound?.name,
+      name: userFound?.name,
       email: userFound?.email,
       isAdmin: userFound?.isAdmin,
       token: generateToken(userFound?._id),
+      isBlocked:userFound?.isBlocked
     })
   } else {
     res.status(401)
@@ -41,23 +42,29 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
 
 //Users
 const fetchUsersCtrl = asyncHandler(async (req, res) => {
-  try {
-    const users = await User.find({})
-    res.json(users)
-  } catch (error) {
-    res.json(error)
+  const { isAdmin } = req.user
+  if (isAdmin) {
+    try {
+      const users = await User.find({})
+      res.json(users)
+    } catch (error) {
+      res.json(error)
+    }
+  } else {
+    res.json("No access")
   }
 })
 
 //Delete user
 const deleteUsersCtrl = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  validateId(id)
+  
   try {
-    const deletedUser = await User.findByIdAndDelete(id)
-    res.json(deletedUser)
+    const user = await User.deleteMany({
+      _id: { $in: req.params.id.split(",").filter((id) => id.length > 0) },
+    }).then(() => localStorage.clear())
+    res.json(user)
   } catch (error) {
-    res.json(error)
+    res.json("Error couldnt delete user")
   }
 })
 
@@ -80,8 +87,17 @@ const userProfileCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
   validateId(id)
   try {
-    const myProfile = await User.findById(id).populate("collections")
-    res.json(myProfile?.collections)
+    const user = await User.findById(id).populate([
+      {
+        path: "collections",
+        model: "Collection",
+        populate: {
+          path: "items",
+          model: "Item",
+        },
+      },
+    ])
+    res.json(user.collections)
   } catch (error) {
     res.json(error)
   }
@@ -95,7 +111,7 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     id,
     {
-      name:req.body.name,
+      name: req.body.name,
       email: req.body.email,
     },
     {
@@ -103,8 +119,6 @@ const updateUserCtrl = asyncHandler(async (req, res) => {
       runValidators: true,
     }
   )
-
-  // res.json(user)
 })
 
 //update password
@@ -127,34 +141,61 @@ const updateUserPasswordCtrl = asyncHandler(async (req, res) => {
 //block user
 
 const blockUserCtrl = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  validateId(id)
+  const ids = req.body
+  try {
+    const user = await User.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isBlocked: true } },
+      { multi: true }
+    )
 
-  const user = await User.findByIdAndUpdate(
-    id,
-    {
-      isBlocked: true,
-    },
-    { new: true }
-  )
-  res.json(user)
+    res.json(user)
+  } catch (error) {
+    res.json(error.message)
+  }
 })
 const unBlockUserCtrl = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  validateId(id)
+  const ids = req.body
+  try {
+    const user = await User.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isBlocked: false } },
+      { multi: true }
+    )
 
-  const user = await User.findByIdAndUpdate(
-    id,
-    {
-      isBlocked: false,
-    },
-    { new: true }
-  )
-  res.json(user)
+    res.json(user)
+  } catch (error) {
+    res.json(error.message)
+  }
 })
+const addAdminCtrl = asyncHandler(async (req, res) => {
+  const ids = req.body
+  try {
+    const user = await User.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isAdmin: true } },
+      { multi: true }
+    )
 
+    res.json(user)
+  } catch (error) {
+    res.json(error.message)
+  }
+})
+const removeAdminCtrl = asyncHandler(async (req, res) => {
+  const ids = req.body
+  try {
+    const user = await User.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isAdmin: false } },
+      { multi: true }
+    )
 
-
+    res.json(user)
+  } catch (error) {
+    res.json(error.message)
+  }
+})
 
 module.exports = {
   userRegisterCtrl,
@@ -167,4 +208,6 @@ module.exports = {
   updateUserPasswordCtrl,
   blockUserCtrl,
   unBlockUserCtrl,
+  removeAdminCtrl,
+  addAdminCtrl
 }

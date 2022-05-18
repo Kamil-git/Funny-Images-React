@@ -3,35 +3,23 @@ const asyncHandler = require("express-async-handler")
 const validateId = require("../utils/validateId")
 const cloudUploadImg = require("../utils/cloudConn")
 const fs = require("fs")
+
 const createItemCtrl = asyncHandler(async (req, res) => {
-  validateId(req.body.user)
+  const { collectionId, description, title } = req.body
 
-  try {
-    const item = await Item.create(req.body)
-    res.json(item)
-  } catch (error) {
-    res.json(error)
-  }
-})
+  const localPath = `${req.file.filename}`
 
-const itemImgUploadCtrl = asyncHandler(async (req, res) => {
-  // console.log(req.file.filename)
-  //1. Get the path to the img
-  const localPath = `backend/public/images/${req.file.filename}`
-  //2.Upload to cloud
-  // console.log(localPath)
-  const imageUploaded = await cloudUploadImg(localPath)
-  console.log(imageUploaded?.url)
+  const imgUploaded = await cloudUploadImg(localPath)
   try {
     const item = await Item.create({
-      ...req.body,
-      image: imageUploaded?.url,
-      user: _id,
-      title: req.body.title,
+      title: title,
+      collectionId: collectionId,
+      description: description,
+      itemImg: imgUploaded?.url,
     })
 
-    res.json(item)
     fs.unlinkSync(localPath)
+    res.json(item)
   } catch (error) {
     res.json(error)
   }
@@ -49,7 +37,10 @@ const fetchItemCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
   validateId(id)
   try {
-    const item = await Item.findById(id).populate("user").populate('disLikes').populate('likes')
+    const item = await Item.findById(id)
+      .populate("user")
+      .populate("disLikes")
+      .populate("likes")
     res.json(item)
   } catch (error) {
     res.json(error)
@@ -90,13 +81,11 @@ const deleteItemCtrl = asyncHandler(async (req, res) => {
   res.json("Delete")
 })
 
-
 module.exports = {
   updateItemCtrl,
   createItemCtrl,
-  itemImgUploadCtrl,
+
   fetchItemsCtrl,
   fetchItemCtrl,
   deleteItemCtrl,
-  
 }

@@ -4,13 +4,22 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
+import { useTranslation } from "react-i18next"
 import DarkModeSwitch from "./DarkModeSwitch"
 import UserIcon from "./NavIcons/UserIcon"
+import i18next from "i18next"
 function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
-  
+  const {t} = useTranslation()
+ const switchLanguage=()=> {
+   if(i18next.language === "en"){
+    return i18next.changeLanguage("pl")
+   } else {
+     i18next.changeLanguage("en")
+   }
+ }
   return (
     <div className="navbar navbar-expand-lg " style={{ marginBottom: "1rem" }}>
       <button
@@ -43,17 +52,25 @@ function Navbar() {
               </span>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <span>
-                  <p className="dropdown-item" to="#">
-                    <i className="flag-united-kingdom flag"></i>English
-                    <i className="fa fa-check text-success ms-2"></i>
+                  <p className="dropdown-item" onClick={() => switchLanguage()}>
+                    <i className="flag-united-kingdom flag"></i>
+                    {t("English")}
+                    {i18next.language === "en" ? (
+                      <i className="fa fa-check text-success ms-2"></i>
+                    ) : null}
                   </p>
                 </span>
+
                 <span>
                   <hr className="dropdown-divider" />
                 </span>
                 <span>
-                  <p className="dropdown-item" to="#">
-                    <i className="flag-poland flag"></i>Polski
+                  <p className="dropdown-item" onClick={() => switchLanguage()}>
+                    <i className="flag-poland flag"></i>
+                    {t("Polish")}
+                    {i18next.language === "pl" ? (
+                      <i className="fa fa-check text-success ms-2"></i>
+                    ) : null}
                   </p>
                 </span>
               </div>
@@ -79,7 +96,7 @@ function Navbar() {
                 >
                   <span className="dropdown-item">
                     <Link to="/manage-users" className="nav-link">
-                      Manage Users
+                      {t("Manage_Users")}
                     </Link>
                   </span>
                 </span>
@@ -96,7 +113,7 @@ function Navbar() {
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Collection
+                    {t("Collection")}
                   </Link>
                   <span
                     className="dropdown-menu text-reset"
@@ -104,17 +121,17 @@ function Navbar() {
                   >
                     <span className="dropdown-item">
                       <Link to="/create-collection" className="nav-link">
-                        Create Collection
+                        {t("Create_Collection")}
                       </Link>
                     </span>
                     <span className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
-                        View Collections
+                        {t("View_Collections")}
                       </Link>
                     </span>
                     <span className="dropdown-item">
                       <Link to="/my-collections" className="nav-link">
-                        My Collections
+                        {t("My_Collections")}
                       </Link>
                     </span>
                   </span>
@@ -129,7 +146,7 @@ function Navbar() {
                       })
                     }
                   >
-                    Logout
+                    {t("Logout")}
                   </span>
                 </div>
               </>
@@ -144,7 +161,7 @@ function Navbar() {
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Collection
+                    {t("Collection")}
                   </Link>
                   <span
                     className="dropdown-menu text-reset"
@@ -152,14 +169,14 @@ function Navbar() {
                   >
                     <span className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
-                        View collections
+                        {t("View_Collections")}
                       </Link>
                     </span>
                   </span>
                 </div>
                 <span className="nav-item">
                   <Link className="nav-link text-reset" to="/">
-                    Register
+                    {t("Register")}
                   </Link>
                 </span>
               </>
@@ -173,7 +190,7 @@ function Navbar() {
                   sx={{ minWidth: "5rem", color: "inherit" }}
                   variant="standard"
                   fullWidth
-                  placeholder="Search"
+                  placeholder={t("Search")}
                 />
               </form>
             </span>

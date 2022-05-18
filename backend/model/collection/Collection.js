@@ -49,10 +49,16 @@ const collectionSchema = new mongoose.Schema(
     timestamps: true,
   }
 )
-collectionSchema.virtual("comments",{
-  ref:'Comment',
-  foreignField:'collection',
-  localField:"_id"
+
+collectionSchema.virtual("comments", {
+  ref: "Comment",
+  foreignField: "collection",
+  localField: "_id",
+})
+collectionSchema.virtual("items", {
+  ref: "Item",
+  foreignField: "collectionId",
+  localField: "_id",
 })
 
 const Collection = mongoose.model("Collection", collectionSchema)

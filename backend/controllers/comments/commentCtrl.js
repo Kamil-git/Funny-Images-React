@@ -5,16 +5,16 @@ const validateId = require("../utils/validateId")
 //create comment
 const createCommentCtrl = asyncHandler(async (req, res) => {
   const user = req.user
-  const { itemId, description } = req.body
+  const { collectionId, description } = req.body
 
   try {
     const comment = await Comment.create({
-      item: itemId,
+      collection: collectionId,
       user,
       description,
     })
     res.json(comment)
-    console.log(comment)
+    
   } catch (error) {
     res.json(error)
   }

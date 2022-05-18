@@ -6,41 +6,56 @@ import { createCollectionAction } from "../../redux/slices/collection/collection
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { useDispatch, useSelector } from "react-redux"
-
+import { useTranslation } from "react-i18next"
+import Dropzone from "react-dropzone"
+import CloudUploadIcon from "@mui/icons-material/CloudUpload"
+import { useNavigate } from "react-router-dom"
 const formSchema = Yup.object({
   name: Yup.string().required("Collection name required"),
-  tags: Yup.string(),
-  imageLink: Yup.string(),
+  tags: Yup.string().required("Tags are required"),
+  imageLink: Yup.string().required("Image is required"),
 })
 
-
-
-
 function CreateCollection() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const formik = useFormik({
     initialValues: {
       name: "",
-      tags:"",
-      imageLink:""
+      tags: "",
+      imageLink: "",
     },
     onSubmit: (values) => {
-      dispatch(createCollectionAction(values))
+      const data = {
+        name: values?.name,
+        tags: values?.tags,
+        imageLink: values?.imageLink,
+      }
+
+      dispatch(createCollectionAction(data))
     },
     validationSchema: formSchema,
   })
-
-  const state = useSelector((state) => state?.collection)
-
-  const { loading, appErr, serverErr} = state
-
+  const user = useSelector((state)=> state?.users)
+  const coll = useSelector((state) => state?.collection)
+const {userAuth} = user
+  const { loading, appErr, serverErr } = coll
+  React.useEffect(() => {
+    if(!userAuth){
+      navigate("/")
+    }
+    
+  }, [navigate, userAuth])
+  
   return (
     <div>
       <Navbar />
 
       <form
         onSubmit={formik.handleSubmit}
-        className="p-4 d-flex justify-content-center w-100 min-vh-100"
+        id="mainsection"
+        className="p-4 d-flex justify-content-center w-100"
       >
         <div className="file-upload-wrapper">
           <TextField
@@ -50,7 +65,7 @@ function CreateCollection() {
             color="primary"
             variant="standard"
             fullWidth
-            placeholder="Collection Name"
+            placeholder={t("Collection_name")}
           />
 
           <TextField
@@ -60,20 +75,34 @@ function CreateCollection() {
             color="primary"
             variant="standard"
             fullWidth
-            placeholder="Tags"
+            placeholder={t("Tags")}
           />
 
-          <input
-            className="form-control form-control-sm"
-            id="formFileSm"
-            type="file"
-            placeholder="Image"
-          />
+          <Dropzone
+            onBlur={formik.handleBlur("imageLink")}
+            onDrop={(acceptedFiles) => {
+              formik.setFieldValue("imageLink", acceptedFiles[0])
+            }}
+          >
+            {({ getRootProps, getInputProps, acceptedFiles }) => (
+              <section>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <CloudUploadIcon sx={{ m: 0.5 }} />
+                  {acceptedFiles.map((file) => (
+                    <li style={{ listStyle: "none" }} key={file.path}>
+                      {file.path}
+                    </li>
+                  ))}
+                </div>
+              </section>
+            )}
+          </Dropzone>
           {loading ? (
             <CircularProgress />
           ) : (
             <Button type="submit" variant="outlined" color="inherit" fullWidth>
-              Create
+              {t("Create")}
             </Button>
           )}
 

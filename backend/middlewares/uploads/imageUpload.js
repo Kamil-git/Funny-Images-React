@@ -23,18 +23,19 @@ const multerFilter = (req, file, cb) => {
 const imageUpload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
-  limits: { fileSize: 20000000 },
+  limits: { fileSize: 1000000 },
 })
 
 const imageResize = async (req, res, next) => {
   if (!req.file) return next()
-  req.file.filename = `user-${req.user._id}-${req.file.originalname}`
+  req.file.filename = `collection-${Date.now()}-${req.file.originalname}`
 
   await sharp(req.file.buffer)
-    .resize(300, 300)
+    .resize(500, 500)
     .toFormat("jpeg")
-    .toFile(path.join(`backend/public/images/${req.file.filename}`))
-  next()
+    .jpeg({ quality: 90 })
+    .toFile(`${req.file.filename}`)
+    next()
 }
 
 module.exports = { imageUpload, imageResize }

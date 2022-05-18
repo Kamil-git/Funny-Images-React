@@ -19,15 +19,18 @@ export const createCollectionAction = createAsyncThunk(
       },
     }
     //http call
+    const formData = new FormData()
+    formData.append("name", collection?.name)
+    formData.append("tags", collection?.tags)
+    formData.append("imageLink", collection?.imageLink)
+    
     try {
       const { data } = await axios.post(
         `${baseUrl}/api/collection`,
-        {
-          name: collection?.name,
-          tags: collection?.tags,
-        },
+        formData,
         config
       )
+      
       return data
     } catch (error) {
       if (!error?.response) {
@@ -41,8 +44,7 @@ export const createCollectionAction = createAsyncThunk(
 //fetch all
 export const fetchCollectionAction = createAsyncThunk(
   "collection/fetch",
-  async (collection, { rejectWithValue, getState, dispatch }) => {
-    //http call
+  async (id, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(`${baseUrl}/api/collection`)
       return data
@@ -54,6 +56,31 @@ export const fetchCollectionAction = createAsyncThunk(
     }
   }
 )
+export const fetchCollectionItems = createAsyncThunk(
+  "collection/fetchItems",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/api/collection/${id}`,
+        config
+      )
+      return data
+    } catch (error) {
+      if (!error?.response) {
+        throw error
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
 //Update
 export const updateCollectionAction = createAsyncThunk(
   "collection/update",
@@ -61,7 +88,7 @@ export const updateCollectionAction = createAsyncThunk(
     //get user token
     const user = getState()?.users
     const { userAuth } = user
-    
+
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
@@ -74,6 +101,7 @@ export const updateCollectionAction = createAsyncThunk(
         collection,
         config
       )
+      dispatch(resetEditAction())
       return data
     } catch (error) {
       if (!error?.response) {
@@ -100,6 +128,7 @@ export const deleteCollectionAction = createAsyncThunk(
         `${baseUrl}/api/collection/${id}`,
         config
       )
+      dispatch(resetDeleteAction())
       return data
     } catch (error) {
       if (!error?.response) {
@@ -176,12 +205,29 @@ const collectionSlices = createSlice({
     })
     builder.addCase(deleteCollectionAction.fulfilled, (state, action) => {
       state.deletedCollection = action?.payload
+      state.isDeleted = false
       state.loading = false
       state.appErr = undefined
       state.serverErr = undefined
     })
     builder.addCase(deleteCollectionAction.rejected, (state, action) => {
       state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //fetch details
+    builder.addCase(fetchCollectionItems.pending, (state, action) => {
+      state.loading = true
+    })
+    builder.addCase(fetchCollectionItems.fulfilled, (state, action) => {
+      state.loading = false
+      state.populatedItems = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(fetchCollectionItems.rejected, (state, action) => {
+      state.loading = false
+      state.populatedItems = undefined
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
     })

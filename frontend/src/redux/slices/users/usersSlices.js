@@ -1,8 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit"
 import axios from "axios"
 import { baseUrl } from "../../../utils/baseURL"
 
 //----------------------------------------register action
+
+const resetDeleteAction = createAction("collection/delete-reset")
 
 export const registerUserAction = createAsyncThunk(
   "users/register",
@@ -57,6 +59,32 @@ export const fetchUsersCollection = createAsyncThunk(
     }
   }
 )
+//fetch users for admin list
+export const fetchUsersList = createAsyncThunk(
+  "users/userList",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+    const user = getState()?.users
+
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    //http call
+    try {
+      const { data } = await axios.get(`${baseUrl}/api/users/`, config)
+
+      return data
+    } catch (error) {
+      if (!error?.response) {
+        throw error
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
 //-----------------------------------login
 export const loginUserAction = createAsyncThunk(
   "user/login",
@@ -93,6 +121,142 @@ export const logoutAction = createAsyncThunk(
         throw error
       }
       return rejectWithValue(error.response.data)
+    }
+  }
+)
+//Block User
+export const blockUserAction = createAsyncThunk(
+  "users/block",
+  async (gridItemsIds, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/block-user`,
+        gridItemsIds,
+        config
+      )
+
+      return data
+    } catch (error) {
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
+//unBlock User
+export const unBlockUserAction = createAsyncThunk(
+  "users/unblock",
+  async (gridItemsIds, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/unblock-user`,
+        gridItemsIds,
+        config
+      )
+      return data
+    } catch (error) {
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
+//Delete
+export const deleteUserAction = createAsyncThunk(
+  "users/deleteUser",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+    console.log(id)
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      //http call
+
+      const { data } = await axios.delete(
+        `${baseUrl}/api/users/delete/${id}`,
+        config
+      )
+      dispatch(resetDeleteAction())
+      return data
+    } catch (error) {
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+//add admin
+export const addAdminUserAction = createAsyncThunk(
+  "users/addAdmin",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/add-admin`,
+        id,
+        config
+      )
+
+      return data
+    } catch (error) {
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+//add admin
+export const removeAdminUserAction = createAsyncThunk(
+  "users/removeAdmin",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    //get user token
+
+    const user = getState()?.users
+    const { userAuth } = user
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userAuth?.token}`,
+      },
+    }
+    try {
+      const { data } = await axios.put(
+        `${baseUrl}/api/users/remove-admin`,
+        id,
+        config
+      )
+
+      return data
+    } catch (error) {
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
     }
   }
 )
@@ -171,6 +335,111 @@ const usersSlices = createSlice({
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
     })
+    builder.addCase(fetchUsersList.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(fetchUsersList.fulfilled, (state, action) => {
+      state.loading = false
+      state.usersList = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(fetchUsersList.rejected, (state, action) => {
+      
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //Block user
+    builder.addCase(blockUserAction.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(blockUserAction.fulfilled, (state, action) => {
+      state.loading = false
+      state.block = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(blockUserAction.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //unBlock user
+    builder.addCase(unBlockUserAction.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(unBlockUserAction.fulfilled, (state, action) => {
+      state.loading = false
+      state.unblock = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(unBlockUserAction.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //delete user
+
+    builder.addCase(deleteUserAction.pending, (state, action) => {
+      state.loading = true
+    })
+    builder.addCase(resetDeleteAction, (state, action) => {
+      state.isDeleted = true
+    })
+    builder.addCase(deleteUserAction.fulfilled, (state, action) => {
+      state.deletedUser = action?.payload
+      state.isDeleted = false
+      state.loading = false
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(deleteUserAction.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //add admin
+     builder.addCase(addAdminUserAction.pending, (state, action) => {
+       state.loading = true
+       state.appErr = undefined
+       state.serverErr = undefined
+     })
+     builder.addCase(addAdminUserAction.fulfilled, (state, action) => {
+       state.loading = false
+       state.addedAdmin = action?.payload
+       state.appErr = undefined
+       state.serverErr = undefined
+     })
+     builder.addCase(addAdminUserAction.rejected, (state, action) => {
+       state.loading = false
+       state.appErr = action?.payload?.message
+       state.serverErr = action?.error?.message
+     })
+     //remove admin
+      builder.addCase(removeAdminUserAction.pending, (state, action) => {
+        state.loading = true
+        state.appErr = undefined
+        state.serverErr = undefined
+      })
+      builder.addCase(removeAdminUserAction.fulfilled, (state, action) => {
+        state.loading = false
+        state.removedAdmin = action?.payload
+        state.appErr = undefined
+        state.serverErr = undefined
+      })
+      builder.addCase(removeAdminUserAction.rejected, (state, action) => {
+        state.loading = false
+        state.appErr = action?.payload?.message
+        state.serverErr = action?.error?.message
+      })
   },
 })
 

@@ -4,12 +4,15 @@ const User = require("../../model/user/User")
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token
+  
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     try {
       token = req.headers.authorization.split(" ")[1]
+      
       if (token) {
         const decoded = jwt.verify(token, process.env.JWT_KEY)
         //find the user by id
+        
         req.user = await User.findById(decoded?.id).select("-password")
         //attach the user to the request object
         next()

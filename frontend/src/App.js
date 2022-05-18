@@ -1,11 +1,11 @@
 import * as React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Main from "./page/Main"
-import "./App.css"
+
 import ManageUsers from "./components/admin/ManageUsers"
-import ViewCollection from "./components/collection/ViewCollection"
-import CreateCollection from "./components/collection/CreateCollection"
-import MyCollections from "./components/collection/MyCollections"
+import CreateCollection from './components/collection/CreateCollection'
+import ViewCollection from "./components/collection/ViewCollections/ViewCollection"
+import MyCollections from "./components/collection/MyCollections/MyCollections"
 
 
 
@@ -14,6 +14,9 @@ import MyCollections from "./components/collection/MyCollections"
 
 
 function App() {
+  
+
+
   return (
    
       <BrowserRouter>

@@ -10,36 +10,32 @@ import {
   TextField,
 } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
-import { updateCollectionAction } from "../../../../../redux/slices/collection/collectionSlice"
+import { updateCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { fetchUsersCollection } from "../../../../../redux/slices/users/usersSlices"
-import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 const formSchema = Yup.object({
   name: Yup.string(),
   tags: Yup.string(),
 })
 
-export default function ModalEditCard(props) {
+export default function EditCollection(props) {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  //passed id === props._id._id
-  const id = props._id._id
-  React.useEffect(() => {
-    return () => {
-      dispatch(fetchUsersCollection(id))
-    }
-  }, [dispatch, id])
+
+  //collection
+  const propCollection = props.collection.collection.collection
+  const id = propCollection._id
+const { t } = useTranslation()
   const state = useSelector((state) => state?.users)
 
-  const { loading, appErr, serverErr, userCollections, isEdited, isDeleted } =
+  const { loading, appErr, serverErr, userCollections, updateCollection } =
     state
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: userCollections[0]?.name,
-      tags: userCollections[0]?.tags,
+      name: propCollection.name,
+      tags: propCollection.tags,
     },
     onSubmit: (values) => {
       const data = {
@@ -48,9 +44,6 @@ export default function ModalEditCard(props) {
         id,
       }
       dispatch(updateCollectionAction(data))
-      if (isEdited || isDeleted) {
-        navigate("/my-collections")
-      }
     },
     validationSchema: formSchema,
   })
@@ -61,7 +54,7 @@ export default function ModalEditCard(props) {
         <div>
           <ButtonGroup {...bindTrigger(popupState)}>
             <EditIcon />
-            Edit
+            {t("Edit_Collection")}
           </ButtonGroup>
           <Popover
             {...bindPopover(popupState)}

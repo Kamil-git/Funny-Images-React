@@ -1,12 +1,12 @@
-import { BottomNavigation } from "@mui/material"
+import { BottomNavigation, Box } from "@mui/material"
 import React from "react"
 import { Link } from "react-router-dom"
 
 function Footer() {
   return (
-    <footer className="text-center">
-      <div className="container p-4 pb-0">
-        <section className="mb-4">
+   
+      <div id="Footer" className="container p-4 pb-0">
+        <section className="mb-4 text-center">
           <Link className="btn  btn-floating m-1" to="#" role="button">
             <i className="fab fa-facebook-f"></i>
           </Link>
@@ -31,10 +31,11 @@ function Footer() {
             <i className="fab fa-github"></i>
           </Link>
         </section>
+        <div className="text-center p-3" style={{ color: "inherit" }}>
+          © 2022 Copyright: Kamil Kwiatkowski
+        </div>
       </div>
-
-      <div className="text-center p-3" style={{color:'inherit'}}>© 2022 Copyright: Kamil Kwiatkowski</div>
-    </footer>
+    
   )
 }
 

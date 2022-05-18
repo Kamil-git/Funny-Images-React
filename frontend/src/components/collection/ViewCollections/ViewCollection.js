@@ -1,46 +1,46 @@
 import React, { useEffect } from "react"
-import Footer from "../Navs/Footer"
-import Navbar from "../Navs/Navbar"
+import Footer from "../../Navs/Footer"
+import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
-import { fetchCollectionAction } from "../../redux/slices/collection/collectionSlice"
+import { fetchCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { Alert, CircularProgress,} from "@mui/material"
-import ViewCollectionCard from "./cards/ViewCollectionCard"
+import { Alert, CircularProgress } from "@mui/material"
+import ViewCollectionCard from "./ViewCollectionCard"
 
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+
 
 export default function ViewCollection() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const user = useSelector((state) => state?.users)
   const { userAuth } = user
+
+  
   useEffect(() => {
     dispatch(fetchCollectionAction())
-  }, [dispatch, navigate])
+  }, [dispatch])
 
   const collection = useSelector((state) => state?.collection)
+  
   const { collectionList, loading, appErr, serverErr } = collection
 
   return (
     <div>
       <Navbar />
-      {loading ? (
-        <div>
+      <Grid container sx={{minHeight:"100vh"}}>
+        {loading ? (
           <CircularProgress />
-        </div>
-      ) : appErr || serverErr ? (
-        <div className="min-vh-100">
+        ) : appErr || serverErr ? (
           <Alert variant="outlined" severity="error">
             {appErr}
             {serverErr}
           </Alert>
-        </div>
-      ) : !collectionList ? (
-        <div className="min-vh-100 text-center">
-          <h2>No collection found</h2>
-        </div>
-      ) : (
-        <div className="min-vh-100">
+        ) : collectionList?.length <= 0 ? (
+          <h2>{t("No_collection_found")}</h2>
+        ) : (
           <Grid
             justifyContent="center"
             container
@@ -55,9 +55,9 @@ export default function ViewCollection() {
               </div>
             ))}
           </Grid>
-        </div>
-      )}
-      <Footer />
+        )}
+      </Grid>
+      <Footer/>
     </div>
   )
 }

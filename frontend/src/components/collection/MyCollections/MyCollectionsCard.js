@@ -10,15 +10,18 @@ import Avatar from "@mui/material/Avatar"
 import IconButton from "@mui/material/IconButton"
 import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import FavoriteIcon from "@mui/icons-material/Favorite"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
 import { TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
-import CustomizedMenu from "./CardElements/CustomizedMenu"
+import CustomizedMenu from "../CollectionMenu/CustomizedMenu"
 import CollectionsIcon from "@mui/icons-material/Collections"
-import MyCollectionItem from "./CardElements/MyCollectionItem"
+import MyCollectionItem from "./MyCollectionItem"
+import { useDispatch, useSelector } from "react-redux"
+import * as Yup from "yup"
+import { useFormik } from "formik"
+import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -30,29 +33,50 @@ const ExpandMore = styled((props) => {
   }),
 }))
 
+const formSchema = Yup.object({
+  description:Yup.string().required()
+})
+
 export default function MyCollectionsCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
-const [collectionItems, setCollectionItems] = React.useState(false)
+  const [collectionItems, setCollectionItems] = React.useState(false)
+  const dispatch = useDispatch()
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
   const handleCommentsClick = () => {
     setComments(!comments)
   }
-   const handleCollectionItemsClick = () => {
-     setCollectionItems(!collectionItems)
-   }
-  const commentSubmitHandler = (e) => {
-    e.preventDefault()
+
+  const handleCollectionItemsClick = () => {
+    setCollectionItems(!collectionItems)
   }
-  
+  const formik = useFormik({
+    initialValues:{
+      description:"",
+      collectionId:props?.collection?._id
+    },
+    onSubmit:(values)=> {
+      const data ={
+        description:values?.title,
+        collectionId:props?.collection?._id
+      }
+      dispatch(createCommentAction(data))
+    },
+    validationSchema:formSchema
+  })
+ 
+
+const user = useSelector(state => state.users.userAuth.name)
+
+
 
   return (
     <Card
       sx={{
         minWidth: 345,
-        maxHeight:"100%",
+        maxHeight: "100%",
         margin: "2rem",
         backgroundColor: "unset",
         color: "unset",
@@ -61,27 +85,28 @@ const [collectionItems, setCollectionItems] = React.useState(false)
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            R
+            {user.trim(0, 1)}
           </Avatar>
         }
         action={
           <IconButton aria-label="settings">
-            <CustomizedMenu _id={props.collection._id} />
+            <CustomizedMenu collection={props} />
           </IconButton>
         }
         title={`${props.collection.name}`}
         subheader={<Moment format="D MMM YYYY" withTitle></Moment>}
       />
 
-      <CardMedia component="img" height="194" image="" alt="" />
+      <CardMedia
+        component="img"
+        height="194"
+        image={`${props.collection.imageLink}`}
+        alt="collection photo"
+      />
       <CardContent>
         <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-
         <Box>
           <ExpandMore
             sx={{ backgroundColor: "unset" }}
@@ -113,30 +138,35 @@ const [collectionItems, setCollectionItems] = React.useState(false)
       </CardActions>
       <Collapse in={comments} timeout="auto" unmountOnExit>
         <CardContent>
-          <form onSubmit={commentSubmitHandler}>
+          <form onSubmit={formik.handleSubmit}>
             <TextField
               sx={{ width: "85%" }}
               id="standard-basic"
               variant="standard"
+              value={formik.values.description}
+              onChange={formik.handleChange("description")}
+              onBlur={formik.handleBlur("description")}
             ></TextField>
             <IconButton type="submit">
               <AddIcon />
             </IconButton>
           </form>
 
-          {Array.from(Array(3)).map((_, index) => (
+          {props?.collection?.comments.map((comment, index) => (
             <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              User: Zajebista
+              {comment.description}
             </Typography>
           ))}
         </CardContent>
       </Collapse>
       <Collapse in={collectionItems} timeout="auto" unmountOnExit>
-        <CardContent>
-          {Array.from(Array(3)).map((_, index) => (
-            <MyCollectionItem key={index} />
-          ))}
-        </CardContent>
+        {props.collection.items.map((_, index) => (
+          <div key={index}>
+            <MyCollectionItem
+              items={props.collection.items[index]}
+            ></MyCollectionItem>
+          </div>
+        ))}
       </Collapse>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
