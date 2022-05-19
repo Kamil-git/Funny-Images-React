@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler")
 const validateId = require("../utils/validateId")
 const cloudUploadImg = require("../utils/cloudConn")
-const Collection = require("../../model/collection/collection")
+const Collection = require("../../model/collection/Collection")
 
 const createCollectionCtrl = asyncHandler(async (req, res) => {
   const localPath = `${req.file.filename}`
