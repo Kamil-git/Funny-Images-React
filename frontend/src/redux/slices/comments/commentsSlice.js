@@ -16,13 +16,14 @@ export const createCommentAction = createAsyncThunk(
       },
     }
     try {
-      const formData = new FormData()
-      formData.append("collectionId", comment?.collectionId)
-      formData.append("description", comment?.description)
-
+      
+    
       const { data } = await axios.post(
         `${baseUrl}/api/comments`,
-        formData,
+        {collectionId:comment?.collectionId,
+        description:comment?.description,
+        userName:comment?.userName
+        },
         config
       )
       dispatch(resetComment())
@@ -59,7 +60,7 @@ const commentSlice = createSlice({
       state.isCreated = true
     })
     builder.addCase(createCommentAction.fulfilled, (state, action) => {
-      state.commentCreated = action?.payload
+      state.comment = action?.payload
       state.loading = false
       state.isCreated = false
       state.appErr = undefined
@@ -69,7 +70,6 @@ const commentSlice = createSlice({
       state.loading = false
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
-      
     })
   },
 })

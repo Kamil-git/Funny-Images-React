@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 
 import { useTranslation } from "react-i18next"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch} from "react-redux"
 import {deleteItemAction} from "../../../redux/slices/items/itemsSlice"
 
 

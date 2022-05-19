@@ -32,7 +32,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       email: userFound?.email,
       isAdmin: userFound?.isAdmin,
       token: generateToken(userFound?._id),
-      isBlocked:userFound?.isBlocked
+      isBlocked: userFound?.isBlocked,
     })
   } else {
     res.status(401)
@@ -57,7 +57,6 @@ const fetchUsersCtrl = asyncHandler(async (req, res) => {
 
 //Delete user
 const deleteUsersCtrl = asyncHandler(async (req, res) => {
-  
   try {
     const user = await User.deleteMany({
       _id: { $in: req.params.id.split(",").filter((id) => id.length > 0) },
@@ -91,10 +90,16 @@ const userProfileCtrl = asyncHandler(async (req, res) => {
       {
         path: "collections",
         model: "Collection",
-        populate: {
-          path: "items",
-          model: "Item",
-        },
+        populate: [
+          {
+            path: "items",
+            model: "Item",
+          },
+          {
+            path: "comments",
+            model: "Comment",
+          },
+        ],
       },
     ])
     res.json(user.collections)
@@ -209,5 +214,5 @@ module.exports = {
   blockUserCtrl,
   unBlockUserCtrl,
   removeAdminCtrl,
-  addAdminCtrl
+  addAdminCtrl,
 }

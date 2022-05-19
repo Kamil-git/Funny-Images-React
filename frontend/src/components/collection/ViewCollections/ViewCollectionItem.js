@@ -5,8 +5,8 @@ import CardMedia from "@mui/material/CardMedia"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import Typography from "@mui/material/Typography"
 
-import { CardActions, CardHeader, IconButton } from "@mui/material"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
+import { CardActions, IconButton } from "@mui/material"
+
 import { useSelector } from "react-redux"
 
 export default function ViewCollectionItem(props) {

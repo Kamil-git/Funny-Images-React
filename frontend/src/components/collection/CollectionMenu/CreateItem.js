@@ -1,5 +1,5 @@
 import React from "react"
-import { useDropzone } from "react-dropzone"
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import AddIcon from "@mui/icons-material/Add"
 import Popover from "@mui/material/Popover"
@@ -8,10 +8,9 @@ import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos"
 import Dropzone from "react-dropzone"
 import { ButtonGroup, IconButton, TextField } from "@mui/material"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch} from "react-redux"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { useNavigate } from "react-router-dom"
 import { createItemAction } from "../../../redux/slices/items/itemsSlice"
 
 import { useTranslation } from "react-i18next"

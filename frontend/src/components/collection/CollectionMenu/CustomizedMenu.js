@@ -1,15 +1,15 @@
 import * as React from "react"
-import { styled, alpha } from "@mui/material/styles"
+import { styled } from "@mui/material/styles"
 import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import Alert from "@mui/material/Alert"
+
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { ButtonGroup, Modal } from "@mui/material"
+import { ButtonGroup } from "@mui/material"
 import EditCollection from './EditCollection'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import CreateItem from "./CreateItem"
-import { useNavigate } from "react-router-dom"
+
 import { deleteCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import { useTranslation } from "react-i18next"
 
@@ -54,7 +54,7 @@ export default function CustomizedMenu(props) {
   const open = Boolean(anchorEl)
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }

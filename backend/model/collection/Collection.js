@@ -52,7 +52,7 @@ const collectionSchema = new mongoose.Schema(
 
 collectionSchema.virtual("comments", {
   ref: "Comment",
-  foreignField: "collection",
+  foreignField: "collectionId",
   localField: "_id",
 })
 collectionSchema.virtual("items", {

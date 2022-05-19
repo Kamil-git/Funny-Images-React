@@ -191,6 +191,7 @@ export default function ManageUsers() {
             }}
             onSelectionModelChange={(ids) => {
               const selectedIDs = new Set(ids)
+              //whole objects catcher
               const selectedRowData = usersList.filter((row) =>
                 selectedIDs.has(row._id)
               )

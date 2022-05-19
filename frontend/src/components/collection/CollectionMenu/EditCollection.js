@@ -28,7 +28,7 @@ export default function EditCollection(props) {
 const { t } = useTranslation()
   const state = useSelector((state) => state?.users)
 
-  const { loading, appErr, serverErr, userCollections, updateCollection } =
+  const { loading} =
     state
 
   const formik = useFormik({

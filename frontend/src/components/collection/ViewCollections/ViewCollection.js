@@ -7,30 +7,26 @@ import { useDispatch, useSelector } from "react-redux"
 import { Alert, CircularProgress } from "@mui/material"
 import ViewCollectionCard from "./ViewCollectionCard"
 
-import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-
 
 export default function ViewCollection() {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { t } = useTranslation()
-  const user = useSelector((state) => state?.users)
-  const { userAuth } = user
 
-  
-  useEffect(() => {
-    dispatch(fetchCollectionAction())
-  }, [dispatch])
+  const { t } = useTranslation()
+ 
+
 
   const collection = useSelector((state) => state?.collection)
-  
-  const { collectionList, loading, appErr, serverErr } = collection
 
+  const { collectionList, loading, appErr, serverErr } = collection
+  const commentState = useSelector((state) => state.comment)
+  useEffect(() => {
+    dispatch(fetchCollectionAction())
+  }, [dispatch, commentState.isCreated])
   return (
     <div>
       <Navbar />
-      <Grid container sx={{minHeight:"100vh"}}>
+      <Grid container sx={{ minHeight: "100vh" }}>
         {loading ? (
           <CircularProgress />
         ) : appErr || serverErr ? (
@@ -57,7 +53,7 @@ export default function ViewCollection() {
           </Grid>
         )}
       </Grid>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

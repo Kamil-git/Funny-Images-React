@@ -8,8 +8,7 @@ const commentSchema = new mongoose.Schema(
       required: [true, "Collection is required"],
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required: [true, "User is required"],
     },
     description: {
@@ -17,8 +16,10 @@ const commentSchema = new mongoose.Schema(
       required: [true, "Comment is required"],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 )
 
-const Comment = mongoose.model('Comment', commentSchema)
+const Comment = mongoose.model("Comment", commentSchema)
 module.exports = Comment

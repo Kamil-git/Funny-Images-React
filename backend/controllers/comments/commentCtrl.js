@@ -1,17 +1,20 @@
 const asyncHandler = require("express-async-handler")
-const Item = require("../../model/Item/Item")
+
 const Comment = require("../../model/comment/Comment")
 const validateId = require("../utils/validateId")
 //create comment
 const createCommentCtrl = asyncHandler(async (req, res) => {
-  const user = req.user
-  const { collectionId, description } = req.body
 
+
+  const {userName, collectionId, description} = req.body
+  
+  
+  
   try {
     const comment = await Comment.create({
-      collection: collectionId,
-      user,
-      description,
+      collectionId: collectionId,
+      user:userName,
+      description:description,
     })
     res.json(comment)
     

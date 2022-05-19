@@ -12,14 +12,16 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
-import {TextField} from "@mui/material"
+import { TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
 import CollectionsIcon from "@mui/icons-material/Collections"
 import { useDispatch, useSelector } from "react-redux"
 import ViewCollectionItem from "./ViewCollectionItem"
-import { fetchCollectionItems } from "../../../redux/slices/collection/collectionSlice"
 
+import { useFormik } from "formik"
+import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
+import * as Yup from "yup"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -31,11 +33,14 @@ const ExpandMore = styled((props) => {
   }),
 }))
 
+const formSchema = Yup.object({
+  description: Yup.string().required(),
+})
 export default function ViewCollectionCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
   const [collectionItems, setCollectionItems] = React.useState(false)
-
+  const dispatch = useDispatch()
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
@@ -45,16 +50,28 @@ export default function ViewCollectionCard(props) {
   const handleCollectionItemsClick = () => {
     setCollectionItems(!collectionItems)
   }
-  const commentSubmitHandler = (e) =>{
-    e.preventDefault()
-  }
- 
 
+  const user = useSelector((state) => state.users)
+  const { userAuth } = user
 
+    const formik = useFormik({
+      initialValues: {
+        description: "",
+        userName: "",
+        collectionId: props?.collection?._id,
+      },
+      onSubmit: (values) => {
+        const data = {
+          description: values?.description,
+          userName: userAuth?.name,
+          collectionId: props?.collection?._id,
+        }
 
-  const username = props?.collection?.user.name
+        dispatch(createCommentAction(data))
+      },
+      validationSchema: formSchema,
+    })
   
-    
 
   return (
     <Card
@@ -69,7 +86,7 @@ export default function ViewCollectionCard(props) {
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {username?.trim(0, 1)}
+            {props.collection.user.name.trim(0, 1)}
           </Avatar>
         }
         action={<IconButton aria-label="settings"></IconButton>}
@@ -80,7 +97,12 @@ export default function ViewCollectionCard(props) {
           </Moment>
         }
       />
-      <CardMedia component="img" height="194" image={`${props?.collection.imageLink}`} alt="" />
+      <CardMedia
+        component="img"
+        height="194"
+        image={`${props?.collection.imageLink}`}
+        alt=""
+      />
       <CardContent>
         <Typography variant="body2" color="text.secondary"></Typography>
       </CardContent>
@@ -128,20 +150,24 @@ export default function ViewCollectionCard(props) {
       </Collapse>
       <Collapse in={comments} timeout="auto" unmountOnExit>
         <CardContent>
-          <form onSubmit={commentSubmitHandler}>
-            <TextField
-              sx={{ width: "85%" }}
-              id="standard-basic"
-              variant="standard"
-            ></TextField>
-            <IconButton type="submit">
-              <AddIcon />
-            </IconButton>
-          </form>
+          {userAuth ? (
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                value={formik.values.description}
+                onChange={formik.handleChange("description")}
+                onBlur={formik.handleBlur("description")}
+                sx={{ width: "85%" }}
+                variant="standard"
+              ></TextField>
+              <IconButton type="submit">
+                <AddIcon />
+              </IconButton>
+            </form>
+          ) : null}
 
-          {Array.from(Array(3)).map((_, index) => (
+          {props?.collection?.comments.map((comment, index) => (
             <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              User: Zajebista
+              {comment.user}:{comment.description}
             </Typography>
           ))}
         </CardContent>

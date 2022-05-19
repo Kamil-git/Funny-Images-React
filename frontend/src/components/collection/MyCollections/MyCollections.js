@@ -22,7 +22,7 @@ export default function MyCollections() {
   const stateCollection = useSelector((state) => state?.collection)
   const { isEdited, isDeleted } = stateCollection
   const itemState = useSelector((state)=> state?.item)
-  
+  const commentState = useSelector((state)=> state.comment)
 
   useEffect(() => {
     dispatch(fetchUsersCollection())
@@ -30,7 +30,7 @@ export default function MyCollections() {
     if (!userAuth || userAuth.isBlocked=== true) return navigate("/")
      
     
-  }, [isDeleted, isEdited, itemState.isDeleted, itemState.isCreated,userAuth,navigate,dispatch])
+  }, [isDeleted, isEdited, itemState.isDeleted, itemState.isCreated,userAuth,navigate,dispatch,commentState.isCreated])
   return (
     <div>
       <Navbar />

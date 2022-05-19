@@ -116,6 +116,7 @@ export const logoutAction = createAsyncThunk(
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       localStorage.removeItem("userInfo")
+      window.location.reload()
     } catch (error) {
       if (!error?.response) {
         throw error

@@ -52,23 +52,29 @@ export default function MyCollectionsCard(props) {
   const handleCollectionItemsClick = () => {
     setCollectionItems(!collectionItems)
   }
+  const user = useSelector(state => state.users)
+const {userAuth} = user
+
   const formik = useFormik({
     initialValues:{
       description:"",
+      userName:userAuth.name,
       collectionId:props?.collection?._id
     },
     onSubmit:(values)=> {
-      const data ={
-        description:values?.title,
-        collectionId:props?.collection?._id
+      const data = {
+        description: values?.description,
+        userName: userAuth.name,
+        collectionId: props?.collection?._id,
       }
+      
       dispatch(createCommentAction(data))
     },
     validationSchema:formSchema
   })
  
+ 
 
-const user = useSelector(state => state.users.userAuth.name)
 
 
 
@@ -85,7 +91,7 @@ const user = useSelector(state => state.users.userAuth.name)
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {user.trim(0, 1)}
+            {userAuth?.name.trim(0, 1)}
           </Avatar>
         }
         action={
@@ -140,12 +146,12 @@ const user = useSelector(state => state.users.userAuth.name)
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
             <TextField
-              sx={{ width: "85%" }}
-              id="standard-basic"
-              variant="standard"
               value={formik.values.description}
               onChange={formik.handleChange("description")}
               onBlur={formik.handleBlur("description")}
+              sx={{ width: "85%" }}
+              
+              variant="standard"
             ></TextField>
             <IconButton type="submit">
               <AddIcon />
@@ -154,7 +160,7 @@ const user = useSelector(state => state.users.userAuth.name)
 
           {props?.collection?.comments.map((comment, index) => (
             <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              {comment.description}
+              {comment.user}:{comment.description}
             </Typography>
           ))}
         </CardContent>
