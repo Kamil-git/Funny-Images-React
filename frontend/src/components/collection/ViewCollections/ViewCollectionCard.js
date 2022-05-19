@@ -134,11 +134,12 @@ export default function ViewCollectionCard(props) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>{props.collection?.tags}</Typography>
-        </CardContent>
-      </Collapse>
+      {props?.collection?.comments.map((comment, index) => (
+        <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
+          {comment.user}:{comment.description}
+        </Typography>
+      ))}
+
       <Collapse in={collectionItems} timeout="auto" unmountOnExit>
         {props?.collection.items.map((_, index) => (
           <div key={index}>
@@ -164,12 +165,11 @@ export default function ViewCollectionCard(props) {
               </IconButton>
             </form>
           ) : null}
-
-          {props?.collection?.comments.map((comment, index) => (
-            <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              {comment.user}:{comment.description}
-            </Typography>
-          ))}
+        </CardContent>
+      </Collapse>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>{props.collection?.tags}</Typography>
         </CardContent>
       </Collapse>
     </Card>
