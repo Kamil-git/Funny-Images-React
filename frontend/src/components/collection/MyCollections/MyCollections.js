@@ -36,7 +36,7 @@ export default function MyCollections() {
       <Navbar />
       <Grid container sx={{minHeight:"100vh"}}>
         {loading ? (
-          <CircularProgress />
+          <CircularProgress sx={{maxHeight:"200px"}}/>
         ) : appErr || serverErr ? (
           <Alert variant="outlined" severity="error">
             {appErr}
