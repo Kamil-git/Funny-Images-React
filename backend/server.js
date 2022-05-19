@@ -8,6 +8,7 @@ const itemRoutes = require("./routes/item/itemRoutes")
 const commentRoute = require('./routes/comment/commentRoute')
 const collectionRoutes = require('./routes/collection/collectionRoutes')
 const cors = require("cors")
+const path = require("path")
 dbConnect()
 //server
 const app = express()
