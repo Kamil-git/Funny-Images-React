@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material"
 import React from "react"
-
+import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
@@ -20,6 +20,8 @@ function Navbar() {
      i18next.changeLanguage("en")
    }
  }
+ const collection = useSelector((state) => state?.collection.collectionList)
+
   return (
     <div className="navbar navbar-expand-lg " style={{ marginBottom: "1rem" }}>
       <button
@@ -184,16 +186,9 @@ function Navbar() {
             <span className="nav-link">
               <UserIcon />
             </span>
-            <span className="nav-item">
-              <form>
-                <TextField
-                  sx={{ minWidth: "5rem", color: "inherit" }}
-                  variant="standard"
-                  fullWidth
-                  placeholder={t("Search")}
-                />
-              </form>
-            </span>
+            <div className="nav">
+              <SearchBar data={collection} />
+            </div>
           </div>
         </div>
       </div>
