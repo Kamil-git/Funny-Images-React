@@ -5,14 +5,17 @@ import CardMedia from "@mui/material/CardMedia"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import Typography from "@mui/material/Typography"
 
-import { CardActions, IconButton } from "@mui/material"
+import { Button, CardActions, Divider } from "@mui/material"
 
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { toggleAddLikesToItem } from "../../../redux/slices/items/itemsSlice"
 
 export default function ViewCollectionItem(props) {
   const item = props.items
-  const user = useSelector(state => state?.users)
-  const {userAuth} = user
+  const dispatch = useDispatch()
+
+  const user = useSelector((state) => state?.users)
+  const { userAuth } = user
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -29,10 +32,13 @@ export default function ViewCollectionItem(props) {
           {item.description}
         </Typography>
         <CardActions>
-        {userAuth? (<IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>) : (null)}
-          
+          {userAuth ? (
+            <Button onClick={() => dispatch(toggleAddLikesToItem(item._id))}>
+              <FavoriteIcon />
+              
+              {item.likes.length}
+            </Button>
+          ) : null}
         </CardActions>
       </CardContent>
     </Card>

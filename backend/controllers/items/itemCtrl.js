@@ -81,10 +81,47 @@ const deleteItemCtrl = asyncHandler(async (req, res) => {
   res.json("Delete")
 })
 
+const toggleAddLikeToItemCtrl = asyncHandler(async (req, res) => {
+  //1.Find the collection to be liked
+  const { itemId } = req.body
+  const item = await Item.findById(itemId)
+  //2. Find the login user
+  const loginUserId = req?.user?._id
+  //3. Find is this user has liked this item
+  console.log(loginUserId)
+  const isLiked = item?.isLiked
+  //4.Chech if this user has dislikes this item
+  
+  //Toggle
+  //Remove the user if he has liked the item
+  if (isLiked) {
+    const item = await Item.findByIdAndUpdate(
+      itemId,
+      {
+        $pull: { likes: loginUserId },
+        isLiked: false,
+      },
+      { new: true }
+    )
+    res.json(item)
+  } else {
+    //add to likes
+    const item = await Item.findByIdAndUpdate(
+      itemId,
+      {
+        $push: { likes: loginUserId },
+        isLiked: true,
+      },
+      { new: true }
+    )
+    res.json(item)
+  }
+})
+
 module.exports = {
   updateItemCtrl,
   createItemCtrl,
-
+  toggleAddLikeToItemCtrl,
   fetchItemsCtrl,
   fetchItemCtrl,
   deleteItemCtrl,

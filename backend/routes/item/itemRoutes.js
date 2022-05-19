@@ -1,7 +1,7 @@
 const express = require("express")
 const {
   createItemCtrl,
- 
+ toggleAddLikeToItemCtrl,
   fetchItemCtrl,
   fetchItemsCtrl,
   updateItemCtrl,
@@ -24,7 +24,7 @@ itemRoutes.post(
   createItemCtrl
     
 )
-
+itemRoutes.put("/like", authMiddleware, toggleAddLikeToItemCtrl)
 itemRoutes.get("/", fetchItemsCtrl)
 itemRoutes.get("/:id", fetchItemCtrl)
 itemRoutes.put("/:id", updateItemCtrl)

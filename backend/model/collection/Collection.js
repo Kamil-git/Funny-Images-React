@@ -17,26 +17,7 @@ const collectionSchema = new mongoose.Schema(
     tags: {
       type: String,
     },
-    isLiked: {
-      type: Boolean,
-      default: false,
-    },
-    isDisLiked: {
-      type: Boolean,
-      default: false,
-    },
-    likes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    disLikes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+
   },
 
   {
