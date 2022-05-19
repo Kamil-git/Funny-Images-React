@@ -14,7 +14,8 @@ export default function ViewCollection() {
 
   const { t } = useTranslation()
  
-
+const itemState = useSelector((state) => state?.item)
+const { likes } = itemState
 
   const collection = useSelector((state) => state?.collection)
 
@@ -22,7 +23,7 @@ export default function ViewCollection() {
   const commentState = useSelector((state) => state.comment)
   useEffect(() => {
     dispatch(fetchCollectionAction())
-  }, [dispatch, commentState.isCreated])
+  }, [dispatch, commentState.isCreated,likes])
   return (
     <div>
       <Navbar />

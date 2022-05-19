@@ -62,7 +62,7 @@ export default function CustomizedMenu(props) {
     setAnchorEl(null)
   }
 
- 
+ console.log(id)
   //how to display succesfull popup if deleted item
   // console.log(deletedCollection)
   

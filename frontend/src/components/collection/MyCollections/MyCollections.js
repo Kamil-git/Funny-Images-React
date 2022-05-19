@@ -30,7 +30,7 @@ export default function MyCollections() {
     if (!userAuth || userAuth.isBlocked=== true) return navigate("/")
      
     
-  }, [isDeleted, isEdited, itemState.isDeleted, itemState.isCreated,userAuth,navigate,dispatch,commentState.isCreated])
+  }, [isDeleted, isEdited, itemState.isDeleted, itemState.isCreated,itemState.likes,userAuth,navigate,dispatch,commentState.isCreated])
   return (
     <div>
       <Navbar />

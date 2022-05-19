@@ -16,6 +16,7 @@ export default function ViewCollectionItem(props) {
 
   const user = useSelector((state) => state?.users)
   const { userAuth } = user
+  
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
