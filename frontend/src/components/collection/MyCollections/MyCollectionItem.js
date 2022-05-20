@@ -19,7 +19,7 @@ export default function MyCollectionItem(props) {
   const { t } = useTranslation()
 
   return (
-    <Card sx={{ maxWidth: 345, m: 1 }}>
+    <Card sx={{ maxWidth: 350, bgcolor:"background.default" }}>
       <CardMedia
         component="img"
         alt=""

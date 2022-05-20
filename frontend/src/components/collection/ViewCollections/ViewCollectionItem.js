@@ -18,7 +18,7 @@ export default function ViewCollectionItem(props) {
   const { userAuth } = user
   
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 350, bgcolor:"background.default" }}>
       <CardMedia
         component="img"
         alt="green iguana"
