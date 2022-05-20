@@ -21,7 +21,7 @@ export const ToggleSwitch = () => {
         checked={theme?.darkTheme}
         onChange={() => dispatch(toggleTheme())}
       />
-      {theme === "light" ? <Brightness7 /> : <Brightness4 />}
+      {theme?.darkTheme ? <Brightness4 /> : <Brightness7 />}
     </div>
   )
 }

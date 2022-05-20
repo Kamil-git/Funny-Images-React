@@ -71,17 +71,18 @@ export default function ViewCollectionCard(props) {
       },
       validationSchema: formSchema,
     })
-  
+  const theme = useSelector((state) => state.theme)
 
   return (
     <Card
       sx={{
-        minWidth: 345,
+        minWidth: 350,
         maxHeight: "min-content",
         margin: "2rem",
-        backgroundColor: "unset",
-        color: "unset",
+        
+        
       }}
+      
     >
       <CardHeader
         avatar={
@@ -109,7 +110,7 @@ export default function ViewCollectionCard(props) {
       <CardActions disableSpacing>
         <Box>
           <ExpandMore
-            sx={{ backgroundColor: "unset" }}
+            
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
@@ -118,7 +119,7 @@ export default function ViewCollectionCard(props) {
           </ExpandMore>
         </Box>
         <ExpandMore
-          sx={{ backgroundColor: "unset" }}
+          
           expand={collectionItems}
           onClick={handleCollectionItemsClick}
           aria-expanded={collectionItems}

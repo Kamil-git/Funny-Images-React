@@ -24,7 +24,7 @@ export default function DarkModeSwitch() {
   }, [darkMode, preference])
 
   return (
-    <IconButton sx={{ ml: 1 }} onClick={() => swapStyle()} color="inherit">
+    <IconButton sx={{ ml: 1 }} onClick={() => swapStyle()} >
       {darkMode === "light" ? <Brightness7Icon /> : <Brightness4Icon />}
     </IconButton>
   )

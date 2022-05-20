@@ -1,11 +1,11 @@
 @import "~mdb-ui-kit/css/mdb.min.css";
-body.bootstrap-dark {
+/* body.bootstrap-dark {
   margin: 0;
   color: #c5c4c4;
   text-align: left;
   background-color: #283a4d;
 
-}
+} */
 .nav-link {
   color: inherit;
 }

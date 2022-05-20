@@ -10,33 +10,36 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { darkTheme, lightTheme } from "./redux/slices/theme/theme"
 import { ThemeProvider } from "@mui/material/styles"
+import { Paper } from "@mui/material"
 export default function App() {
   // get theme from store
   const theme = useSelector((state) => state.theme)
 
   return (
     <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />}></Route>
-          <Route
-            exact
-            path="/create-collection"
-            element={<CreateCollection />}
-          ></Route>
-          <Route exact path="/manage-users" element={<ManageUsers />}></Route>
-          <Route
-            exact
-            path="/view-collections"
-            element={<ViewCollection />}
-          ></Route>
-          <Route
-            exact
-            path="/my-collections"
-            element={<MyCollections />}
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+      <Paper>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Main />}></Route>
+            <Route
+              exact
+              path="/create-collection"
+              element={<CreateCollection />}
+            ></Route>
+            <Route exact path="/manage-users" element={<ManageUsers />}></Route>
+            <Route
+              exact
+              path="/view-collections"
+              element={<ViewCollection />}
+            ></Route>
+            <Route
+              exact
+              path="/my-collections"
+              element={<MyCollections />}
+            ></Route>
+          </Routes>
+        </BrowserRouter>
+      </Paper>
     </ThemeProvider>
   )
 }

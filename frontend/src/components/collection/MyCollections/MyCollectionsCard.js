@@ -84,8 +84,8 @@ const {userAuth} = user
         minWidth: 345,
         maxHeight: "100%",
         margin: "2rem",
-        backgroundColor: "unset",
-        color: "unset",
+        
+        
       }}
     >
       <CardHeader
@@ -115,7 +115,7 @@ const {userAuth} = user
       <CardActions disableSpacing>
         <Box>
           <ExpandMore
-            sx={{ backgroundColor: "unset" }}
+            
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
@@ -125,7 +125,7 @@ const {userAuth} = user
           </ExpandMore>
         </Box>
         <ExpandMore
-          sx={{ backgroundColor: "unset" }}
+          
           expand={collectionItems}
           onClick={handleCollectionItemsClick}
           aria-expanded={collectionItems}
