@@ -17,7 +17,7 @@ const { userAuth } = useSelector((state) => state.users)
   const open = Boolean(anchorEl)
 
   return (
-    <>
+    <div className="iconNav3">
       <Typography
       component="span"
         
@@ -50,6 +50,6 @@ const { userAuth } = useSelector((state) => state.users)
       >
         <Typography sx={{ p: 1 }}>{userAuth?.name}</Typography>
       </Popover>
-    </>
+    </div>
   )
 }

@@ -36,7 +36,11 @@
   .iconNav2 {
     position: absolute;
     top: 3%;
-    left:28%
+    left: 28%;
   }
-
+  .iconNav3 {
+    position: absolute;
+    top: 7%;
+    right: 5%;
+  }
 }
