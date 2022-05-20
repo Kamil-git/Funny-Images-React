@@ -1,24 +1,31 @@
 import { Autocomplete, TextField } from "@mui/material"
-import React from "react"
+import { useFormik } from "formik"
+import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 
 function SearchBar({ data }) {
   const { t } = useTranslation()
-  console.log(data)
+  const [s,se] = useState("")
   
+  const handleSubmit =(e) =>{
+    e.preventDefault()
+    console.log(s)
+  }
   return (
-    <form>
+
+    <form onSubmit={handleSubmit}>
       <Autocomplete
         sx={{ minWidth: "8rem" }}
         size="small"
         freeSolo
+        value={s}
+        onChange={(e) => se(e.target.value)}
         disableClearable
         options={data?.map((option) => option.name)}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Search"
-            
             fullWidth
             placeholder={t("Search")}
             InputProps={{
