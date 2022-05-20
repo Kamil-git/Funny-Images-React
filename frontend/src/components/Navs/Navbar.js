@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Container, Grid, TextField, Toolbar } from "@mui/material"
+import { AppBar, Box, Button, ButtonGroup, Container, Grid, Stack, TextField, Toolbar } from "@mui/material"
 import React, { useContext } from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
@@ -33,7 +33,7 @@ function Navbar() {
       }}
       className="navbar navbar-expand-lg "
     >
-      <Button
+      <ButtonGroup
         className="navbar-toggler"
         type="button"
         data-mdb-toggle="collapse"
@@ -43,9 +43,9 @@ function Navbar() {
         aria-label="Toggle navigation"
       >
         <MenuIcon />
-      </Button>
-      <Box className="collapse navbar-collapse p-1" id="navbarTogglerDemo01">
-        <Box className="container-fluid navbar-nav">
+      </ButtonGroup>
+      <Box className="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <Stack minWidth="100%" className="navbar-nav">
           <Box className="d-flex" style={{ flexBasis: "100%" }}>
             <Box className="iconNav">
               <ToggleSwitch />
@@ -88,7 +88,10 @@ function Navbar() {
 
           <Box className="d-flex wraplist">
             {userAuth?.isAdmin ? (
-              <Box className="nav-item dropdown">
+              <Box
+                className="nav-item dropdown"
+                sx={{ maxWidth: "max-content", ml: 1 }}
+              >
                 <Link
                   to=""
                   className="nav-link dropdown-toggle"
@@ -112,8 +115,11 @@ function Navbar() {
               </Box>
             ) : null}
             {userAuth ? (
-              <>
-                <Box className="nav-item dropdown">
+              <Box>
+                <Box
+                  className="nav-item dropdown"
+                  sx={{ maxWidth: "max-content", ml: 1 }}
+                >
                   <Link
                     to=""
                     className="nav-link dropdown-toggle"
@@ -145,7 +151,10 @@ function Navbar() {
                     </Box>
                   </Box>
                 </Box>
-                <Box className="nav-item">
+                <Box
+                  className="nav-item"
+                  sx={{ maxWidth: "max-content", ml: 1 }}
+                >
                   <Box
                     className="nav-link"
                     onClick={() =>
@@ -157,9 +166,9 @@ function Navbar() {
                     {t("Logout")}
                   </Box>
                 </Box>
-              </>
+              </Box>
             ) : (
-              <>
+              <Box sx={{ maxWidth: "max-content", ml: 1 }}>
                 <Box className="nav-item dropdown">
                   <Link
                     to=""
@@ -187,7 +196,7 @@ function Navbar() {
                     {t("Register")}
                   </Link>
                 </Box>
-              </>
+              </Box>
             )}
             <Box className="nav-link">
               <UserIcon />
@@ -197,7 +206,7 @@ function Navbar() {
               <SearchBar data={collection} />
             </Box>
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </Box>
   )

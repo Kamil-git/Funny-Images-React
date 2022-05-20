@@ -44,3 +44,10 @@
     right: 5%;
   }
 }
+@media only screen and (max-width: 500px) {
+  .iconNav2 {
+    position: absolute;
+    top: 3%;
+    left: 35%;
+  }
+}
