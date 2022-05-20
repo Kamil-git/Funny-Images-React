@@ -1,38 +1,39 @@
-import { Box, TextField } from "@mui/material"
+import { AppBar, Box, Button, Container, Grid, TextField, Toolbar } from "@mui/material"
 import React, { useContext } from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
 import { useTranslation } from "react-i18next"
-import DarkModeSwitch from "./DarkModeSwitch"
+
 import UserIcon from "./NavIcons/UserIcon"
 import i18next from "i18next"
 import { ToggleSwitch } from "./ToggleSwitch"
-
+import MenuIcon from '@mui/icons-material/Menu';
 function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
-  const {t} = useTranslation()
- const switchLanguage=()=> {
-   if(i18next.language === "en"){
-    return i18next.changeLanguage("pl")
-   } else {
-     i18next.changeLanguage("en")
-   }
- }
- 
- const collection = useSelector((state) => state?.collection.collectionList)
+  const { t } = useTranslation()
+  const switchLanguage = () => {
+    if (i18next.language === "en") {
+      return i18next.changeLanguage("pl")
+    } else {
+      i18next.changeLanguage("en")
+    }
+  }
 
+  const collection = useSelector((state) => state?.collection.collectionList)
 
   return (
     <Box
-    sx={{ bgcolor: "background.default", color: "text.primary" }}
+      sx={{
+        bgcolor: "background.default",
+        color: "text.primary",
+      }}
       className="navbar navbar-expand-lg "
-      
     >
-      <button
+      <Button
         className="navbar-toggler"
         type="button"
         data-mdb-toggle="collapse"
@@ -41,18 +42,17 @@ function Navbar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <i className="fas fa-bars"></i>
-      </button>
-      <div className="collapse navbar-collapse p-1" id="navbarTogglerDemo01">
-        <div className="container-fluid navbar-nav">
-          <div className="d-flex" style={{ flexBasis: "100%" }}>
-            <span>
-              {/* <DarkModeSwitch/>
-               */}
-               <ToggleSwitch/>
-            </span>
-            <div className="nav-item dropdown ">
-              <span
+        <MenuIcon />
+      </Button>
+      <Box className="collapse navbar-collapse p-1" id="navbarTogglerDemo01">
+        <Box className="container-fluid navbar-nav">
+          <Box className="d-flex" style={{ flexBasis: "100%" }}>
+            <Box className="iconNav">
+              <ToggleSwitch />
+            </Box>
+
+            <Box className="nav-item dropdown iconNav2">
+              <Box
                 className="nav-link dropdown-toggle text-reset"
                 to="#"
                 id="navbarDropdown"
@@ -61,9 +61,9 @@ function Navbar() {
                 aria-expanded="false"
               >
                 <i className="flag-united-kingdom flag m-0"></i>
-              </span>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <span>
+              </Box>
+              <Box className="dropdown-menu " aria-labelledby="navbarDropdown">
+                <Box>
                   <p className="dropdown-item" onClick={() => switchLanguage()}>
                     <i className="flag-united-kingdom flag"></i>
                     {t("English")}
@@ -71,12 +71,9 @@ function Navbar() {
                       <i className="fa fa-check text-success ms-2"></i>
                     ) : null}
                   </p>
-                </span>
+                </Box>
 
-                <span>
-                  <hr className="dropdown-divider" />
-                </span>
-                <span>
+                <Box>
                   <p className="dropdown-item" onClick={() => switchLanguage()}>
                     <i className="flag-poland flag"></i>
                     {t("Polish")}
@@ -84,17 +81,17 @@ function Navbar() {
                       <i className="fa fa-check text-success ms-2"></i>
                     ) : null}
                   </p>
-                </span>
-              </div>
-            </div>
-          </div>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
 
-          <div className="d-flex">
+          <Box className="d-flex wraplist">
             {userAuth?.isAdmin ? (
-              <div className="nav-item dropdown">
+              <Box className="nav-item dropdown">
                 <Link
                   to=""
-                  className="nav-link dropdown-toggle text-reset"
+                  className="nav-link dropdown-toggle"
                   id="navbarDropdownMenuspannk"
                   role="button"
                   data-mdb-toggle="dropdown"
@@ -102,24 +99,24 @@ function Navbar() {
                 >
                   Admin
                 </Link>
-                <span
-                  className="dropdown-menu text-reset"
+                <Box
+                  className="dropdown-menu"
                   aria-labelledby="navbarDropdownMenuspannk"
                 >
-                  <span className="dropdown-item">
+                  <Box className="dropdown-item">
                     <Link to="/manage-users" className="nav-link">
                       {t("Manage_Users")}
                     </Link>
-                  </span>
-                </span>
-              </div>
+                  </Box>
+                </Box>
+              </Box>
             ) : null}
             {userAuth ? (
               <>
-                <div className="nav-item dropdown">
+                <Box className="nav-item dropdown">
                   <Link
                     to=""
-                    className="nav-link dropdown-toggle text-reset"
+                    className="nav-link dropdown-toggle"
                     id="navbarDropdownMenuLink"
                     role="button"
                     data-mdb-toggle="dropdown"
@@ -127,31 +124,30 @@ function Navbar() {
                   >
                     {t("Collection")}
                   </Link>
-                  <span
-                    className="dropdown-menu text-reset"
+                  <Box
+                    className="dropdown-menu"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <span className="dropdown-item">
+                    <Box className="dropdown-item">
                       <Link to="/create-collection" className="nav-link">
                         {t("Create_Collection")}
                       </Link>
-                    </span>
-                    <span className="dropdown-item">
+                    </Box>
+                    <Box className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
                         {t("View_Collections")}
                       </Link>
-                    </span>
-                    <span className="dropdown-item">
+                    </Box>
+                    <Box className="dropdown-item">
                       <Link to="/my-collections" className="nav-link">
                         {t("My_Collections")}
                       </Link>
-                    </span>
-                  </span>
-                </div>
-                <div className="nav-item">
-                  <span
-                    className="nav-link text-reset"
-                    type="button"
+                    </Box>
+                  </Box>
+                </Box>
+                <Box className="nav-item">
+                  <Box
+                    className="nav-link"
                     onClick={() =>
                       dispatch(logoutAction()).then(() => {
                         navigate("/")
@@ -159,15 +155,15 @@ function Navbar() {
                     }
                   >
                     {t("Logout")}
-                  </span>
-                </div>
+                  </Box>
+                </Box>
               </>
             ) : (
               <>
-                <div className="nav-item dropdown">
+                <Box className="nav-item dropdown">
                   <Link
                     to=""
-                    className="nav-link dropdown-toggle text-reset"
+                    className="nav-link dropdown-toggle"
                     id="navbarDropdownMenuLink"
                     role="button"
                     data-mdb-toggle="dropdown"
@@ -175,33 +171,34 @@ function Navbar() {
                   >
                     {t("Collection")}
                   </Link>
-                  <span
-                    className="dropdown-menu text-reset"
+                  <Box
+                    className="dropdown-menu"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <span className="dropdown-item">
+                    <Box className="dropdown-item">
                       <Link to="/view-collections" className="nav-link">
                         {t("View_Collections")}
                       </Link>
-                    </span>
-                  </span>
-                </div>
-                <span className="nav-item">
-                  <Link className="nav-link text-reset" to="/">
+                    </Box>
+                  </Box>
+                </Box>
+                <Box className="nav-item">
+                  <Link className="nav-link" to="/">
                     {t("Register")}
                   </Link>
-                </span>
+                </Box>
               </>
             )}
-            <span className="nav-link">
+            <Box className="nav-link">
               <UserIcon />
-            </span>
-            <div className="nav">
+            </Box>
+
+            <Box>
               <SearchBar data={collection} />
-            </div>
-          </div>
-        </div>
-      </div>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   )
 }

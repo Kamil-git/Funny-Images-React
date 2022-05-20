@@ -7,7 +7,7 @@ import {
   loginUserAction,
   registerUserAction,
 } from "../redux/slices/users/usersSlices"
-import DarkModeSwitch from "../components/Navs/DarkModeSwitch"
+
 import {
   Alert,
   Button,
@@ -18,11 +18,9 @@ import {
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import GitHubIcon from "@mui/icons-material/GitHub"
-import LinkedInIcon from "@mui/icons-material/LinkedIn"
 import TwitterIcon from "@mui/icons-material/Twitter"
 import FacebookIcon from "@mui/icons-material/Facebook"
 import GoogleIcon from "@mui/icons-material/Google"
-import InstagramIcon from "@mui/icons-material/Instagram"
 import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
 //register schema
 const formSchema = Yup.object({
@@ -38,7 +36,7 @@ const loginSchema = Yup.object({
 })
 
 function Main() {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   //dispatch
   const dispatch = useDispatch()
@@ -77,9 +75,8 @@ function Main() {
     if (userAuth && !userAuth.isBlocked) {
       navigate("/view-collections")
     }
-    if(registered){
+    if (registered) {
       window.location.reload()
-
     }
     return () => {}
   }, [navigate, userAuth, registered])
