@@ -17,7 +17,13 @@ import {
   ToggleButtonGroup,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
-
+import GitHubIcon from "@mui/icons-material/GitHub"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import GoogleIcon from "@mui/icons-material/Google"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
 //register schema
 const formSchema = Yup.object({
   name: Yup.string().required("First Name is required"),
@@ -127,25 +133,36 @@ function Main() {
             id="login"
             role="tabpanel"
             aria-labelledby="login-tab"
-            
           >
             <form onSubmit={formikLogin.handleSubmit}>
               <div className="text-center mb-4">
                 <p>{t("Sign_in_with")}:</p>
-                <Link to="#" className="btn  btn-floating mx-1">
-                  <i className="fab fa-facebook-f"></i>
+                <Link to="#">
+                  <FacebookIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
                 </Link>
 
-                <Link to="#" className="btn  btn-floating mx-1">
-                  <i className="fab fa-google"></i>
+                <Link to="#">
+                  <GoogleIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
                 </Link>
 
-                <Link to="#" className="btn  btn-floating mx-1">
-                  <i className="fab fa-twitter"></i>
+                <Link to="#">
+                  <TwitterIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
                 </Link>
 
-                <Link to="#" className="btn  btn-floating mx-1">
-                  <i className="fab fa-github"></i>
+                <Link to="#">
+                  <GitHubIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
                 </Link>
               </div>
 
@@ -205,9 +222,13 @@ function Main() {
 
               <div className="text-center">
                 <p>
-                  <DarkModeSwitch />
+                  <ToggleSwitch />
                   {t("Not_a_member")}?
-                  <Link className="text-reset" to="/view-collections">
+                  <Link
+                    className="text-reset"
+                    style={{ textDecorationLine: "underline" }}
+                    to="/view-collections"
+                  >
                     {t("Continue")}
                   </Link>
                 </p>
@@ -224,21 +245,33 @@ function Main() {
             <form onSubmit={formik.handleSubmit}>
               <div className="text-center mb-3">
                 <p>{t("Sign_up_with")}:</p>
-                <button type="button" className="btn btn-floating mx-1">
-                  <i className="fab fa-facebook-f"></i>
-                </button>
+                <Link to="">
+                  <FacebookIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
+                </Link>
 
-                <button type="button" className="btn btn-floating mx-1">
-                  <i className="fab fa-google"></i>
-                </button>
+                <Link to="">
+                  <GoogleIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
+                </Link>
 
-                <button type="button" className="btn btn-floating mx-1">
-                  <i className="fab fa-twitter"></i>
-                </button>
+                <Link to="">
+                  <TwitterIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
+                </Link>
 
-                <button type="button" className="btn btn-floating mx-1">
-                  <i className="fab fa-github"></i>
-                </button>
+                <Link to="">
+                  <GitHubIcon
+                    fontSize="large"
+                    sx={{ color: "text.secondary", m: 0.5 }}
+                  />
+                </Link>
               </div>
 
               <p className="text-center">or:</p>
@@ -315,6 +348,19 @@ function Main() {
                   {serverErr}
                 </Alert>
               ) : null}
+              <div className="text-center">
+                <p>
+                  <ToggleSwitch />
+                  {t("Not_a_member")}?
+                  <Link
+                    className="text-reset "
+                    style={{ textDecorationLine: "underline" }}
+                    to="/view-collections"
+                  >
+                    {t("Continue")}
+                  </Link>
+                </p>
+              </div>
             </form>
           </div>
         </div>

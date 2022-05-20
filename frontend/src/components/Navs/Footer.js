@@ -1,41 +1,51 @@
 
 import React from "react"
 import { Link } from "react-router-dom"
-
+import GitHubIcon from "@mui/icons-material/GitHub"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import FacebookIcon from "@mui/icons-material/Facebook"
+import GoogleIcon from "@mui/icons-material/Google"
+import InstagramIcon from '@mui/icons-material/Instagram';
+import { Box } from "@mui/material"
 function Footer() {
   return (
-   
-      <div id="Footer" className="container p-4 pb-0">
-        <section className="mb-4 text-center">
-          <Link className="btn  btn-floating m-1" to="#" role="button">
-            <i className="fab fa-facebook-f"></i>
-          </Link>
+    <Box
+      sx={{
+        display: "flex",
+        textAlign: "center",
+        flexDirection: "column",
+        justifyContent: "center",
+        flexWrap: "wrap",
+      }}
+    >
+      <Box sx={{ m: 1 }}>
+        <Link to="#" role="button">
+          <FacebookIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
 
-          <Link className="btn  btn-floating m-1" to="#" role="button">
-            <i className="fab fa-twitter"></i>
-          </Link>
+        <Link to="#" role="button">
+          <TwitterIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
 
-          <Link className="btn  btn-floating m-1" to="#" role="button">
-            <i className="fab fa-google"></i>
-          </Link>
+        <Link to="#" role="button">
+          <GoogleIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
 
-          <Link className="btn  btn-floating m-1" to="#" role="button">
-            <i className="fab fa-instagram"></i>
-          </Link>
+        <Link to="#" role="button">
+          <InstagramIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
 
-          <Link className="btn  btn-floating m-1" to="#" role="button">
-            <i className="fab fa-linkedin-in"></i>
-          </Link>
+        <Link to="#" role="button">
+          <LinkedInIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
 
-          <Link className="btn  btn-floating m-1" to="" role="button">
-            <i className="fab fa-github"></i>
-          </Link>
-        </section>
-        <div className="text-center p-3" style={{ color: "inherit" }}>
-          © 2022 Copyright: Kamil Kwiatkowski
-        </div>
-      </div>
-    
+        <Link to="" role="button">
+          <GitHubIcon fontSize="large" sx={{ color: "text.secondary" }} />
+        </Link>
+      </Box>
+      <Box sx={{ m: 1 }}>© 2022 Copyright: Kamil Kwiatkowski</Box>
+    </Box>
   )
 }
 
