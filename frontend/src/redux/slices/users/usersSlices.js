@@ -270,6 +270,7 @@ const usersSlices = createSlice({
   name: "users",
   initialState: {
     userAuth: userLoginFromStorage,
+    
   },
   extraReducers: (builder) => {
     //register

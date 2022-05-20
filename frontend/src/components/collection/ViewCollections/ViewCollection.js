@@ -29,16 +29,20 @@ const { likes } = itemState
       <Navbar />
       <Grid container sx={{ minHeight: "100vh", justifyContent: "center" }}>
         {loading ? (
-          <CircularProgress />
+          <div>
+            <CircularProgress sx={{alignSelf:"center"}} />
+          </div>
         ) : appErr || serverErr ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px",width:"400px" }}
-          >
-            {appErr}
-            {serverErr}
-          </Alert>
+          <div>
+            <Alert
+              variant="outlined"
+              severity="error"
+              sx={{ maxHeight: "200px", width: "400px" }}
+            >
+              {appErr}
+              {serverErr}
+            </Alert>
+          </div>
         ) : collectionList?.length <= 0 ? (
           <h2>{t("No_collection_found")}</h2>
         ) : (

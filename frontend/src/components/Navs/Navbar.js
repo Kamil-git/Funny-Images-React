@@ -1,5 +1,5 @@
-import { TextField } from "@mui/material"
-import React from "react"
+import { Box, TextField } from "@mui/material"
+import React, { useContext } from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next"
 import DarkModeSwitch from "./DarkModeSwitch"
 import UserIcon from "./NavIcons/UserIcon"
 import i18next from "i18next"
+import { ToggleSwitch } from "./ToggleSwitch"
+
 function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -20,10 +22,16 @@ function Navbar() {
      i18next.changeLanguage("en")
    }
  }
+ 
  const collection = useSelector((state) => state?.collection.collectionList)
 
+
   return (
-    <div className="navbar navbar-expand-lg " style={{ marginBottom: "1rem" }}>
+    <Box
+    sx={{ bgcolor: "background.default", color: "text.primary" }}
+      className="navbar navbar-expand-lg "
+      
+    >
       <button
         className="navbar-toggler"
         type="button"
@@ -39,7 +47,9 @@ function Navbar() {
         <div className="container-fluid navbar-nav">
           <div className="d-flex" style={{ flexBasis: "100%" }}>
             <span>
-              <DarkModeSwitch />
+              {/* <DarkModeSwitch/>
+               */}
+               <ToggleSwitch/>
             </span>
             <div className="nav-item dropdown ">
               <span
@@ -192,7 +202,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   )
 }
 

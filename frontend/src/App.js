@@ -3,22 +3,19 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Main from "./page/Main"
 
 import ManageUsers from "./components/admin/ManageUsers"
-import CreateCollection from './components/collection/CreateCollection'
+import CreateCollection from "./components/collection/CreateCollection"
 import ViewCollection from "./components/collection/ViewCollections/ViewCollection"
 import MyCollections from "./components/collection/MyCollections/MyCollections"
+import { useDispatch, useSelector } from "react-redux"
 
-
-
-
-
-
-
-function App() {
-  
-
+import { darkTheme, lightTheme } from "./redux/slices/theme/theme"
+import { ThemeProvider } from "@mui/material/styles"
+export default function App() {
+  // get theme from store
+  const theme = useSelector((state) => state.theme)
 
   return (
-   
+    <ThemeProvider theme={theme.darkTheme ? darkTheme : lightTheme}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />}></Route>
@@ -40,8 +37,6 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
-    
+    </ThemeProvider>
   )
 }
-
-export default App
