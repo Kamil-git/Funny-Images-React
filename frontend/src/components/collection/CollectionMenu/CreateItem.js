@@ -16,7 +16,7 @@ import { createItemAction } from "../../../redux/slices/items/itemsSlice"
 import { useTranslation } from "react-i18next"
 const formSchema = Yup.object({
   title: Yup.string().required("title is required"),
-  description: Yup.string().required("description is required"),
+  description: Yup.string(),
 
   itemImg: Yup.string().required("image is required"),
 })
@@ -27,10 +27,10 @@ export default function CreateItem(props) {
   const { t } = useTranslation()
   //------collection id
   const id = props.collection.collection.id
-  const userId = props.collection.collection.user._id
+  const userId = props.collection.collection.user
 
-//  console.log(props.collection.collection.user._id)
-//  console.log(props.collection.collection.id)
+console.log(id)
+console.log(userId)
 
   const formik = useFormik({
     initialValues: {
