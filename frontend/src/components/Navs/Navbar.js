@@ -115,7 +115,7 @@ function Navbar() {
               </Box>
             ) : null}
             {userAuth ? (
-              <Box>
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <Box
                   className="nav-item dropdown"
                   sx={{ maxWidth: "max-content", ml: 1 }}
@@ -155,7 +155,8 @@ function Navbar() {
                   className="nav-item"
                   sx={{ maxWidth: "max-content", ml: 1 }}
                 >
-                  <Box
+                  <Link
+                    to=""
                     className="nav-link"
                     onClick={() =>
                       dispatch(logoutAction()).then(() => {
@@ -164,11 +165,11 @@ function Navbar() {
                     }
                   >
                     {t("Logout")}
-                  </Box>
+                  </Link>
                 </Box>
               </Box>
             ) : (
-              <Box sx={{ maxWidth: "max-content", ml: 1 }}>
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <Box className="nav-item dropdown">
                   <Link
                     to=""
@@ -202,7 +203,7 @@ function Navbar() {
               <UserIcon />
             </Box>
 
-            <Box>
+            <Box sx={{mr:1}}>
               <SearchBar data={collection} />
             </Box>
           </Box>
