@@ -6,12 +6,13 @@ import MenuItem from "@mui/material/MenuItem"
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import { ButtonGroup, IconButton } from "@mui/material"
-import EditCollection from "./EditCollection"
-import { useDispatch } from "react-redux"
-import CreateItem from "./CreateItem"
 
-import { deleteCollectionAction } from "../../../redux/slices/collection/collectionSlice"
+import { useDispatch } from "react-redux"
+
+import { deleteCollectionAction } from "../../../../redux/slices/collection/collectionSlice"
 import { useTranslation } from "react-i18next"
+import AdminCreateItem from "./AdminCreateItem"
+import AdminEditMenu from "./AdminEditMenu"
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -47,7 +48,7 @@ const StyledMenu = styled((props) => (
   },
 }))
 
-export default function CustomizedMenu(props) {
+export default function AdminCardMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const { t } = useTranslation()
@@ -65,8 +66,7 @@ export default function CustomizedMenu(props) {
   const collectionId = props.collection.collection._id
   //delete string to server
   const deleteString = `${userId},${collectionId}`
-console.log(userId)
-console.log(collectionId)
+ 
   return (
     <div>
       <ButtonGroup
@@ -90,16 +90,17 @@ console.log(collectionId)
         onClose={handleClose}
       >
         <MenuItem disableRipple>
-          <EditCollection collection={props} />
+          <AdminEditMenu collection={props} />
         </MenuItem>
         <MenuItem disableRipple>
-          <CreateItem collection={props.collection} />
+          <AdminCreateItem collection={props.collection} />
         </MenuItem>
-        <MenuItem onClick={handleClose} disableRipple>
+        <MenuItem
+          onClick={() => dispatch(deleteCollectionAction(deleteString))}
+          disableRipple
+        >
           <ButtonGroup>
-            <ArchiveIcon
-              onClick={() => dispatch(deleteCollectionAction(deleteString))}
-            />
+            <ArchiveIcon />
             {t("Delete")}
           </ButtonGroup>
         </MenuItem>

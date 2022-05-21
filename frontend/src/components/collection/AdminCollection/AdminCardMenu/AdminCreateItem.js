@@ -8,10 +8,10 @@ import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state"
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos"
 import Dropzone from "react-dropzone"
 import { ButtonGroup, IconButton, TextField } from "@mui/material"
-import { useDispatch} from "react-redux"
+import { useDispatch } from "react-redux"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { createItemAction } from "../../../redux/slices/items/itemsSlice"
+import { createItemAction } from "../../../../redux/slices/items/itemsSlice"
 
 import { useTranslation } from "react-i18next"
 const formSchema = Yup.object({
@@ -21,15 +21,15 @@ const formSchema = Yup.object({
   itemImg: Yup.string().required("image is required"),
 })
 
-export default function CreateItem(props) {
+export default function AdminCreateItem(props) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
   //------collection id
   const id = props.collection.collection.id
-  const userId = props.collection.collection.user
+  const userId = props.collection.collection.user.id
 
-
+  
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +45,7 @@ export default function CreateItem(props) {
         collectionId: id,
         description: values?.description,
         itemImg: values?.itemImg,
-        userId:userId
+        userId: userId,
       }
 
       dispatch(createItemAction(data))

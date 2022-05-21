@@ -23,6 +23,8 @@ import * as Yup from "yup"
 import { useFormik } from "formik"
 import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
 import AdminCollectionItem from "./AdminCollectionItem"
+import AdminEditMenu from "./AdminCardMenu/AdminEditMenu"
+import AdminCardMenu from "./AdminCardMenu/AdminCardMenu"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -91,7 +93,7 @@ export default function AdminCollectionCard(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <CustomizedMenu collection={props} />
+            <AdminCardMenu collection={props} />
           </IconButton>
         }
         title={`${props.collection.name}`}
