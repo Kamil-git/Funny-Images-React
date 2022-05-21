@@ -3,13 +3,14 @@ import Footer from "../../Navs/Footer"
 import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchUsersCollection } from "../../../redux/slices/users/usersSlices"
+
 import { Alert, CircularProgress } from "@mui/material"
-import MyCollectionsCard from "./MyCollectionsCard"
+import AdminCollectionCard from "./AdminCollectionCard"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { fetchCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 
-export default function MyCollections() {
+export default function AdminCollection() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -18,14 +19,14 @@ export default function MyCollections() {
 
   const { userCollections, loading, appErr, serverErr, userAuth } = users
   const stateCollection = useSelector((state) => state?.collection)
-  const { isEdited, isDeleted } = stateCollection
+  const { isEdited, isDeleted, collectionList } = stateCollection
   const itemState = useSelector((state) => state?.item)
   const commentState = useSelector((state) => state.comment)
-
+ 
   useEffect(() => {
-    dispatch(fetchUsersCollection())
+    dispatch(fetchCollectionAction())
 
-    if (!userAuth || userAuth.isBlocked === true) return navigate("/")
+    if (!userAuth || userAuth.isBlocked || !userAuth.isAdmin) return navigate("/")
   }, [
     isDeleted,
     isEdited,
@@ -62,22 +63,8 @@ export default function MyCollections() {
               {serverErr}
             </Alert>
           </div>
-        ) : serverErr || appErr || !Array.isArray(userCollections) ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
-            {t("No_collection_found")}
-          </Alert>
         ) : userCollections?.length <= 0 ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
-            {t("No_collection_found")}
-          </Alert>
+          <h2>{t("No_collection_found")}</h2>
         ) : (
           <Grid
             justifyContent="center"
@@ -85,11 +72,11 @@ export default function MyCollections() {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {userCollections?.map((_, index) => (
+            {collectionList?.map((_, index) => (
               <div key={index}>
-                <MyCollectionsCard
-                  collection={userCollections[index]}
-                ></MyCollectionsCard>
+                <AdminCollectionCard
+                  collection={collectionList[index]}
+                ></AdminCollectionCard>
               </div>
             ))}
           </Grid>

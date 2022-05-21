@@ -6,14 +6,13 @@ import { baseUrl } from "../../../utils/baseURL"
 
 //action to redirect
 const resetItem = createAction("category/reset")
-const resetItemEdit = createAction("item/reset")
+
 const resetItemDelete = createAction("item/delete")
 
 //Create
 export const createItemAction = createAsyncThunk(
   "item/created",
   async (item, { rejectWithValue, getState, dispatch }) => {
-    
     //get user token
     const user = getState()?.users
     const { userAuth } = user
@@ -23,52 +22,22 @@ export const createItemAction = createAsyncThunk(
       },
     }
     try {
-      
       //http call
       const formData = new FormData()
       formData.append("title", item?.title)
       formData.append("description", item?.description)
       formData.append("collectionId", item?.collectionId)
       formData.append("itemImg", item?.itemImg)
-      
+      formData.append("userId", item?.userId)
+
       const { data } = await axios.post(
         `${baseUrl}/api/items`,
         formData,
         config
       )
-     
-      dispatch(resetItem())
-      
-      return data
-    } catch (error) {
-      if (!error?.response) throw error
-      return rejectWithValue(error?.response?.data)
-    }
-  }
-)
 
-//Update
-export const updateItemAction = createAsyncThunk(
-  "item/updated",
-  async (item, { rejectWithValue, getState, dispatch }) => {
-    
-    //get user token
-    const user = getState()?.users
-    const { userAuth } = user
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userAuth?.token}`,
-      },
-    }
-    try {
-      //http call
-      const { data } = await axios.put(
-        `${baseUrl}/api/items/${item?.id}`,
-        item,
-        config
-      )
-      //dispatch
-      dispatch(resetItemEdit())
+      dispatch(resetItem())
+
       return data
     } catch (error) {
       if (!error?.response) throw error
@@ -80,7 +49,8 @@ export const updateItemAction = createAsyncThunk(
 //Delete
 export const deleteItemAction = createAsyncThunk(
   "item/delete",
-  async (itemId, { rejectWithValue, getState, dispatch }) => {
+  async (deleteString, { rejectWithValue, getState, dispatch }) => {
+    
     //get user token
     const user = getState()?.users
     const { userAuth } = user
@@ -92,40 +62,11 @@ export const deleteItemAction = createAsyncThunk(
     try {
       //http call
       const { data } = await axios.delete(
-        `${baseUrl}/api/items/${itemId}`,
+        `${baseUrl}/api/items/${deleteString}`,
         config
       )
       //dispatch
       dispatch(resetItemDelete())
-      return data
-    } catch (error) {
-      if (!error?.response) throw error
-      return rejectWithValue(error?.response?.data)
-    }
-  }
-)
-
-//fetch all items
-export const fetchItemsAction = createAsyncThunk(
-  "item/list",
-  async (collectionId, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await axios.get(
-        `${baseUrl}/api/items?collection=${collectionId}`
-      )
-      return data
-    } catch (error) {
-      if (!error?.response) throw error
-      return rejectWithValue(error?.response?.data)
-    }
-  }
-)
-//fetch item details
-export const fetchItemDetailsAction = createAsyncThunk(
-  "item/detail",
-  async (id, { rejectWithValue, getState, dispatch }) => {
-    try {
-      const { data } = await axios.get(`${baseUrl}/api/items/${id}`)
       return data
     } catch (error) {
       if (!error?.response) throw error
@@ -139,28 +80,28 @@ export const toggleAddLikesToItem = createAsyncThunk(
   "item/like",
   async (itemId, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    const user = getState()?.users;
-    const { userAuth } = user;
+    const user = getState()?.users
+    const { userAuth } = user
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
       },
-    };
-    
+    }
+
     try {
       const { data } = await axios.put(
         `http://localhost:5000/api/items/like`,
         { itemId },
         config
-      );
+      )
 
-      return data;
+      return data
     } catch (error) {
-      if (!error?.response) throw error;
-      return rejectWithValue(error?.response?.data);
+      if (!error?.response) throw error
+      return rejectWithValue(error?.response?.data)
     }
   }
-);
+)
 
 //slice
 const itemSlice = createSlice({
@@ -187,26 +128,6 @@ const itemSlice = createSlice({
       state.serverErr = action?.error?.message
     })
 
-    //Update item
-    builder.addCase(updateItemAction.pending, (state, action) => {
-      state.loading = true
-    })
-    builder.addCase(resetItemEdit, (state, action) => {
-      state.isUpdated = true
-    })
-    builder.addCase(updateItemAction.fulfilled, (state, action) => {
-      state.itemUpdated = action?.payload
-      state.loading = false
-      state.appErr = undefined
-      state.serverErr = undefined
-      state.isUpdated = false
-    })
-    builder.addCase(updateItemAction.rejected, (state, action) => {
-      state.loading = false
-      state.appErr = action?.payload?.message
-      state.serverErr = action?.error?.message
-    })
-
     //Delete item
     builder.addCase(deleteItemAction.pending, (state, action) => {
       state.loading = true
@@ -227,41 +148,10 @@ const itemSlice = createSlice({
       state.serverErr = action?.error?.message
     })
 
-    //fetch items
-    builder.addCase(fetchItemsAction.pending, (state, action) => {
-      state.loading = true
-    })
-    builder.addCase(fetchItemsAction.fulfilled, (state, action) => {
-      state.itemLists = action?.payload
-      state.loading = false
-      state.appErr = undefined
-      state.serverErr = undefined
-    })
-    builder.addCase(fetchItemsAction.rejected, (state, action) => {
-      state.loading = false
-      state.appErr = action?.payload?.message
-      state.serverErr = action?.error?.message
-    })
-
-    //fetch item Details
-    builder.addCase(fetchItemDetailsAction.pending, (state, action) => {
-      state.loading = true
-    })
-    builder.addCase(fetchItemDetailsAction.fulfilled, (state, action) => {
-      state.itemDetails = action?.payload
-      state.loading = false
-      state.appErr = undefined
-      state.serverErr = undefined
-    })
-    builder.addCase(fetchItemDetailsAction.rejected, (state, action) => {
-      state.loading = false
-      state.appErr = action?.payload?.message
-      state.serverErr = action?.error?.message
-    })
     //addliketoitem
     builder.addCase(toggleAddLikesToItem.pending, (state, action) => {
-      state.loading = true;
-    });
+      state.loading = true
+    })
     builder.addCase(toggleAddLikesToItem.fulfilled, (state, action) => {
       state.likes = action?.payload
       state.loading = false
@@ -273,7 +163,6 @@ const itemSlice = createSlice({
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
     })
- 
   },
 })
 

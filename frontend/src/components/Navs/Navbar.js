@@ -1,5 +1,5 @@
-import { AppBar, Box, Button, ButtonGroup, Container, Grid, Stack, TextField, Toolbar } from "@mui/material"
-import React, { useContext } from "react"
+import { Box,  ButtonGroup,  Stack, } from "@mui/material"
+import * as React from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
@@ -110,6 +110,9 @@ function Navbar() {
                     <Link to="/manage-users" className="nav-link">
                       {t("Manage_Users")}
                     </Link>
+                    <Link to="/admin-collection" className="nav-link">
+                      {t("Manage_users_collections")}
+                    </Link>
                   </Box>
                 </Box>
               </Box>
@@ -192,9 +195,9 @@ function Navbar() {
                     </Box>
                   </Box>
                 </Box>
-                <Box className="nav-item">
+                <Box className="nav-item" sx={{minWidth:"fit-content", mr:1.5}}>
                   <Link className="nav-link" to="/">
-                    {t("Register")}
+                    {t("Login")}
                   </Link>
                 </Box>
               </Box>
@@ -203,7 +206,7 @@ function Navbar() {
               <UserIcon />
             </Box>
 
-            <Box sx={{mr:1}}>
+            <Box sx={{ mr: 1, minWidth:'8rem' }}>
               <SearchBar data={collection} />
             </Box>
           </Box>

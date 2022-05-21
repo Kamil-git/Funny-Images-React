@@ -20,7 +20,7 @@ collectionRoutes.post(
   createCollectionCtrl
 )
 collectionRoutes.get("/", fetchCollectionCtrl)
-collectionRoutes.get("/:id", authMiddleware, fetchCollectionItems)
+
 collectionRoutes.put("/:id", authMiddleware, updateCollectionCtrl)
 collectionRoutes.delete("/:id", authMiddleware, deleteCollection)
 

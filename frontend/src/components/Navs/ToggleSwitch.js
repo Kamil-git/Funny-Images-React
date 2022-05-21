@@ -2,7 +2,11 @@ import Brightness4 from "@mui/icons-material/Brightness4"
 import Brightness7 from "@mui/icons-material/Brightness7"
 import { Box, FormControlLabel, FormGroup, Switch } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
-import { toggleTheme } from "../../redux/slices/theme/themeSlice"
+import {
+  addDarkTheme,
+  removeDarkTheme,
+  toggleTheme,
+} from "../../redux/slices/theme/themeSlice"
 import * as React from "react"
 export const ToggleSwitch = () => {
   const dispatch = useDispatch()
@@ -10,18 +14,13 @@ export const ToggleSwitch = () => {
   const { darkTheme } = theme
 
   React.useEffect(() => {
-    darkTheme === "light"
-      ? localStorage.setItem("theme", "light")
-      : localStorage.setItem("theme", "dark")
-  }, [darkTheme])
+    darkTheme ? dispatch(addDarkTheme()) : dispatch(removeDarkTheme())
+  }, [darkTheme, dispatch])
 
   return (
     <>
-      <Switch
-        checked={theme?.darkTheme}
-        onChange={() => dispatch(toggleTheme())}
-      />
-      {theme?.darkTheme ? <Brightness4 /> : <Brightness7 />}
+      <Switch checked={darkTheme} onChange={() => dispatch(toggleTheme())} />
+      {darkTheme ? <Brightness4 /> : <Brightness7 />}
     </>
   )
 }

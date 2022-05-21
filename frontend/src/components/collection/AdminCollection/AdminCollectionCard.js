@@ -17,11 +17,12 @@ import { Box } from "@mui/system"
 import Moment from "react-moment"
 import CustomizedMenu from "../CollectionMenu/CustomizedMenu"
 import CollectionsIcon from "@mui/icons-material/Collections"
-import MyCollectionItem from "./MyCollectionItem"
+
 import { useDispatch, useSelector } from "react-redux"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
+import AdminCollectionItem from "./AdminCollectionItem"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -34,10 +35,10 @@ const ExpandMore = styled((props) => {
 }))
 
 const formSchema = Yup.object({
-  description:Yup.string().required()
+  description: Yup.string().required(),
 })
 
-export default function MyCollectionsCard(props) {
+export default function AdminCollectionCard(props) {
   const [expanded, setExpanded] = React.useState(false)
   const [comments, setComments] = React.useState(false)
   const [collectionItems, setCollectionItems] = React.useState(false)
@@ -52,31 +53,26 @@ export default function MyCollectionsCard(props) {
   const handleCollectionItemsClick = () => {
     setCollectionItems(!collectionItems)
   }
-  const user = useSelector(state => state.users)
-const {userAuth} = user
+  const user = useSelector((state) => state.users)
+  const { userAuth } = user
 
   const formik = useFormik({
-    initialValues:{
-      description:"",
-      userName:userAuth.name,
-      collectionId:props?.collection?._id
+    initialValues: {
+      description: "",
+      userName: userAuth.name,
+      collectionId: props?.collection?._id,
     },
-    onSubmit:(values)=> {
+    onSubmit: (values) => {
       const data = {
         description: values?.description,
         userName: userAuth.name,
         collectionId: props?.collection?._id,
       }
-      
+
       dispatch(createCommentAction(data))
     },
-    validationSchema:formSchema
+    validationSchema: formSchema,
   })
- 
-
-
-
-
 
   return (
     <Card
@@ -84,14 +80,13 @@ const {userAuth} = user
         minWidth: 350,
         maxHeight: "100%",
         margin: "2rem",
-        bgcolor:"background.default"
-        
+        bgcolor: "background.default",
       }}
     >
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {userAuth?.name.trim(0, 1)}
+            {props.collection.user.name.trim(0, 1)}
           </Avatar>
         }
         action={
@@ -115,7 +110,6 @@ const {userAuth} = user
       <CardActions disableSpacing>
         <Box>
           <ExpandMore
-            
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
@@ -125,7 +119,6 @@ const {userAuth} = user
           </ExpandMore>
         </Box>
         <ExpandMore
-          
           expand={collectionItems}
           onClick={handleCollectionItemsClick}
           aria-expanded={collectionItems}
@@ -150,7 +143,6 @@ const {userAuth} = user
               onChange={formik.handleChange("description")}
               onBlur={formik.handleBlur("description")}
               sx={{ width: "85%" }}
-              
               variant="standard"
             ></TextField>
             <IconButton type="submit">
@@ -168,9 +160,9 @@ const {userAuth} = user
       <Collapse in={collectionItems} timeout="auto" unmountOnExit>
         {props.collection.items.map((_, index) => (
           <div key={index}>
-            <MyCollectionItem
+            <AdminCollectionItem
               items={props.collection.items[index]} user={props.collection.user}
-            ></MyCollectionItem>
+            ></AdminCollectionItem>
           </div>
         ))}
       </Collapse>

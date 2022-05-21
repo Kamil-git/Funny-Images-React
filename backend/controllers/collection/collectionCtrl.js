@@ -33,22 +33,10 @@ const fetchCollectionCtrl = asyncHandler(async (req, res) => {
     res.json(error)
   }
 })
-const fetchCollectionItems = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  validateId(id)
-  try {
-    const collection = await Collection.findById(id)
-      .populate("items")
-      .sort("-createdAt")
-    res.json(collection)
-  } catch (error) {
-    res.json(error)
-  }
-})
 
 const updateCollectionCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
-
+  validateId(id)
   try {
     const collection = await Collection.findByIdAndUpdate(
       id,
@@ -63,25 +51,23 @@ const updateCollectionCtrl = asyncHandler(async (req, res) => {
 })
 
 const deleteCollection = asyncHandler(async (req, res) => {
-  const { id } = req.params
-  validateId(id)
-  try {
-    const collection = await Collection.findByIdAndDelete(id)
-    res.json(collection)
-  } catch (error) {
-    res.json(error)
+  const paramsString = req.params.id.split(",")
+  const userId = paramsString[0]
+  const itemId = paramsString[1]
+  if (req.user.id === userId || req.user.isAdmin) {
+    try {
+      const collection = await Collection.findByIdAndDelete(itemId)
+      res.json(collection)
+    } catch (error) {
+      res.json(error)
+    }
   }
 })
-
-
-
-
 
 module.exports = {
   updateCollectionCtrl,
   deleteCollection,
-  fetchCollectionItems,
+
   fetchCollectionCtrl,
   createCollectionCtrl,
-
 }

@@ -25,11 +25,10 @@ export default function EditCollection(props) {
   //collection
   const propCollection = props.collection.collection.collection
   const id = propCollection._id
-const { t } = useTranslation()
+  const { t } = useTranslation()
   const state = useSelector((state) => state?.users)
 
-  const { loading} =
-    state
+  const { loading } = state
 
   const formik = useFormik({
     enableReinitialize: true,

@@ -24,6 +24,7 @@ app.use('/api/items', itemRoutes)
 app.use('/api/comments', commentRoute)
 app.use("/api/collection", collectionRoutes)
 
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")))
 

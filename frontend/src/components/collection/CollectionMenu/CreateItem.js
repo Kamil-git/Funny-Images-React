@@ -26,10 +26,11 @@ export default function CreateItem(props) {
 
   const { t } = useTranslation()
   //------collection id
-  const id = props._id
+  const id = props.collection.collection.id
+  const userId = props.collection.collection.user._id
 
-
- 
+//  console.log(props.collection.collection.user._id)
+//  console.log(props.collection.collection.id)
 
   const formik = useFormik({
     initialValues: {
@@ -37,6 +38,7 @@ export default function CreateItem(props) {
       description: "",
       itemImg: "",
       collectionId: id,
+      userId: userId,
     },
     onSubmit: (values) => {
       const data = {
@@ -44,8 +46,9 @@ export default function CreateItem(props) {
         collectionId: id,
         description: values?.description,
         itemImg: values?.itemImg,
+        userId:userId
       }
-      
+
       dispatch(createItemAction(data))
     },
     validationSchema: formSchema,

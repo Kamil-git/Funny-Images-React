@@ -14,16 +14,16 @@ import {
   toggleAddLikesToItem,
 } from "../../../redux/slices/items/itemsSlice"
 
-export default function MyCollectionItem(props) {
+export default function AdminCollectionItem(props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  // id to validate user 
- const userId = props.user
-const itemId = props.items._id
-//delete string to server
-const deleteString = `${userId},${itemId}`
+  // id to validate user
+  const userId = props.user
+  const itemId = props.items._id
+  //delete string to server
+  const deleteString = `${userId},${itemId}`
   return (
-    <Card sx={{ maxWidth: 350, bgcolor:"background.default" }}>
+    <Card sx={{ maxWidth: 350, bgcolor: "background.default" }}>
       <CardMedia
         component="img"
         alt=""

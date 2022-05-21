@@ -30,7 +30,7 @@ const { likes } = itemState
       <Grid container sx={{ minHeight: "100vh", justifyContent: "center" }}>
         {loading ? (
           <div>
-            <CircularProgress sx={{alignSelf:"center"}} />
+            <CircularProgress sx={{ alignSelf: "center" }} />
           </div>
         ) : appErr || serverErr ? (
           <div>
@@ -43,8 +43,14 @@ const { likes } = itemState
               {serverErr}
             </Alert>
           </div>
-        ) : collectionList?.length <= 0 ? (
-          <h2>{t("No_collection_found")}</h2>
+        ) : serverErr || appErr || !Array.isArray(collectionList) ? (
+          <Alert
+            variant="outlined"
+            severity="error"
+            sx={{ maxHeight: "200px", width: "400px" }}
+          >
+            {t("No_collection_found")}
+          </Alert>
         ) : (
           <Grid
             justifyContent="center"

@@ -120,6 +120,7 @@ export const deleteCollectionAction = createAsyncThunk(
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
+        isAdmin:`${userAuth.isAdmin}`
       },
     }
     //http call
