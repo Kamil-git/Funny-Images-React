@@ -29,17 +29,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["Admin", "Guest", "Registered User"],
     },
-    isAccountVerified: { type: Boolean, default: false },
-    accountVerificationToken: String,
-    accountVerificationTokenExpires: Date,
-    passwordChangeAt: Date,
-    passwordRessetToken: String,
-    passwordResetExpires: Date,
+    // isAccountVerified: { type: Boolean, default: false },
+    // accountVerificationToken: String,
+    // accountVerificationTokenExpires: Date,
+    // passwordChangeAt: Date,
+    // passwordRessetToken: String,
+    // passwordResetExpires: Date,
 
-    active: {
-      type: Boolean,
-      default: false,
-    },
+    // active: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   {
     toJSON: {
