@@ -64,10 +64,28 @@ const deleteCollection = asyncHandler(async (req, res) => {
   }
 })
 
+
+const searchCollectionCtrl = asyncHandler(async (req, res) => {
+  const { query } = req.params
+  
+ try {
+   const collection = await Collection.find({ name:query })
+     .populate("user")
+     .populate("comments")
+     .populate("items")
+     .exec()
+
+   res.json(collection)
+ } catch (error) {
+   res.json(error)
+ }
+  
+})
+
 module.exports = {
   updateCollectionCtrl,
   deleteCollection,
-
+  searchCollectionCtrl,
   fetchCollectionCtrl,
   createCollectionCtrl,
 }

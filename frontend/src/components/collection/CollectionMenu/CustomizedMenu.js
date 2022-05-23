@@ -61,7 +61,7 @@ export default function CustomizedMenu(props) {
   }
 
   // id to validate user
-  const userId = props.collection.collection.user.id
+  const userId = props.collection.collection.user
   const collectionId = props.collection.collection._id
   //delete string to server
   const deleteString = `${userId},${collectionId}`

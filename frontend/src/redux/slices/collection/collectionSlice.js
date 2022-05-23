@@ -23,14 +23,14 @@ export const createCollectionAction = createAsyncThunk(
     formData.append("name", collection?.name)
     formData.append("tags", collection?.tags)
     formData.append("imageLink", collection?.imageLink)
-    
+
     try {
       const { data } = await axios.post(
         `${baseUrl}/api/collection`,
         formData,
         config
       )
-      
+
       return data
     } catch (error) {
       if (!error?.response) {
@@ -120,7 +120,7 @@ export const deleteCollectionAction = createAsyncThunk(
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
-        isAdmin:`${userAuth.isAdmin}`
+        
       },
     }
     //http call
@@ -130,6 +130,27 @@ export const deleteCollectionAction = createAsyncThunk(
         config
       )
       dispatch(resetDeleteAction())
+      return data
+    } catch (error) {
+      if (!error?.response) {
+        throw error
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
+export const searchCollection = createAsyncThunk(
+  "collection/search",
+  async (query, { rejectWithValue, getState, dispatch }) => {
+    
+    
+    console.log(query)
+    try {
+      const { data } = await axios.get(
+        `${baseUrl}/api/collection/search/${query}`,
+        
+      )
       return data
     } catch (error) {
       if (!error?.response) {
@@ -231,6 +252,22 @@ const collectionSlices = createSlice({
       state.populatedItems = undefined
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
+    })
+    //search collections
+    builder.addCase(searchCollection.pending, (state, action) => {
+      state.loading = true
+    })
+    builder.addCase(searchCollection.fulfilled, (state , action) => {
+      state.loading = false
+      state.foundCollections = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(searchCollection.rejected, (state, action) => {
+      state.loading = false
+      state.foundCollections = undefined
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error.message
     })
   },
 })

@@ -2,14 +2,13 @@ import React, { useEffect } from "react"
 import Footer from "../../Navs/Footer"
 import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
-import { fetchCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { Alert, CircularProgress } from "@mui/material"
-import ViewCollectionCard from "./ViewCollectionCard"
+import ViewCollectionCard from "../ViewCollections/ViewCollectionCard"
 
 import { useTranslation } from "react-i18next"
 
-export default function ViewCollection() {
+export default function FoundCollection() {
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -19,13 +18,13 @@ export default function ViewCollection() {
 
   const collection = useSelector((state) => state?.collection)
 
-  const { collectionList, loading, appErr, serverErr, foundCollections } =
+  const { loading, appErr, serverErr, foundCollections } =
     collection
   const commentState = useSelector((state) => state.comment)
   useEffect(() => {
-    dispatch(fetchCollectionAction())
-  }, [dispatch, commentState.isCreated, likes,foundCollections])
-  
+    
+  }, [dispatch, commentState.isCreated, likes, foundCollections])
+
   return (
     <div>
       <Navbar />
@@ -45,7 +44,7 @@ export default function ViewCollection() {
               {serverErr}
             </Alert>
           </div>
-        ) : serverErr || appErr || !Array.isArray(collectionList) ? (
+        ) : serverErr || appErr  ? (
           <Alert
             variant="outlined"
             severity="error"
@@ -53,19 +52,17 @@ export default function ViewCollection() {
           >
             {t("No_collection_found")}
           </Alert>
-        ) :(
+        ) : (
           <Grid
             justifyContent="center"
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            
-            {collectionList?.map((_, index) => (
+            {foundCollections?.map((_, index) => (
               <div key={index}>
                 <ViewCollectionCard
-                
-                  collection={collectionList[index]}
+                  collection={foundCollections[index]}
                 ></ViewCollectionCard>
               </div>
             ))}

@@ -81,6 +81,7 @@ export default function ManageUsers() {
           <CircularProgress />
         ) : (
           <DataGrid
+
             sx={{ color: "inherit", height: "40rem", width: "auto" }}
             rows={usersList}
             columns={columns}
@@ -90,6 +91,7 @@ export default function ManageUsers() {
             disableSelectionOnClick
             components={{
               Toolbar: GridToolbar,
+              
               Footer: function CustomToolBar() {
                 const [anchorEl, setAnchorEl] = React.useState()
 

@@ -7,7 +7,7 @@ import CreateCollection from "./components/collection/CreateCollection"
 import ViewCollection from "./components/collection/ViewCollections/ViewCollection"
 import MyCollections from "./components/collection/MyCollections/MyCollections"
 import {  useSelector } from "react-redux"
-
+import FoundCollection from "./components/collection/FoundCollection/FoundCollection"
 import { darkTheme, lightTheme } from "./redux/slices/theme/theme"
 import { ThemeProvider } from "@mui/material/styles"
 import { Paper } from "@mui/material"
@@ -42,6 +42,11 @@ export default function App() {
               exact
               path="/admin-collection"
               element={<AdminCollection />}
+            ></Route>
+            <Route
+              exact
+              path="/found-collection"
+              element={<FoundCollection/>}
             ></Route>
           </Routes>
         </BrowserRouter>
