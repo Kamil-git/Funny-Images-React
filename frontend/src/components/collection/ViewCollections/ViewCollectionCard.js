@@ -77,7 +77,7 @@ export default function ViewCollectionCard(props) {
     <Card
     
       sx={{
-        maxWidth: 350,
+        minWidth: 350,
         maxHeight: "min-content",
         m:4,
         bgcolor:"background.default"
