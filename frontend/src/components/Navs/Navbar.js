@@ -60,7 +60,11 @@ function Navbar() {
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i className="flag-united-kingdom flag m-0"></i>
+                {i18next.language === "en" ? (
+                  <i className="flag-united-kingdom flag m-0"></i>
+                ) : (
+                  <i className="flag-poland flag"></i>
+                )}
               </Box>
               <Box className="dropdown-menu " aria-labelledby="navbarDropdown">
                 <Box>
@@ -195,7 +199,10 @@ function Navbar() {
                     </Box>
                   </Box>
                 </Box>
-                <Box className="nav-item" sx={{minWidth:"fit-content", mr:1.5}}>
+                <Box
+                  className="nav-item"
+                  sx={{ minWidth: "fit-content", mr: 1.5 }}
+                >
                   <Link className="nav-link" to="/">
                     {t("Login")}
                   </Link>
@@ -206,7 +213,7 @@ function Navbar() {
               <UserIcon />
             </Box>
 
-            <Box sx={{ mr: 1, minWidth:'8rem' }}>
+            <Box sx={{ mr: 1, minWidth: "8rem" }}>
               <SearchBar data={collection} />
             </Box>
           </Box>
