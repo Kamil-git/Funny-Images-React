@@ -23,6 +23,7 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 import FacebookIcon from "@mui/icons-material/Facebook"
 import GoogleIcon from "@mui/icons-material/Google"
 import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
+import Rules from "./Rules"
 
 //register schema
 const formSchema = Yup.object({
@@ -87,8 +88,7 @@ function Main() {
     <Grid
       id="mainsection"
       className="w-100 p-4 d-flex justify-content-center pb-4"
-      sx={{minHeight:"100vh"}}
-      
+      sx={{ minHeight: "100vh" }}
     >
       <div style={{ width: "26rem" }}>
         <ToggleButtonGroup
@@ -249,7 +249,7 @@ function Main() {
             aria-labelledby="register-tab"
           >
             <form onSubmit={formik.handleSubmit}>
-              <div className="text-center mb-3">
+              <div className="text-center mb-4">
                 <p>{t("Sign_up_with")}:</p>
                 <Link to="">
                   <FacebookIcon
@@ -282,7 +282,7 @@ function Main() {
 
               <p className="text-center">or:</p>
 
-              <div className="form-outline mb-4">
+              <div className="form-outline mb-3 text-center">
                 <TextField
                   fullWidth
                   variant="standard"
@@ -298,7 +298,7 @@ function Main() {
                 </span>
               </div>
 
-              <div className="form-outline mb-4">
+              <div className="form-outline mb-3 text-center">
                 <TextField
                   fullWidth
                   variant="standard"
@@ -314,7 +314,7 @@ function Main() {
                 </span>
               </div>
 
-              <div className="form-outline mb-4">
+              <div className="form-outline mb-3 text-center">
                 <TextField
                   fullWidth
                   variant="standard"
@@ -326,13 +326,11 @@ function Main() {
                 />
                 <label className="form-label">{t("Password")}</label>
                 <span style={{ fontSize: "10px", color: "red" }}>
-                  <span style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.password}
-                  </span>
+                  {formik.errors.password}
                 </span>
               </div>
 
-              <div className="form-outline mb-4">
+              <div className="form-outline mb-3 text-center">
                 <TextField
                   variant="standard"
                   fullWidth
@@ -353,14 +351,7 @@ function Main() {
               {loading ? (
                 <CircularProgress />
               ) : (
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="inherit"
-                  fullWidth
-                >
-                  {t("Register")}
-                </Button>
+                <Rules handleSubmit={formik.handleSubmit} />
               )}
               {appErr || serverErr ? (
                 <Alert variant="outlined" severity="error">
@@ -379,7 +370,6 @@ function Main() {
                     {t("Continue")}
                   </Link>
                 </p>
-                
               </div>
             </form>
           </div>
