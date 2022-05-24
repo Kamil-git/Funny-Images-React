@@ -15,7 +15,7 @@ import AddIcon from "@mui/icons-material/Add"
 import { TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
-import CustomizedMenu from "../CollectionMenu/CustomizedMenu"
+
 import CollectionsIcon from "@mui/icons-material/Collections"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -23,7 +23,7 @@ import * as Yup from "yup"
 import { useFormik } from "formik"
 import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
 import AdminCollectionItem from "./AdminCollectionItem"
-import AdminEditMenu from "./AdminCardMenu/AdminEditMenu"
+
 import AdminCardMenu from "./AdminCardMenu/AdminCardMenu"
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
@@ -79,7 +79,7 @@ export default function AdminCollectionCard(props) {
   return (
     <Card
       sx={{
-        minWidth: 350,
+        width: 350,
         maxHeight: "100%",
         margin: "2rem",
         bgcolor: "background.default",

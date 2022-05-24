@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem"
 
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { ButtonGroup, IconButton } from "@mui/material"
+import { ButtonGroup} from "@mui/material"
 import EditCollection from "./EditCollection"
 import { useDispatch } from "react-redux"
 import CreateItem from "./CreateItem"

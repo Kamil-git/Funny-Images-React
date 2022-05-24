@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import Typography from "@mui/material/Typography"
 
-import { Button, CardActions, Divider } from "@mui/material"
+import { Button, CardActions } from "@mui/material"
 
 import { useDispatch, useSelector } from "react-redux"
 import { toggleAddLikesToItem } from "../../../redux/slices/items/itemsSlice"

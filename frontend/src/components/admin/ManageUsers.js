@@ -4,6 +4,8 @@ import Navbar from "../Navs/Navbar"
 import Footer from "../Navs/Footer"
 import {
  
+  Alert,
+  Box,
   CircularProgress,
   Divider,
   Grid,
@@ -76,13 +78,12 @@ export default function ManageUsers() {
     <Grid>
       <Navbar />
 
-      <div id="mainsection" className="container">
+      <Box sx={{minHeight:"100vh", justifyContent:"center"}}>
         {loading ? (
           <CircularProgress />
         ) : (
           <DataGrid
-
-            sx={{ color: "inherit", height: "40rem", width: "auto" }}
+            sx={{ color: "inherit", height: "40rem",width:"auto", mr:5, ml:5 }}
             rows={usersList}
             columns={columns}
             pageSize={9}
@@ -91,7 +92,7 @@ export default function ManageUsers() {
             disableSelectionOnClick
             components={{
               Toolbar: GridToolbar,
-              
+
               Footer: function CustomToolBar() {
                 const [anchorEl, setAnchorEl] = React.useState()
 
@@ -114,7 +115,8 @@ export default function ManageUsers() {
                       color="primary"
                       sx={{ fontSize: "1.5rem" }}
                     >
-                      <ManageAccountsIcon></ManageAccountsIcon> {t("Manage_users")}
+                      <ManageAccountsIcon></ManageAccountsIcon>{" "}
+                      {t("Manage_users")}
                     </IconButton>
                     <Popover
                       id={id}
@@ -194,15 +196,25 @@ export default function ManageUsers() {
             onSelectionModelChange={(ids) => {
               const selectedIDs = new Set(ids)
               //whole objects catcher
-              const selectedRowData = usersList.filter((row) =>
-                selectedIDs.has(row._id)
-              )
+              // const selectedRowData = usersList.filter((row) =>
+              //   selectedIDs.has(row._id)
+              // )
 
               setGridItemsIds(Array.from(selectedIDs))
             }}
           />
         )}
-      </div>
+        {appErr || serverErr ? (
+          <Alert
+            variant="outlined"
+            severity="error"
+            sx={{ maxHeight: "200px", width: "400px" }}
+          >
+            {appErr}
+            {serverErr}
+          </Alert>
+        ) : null}
+      </Box>
       <Footer />
     </Grid>
   )

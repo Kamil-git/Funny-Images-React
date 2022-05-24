@@ -1,16 +1,16 @@
-import { Autocomplete, Input, TextField } from "@mui/material"
-import { useFormik } from "formik"
+import { Autocomplete, TextField } from "@mui/material"
+
 import React from "react"
 import { useTranslation } from "react-i18next"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { searchCollection } from "../../redux/slices/collection/collectionSlice"
 function SearchBar({ data }) {
   const [filter, setFilter] = React.useState("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const collection = useSelector((state) => state.collection)
-  const { foundCollections } = collection
+  
+
   const handleChange = (e) => {
     setFilter(e.target.value)
   }

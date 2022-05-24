@@ -12,6 +12,7 @@ import {
   Alert,
   Button,
   CircularProgress,
+  Grid,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -22,9 +23,10 @@ import TwitterIcon from "@mui/icons-material/Twitter"
 import FacebookIcon from "@mui/icons-material/Facebook"
 import GoogleIcon from "@mui/icons-material/Google"
 import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
+
 //register schema
 const formSchema = Yup.object({
-  name: Yup.string().required("First Name is required"),
+  name: Yup.string().required("Name is required"),
   email: Yup.string().required("Email is required"),
   password: Yup.string().required("Password is required"),
   password2: Yup.string().required("Password2 is required"),
@@ -82,9 +84,11 @@ function Main() {
   }, [navigate, userAuth, registered])
 
   return (
-    <div
+    <Grid
       id="mainsection"
       className="w-100 p-4 d-flex justify-content-center pb-4"
+      sx={{minHeight:"100vh"}}
+      
     >
       <div style={{ width: "26rem" }}>
         <ToggleButtonGroup
@@ -177,6 +181,9 @@ function Main() {
                   className="form-control active"
                 />
                 <label className="form-label ">Email</label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  {formik.errors.email}
+                </span>
               </div>
 
               <div className="form-outline mb-4 text-center">
@@ -193,6 +200,9 @@ function Main() {
                 <label className="form-label" htmlFor="loginPassword">
                   {t("Password")}
                 </label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  {formik.errors.password}
+                </span>
               </div>
               {loading ? (
                 <CircularProgress />
@@ -213,7 +223,6 @@ function Main() {
                   sx={{ maxWidth: "350" }}
                 >
                   {appErr}
-                  {serverErr}
                 </Alert>
               ) : null}
 
@@ -284,6 +293,9 @@ function Main() {
                   onBlur={formik.handleBlur("name")}
                 />
                 <label className="form-label">{t("Name")}</label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  {formik.errors.name}
+                </span>
               </div>
 
               <div className="form-outline mb-4">
@@ -297,6 +309,9 @@ function Main() {
                   onBlur={formik.handleBlur("email")}
                 />
                 <label className="form-label">Email</label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  {formik.errors.email}
+                </span>
               </div>
 
               <div className="form-outline mb-4">
@@ -310,6 +325,11 @@ function Main() {
                   onBlur={formik.handleBlur("password")}
                 />
                 <label className="form-label">{t("Password")}</label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  <span style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.password}
+                  </span>
+                </span>
               </div>
 
               <div className="form-outline mb-4">
@@ -325,6 +345,9 @@ function Main() {
                 <label className="form-label">
                   {t("Repeat")} {t("Password")}
                 </label>
+                <span style={{ fontSize: "10px", color: "red" }}>
+                  {formik.errors.password2}
+                </span>
               </div>
 
               {loading ? (
@@ -342,7 +365,6 @@ function Main() {
               {appErr || serverErr ? (
                 <Alert variant="outlined" severity="error">
                   {appErr}
-                  {serverErr}
                 </Alert>
               ) : null}
               <div className="text-center">
@@ -357,12 +379,13 @@ function Main() {
                     {t("Continue")}
                   </Link>
                 </p>
+                
               </div>
             </form>
           </div>
         </div>
       </div>
-    </div>
+    </Grid>
   )
 }
 

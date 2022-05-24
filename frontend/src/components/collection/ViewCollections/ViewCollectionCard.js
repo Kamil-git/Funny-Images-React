@@ -71,7 +71,7 @@ export default function ViewCollectionCard(props) {
       },
       validationSchema: formSchema,
     })
-  const theme = useSelector((state) => state.theme)
+  
 
   return (
     <Card

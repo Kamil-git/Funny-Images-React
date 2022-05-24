@@ -81,7 +81,7 @@ const {userAuth} = user
   return (
     <Card
       sx={{
-        minWidth: 350,
+        width: 350,
         maxHeight: "100%",
         margin: "2rem",
         bgcolor:"background.default"

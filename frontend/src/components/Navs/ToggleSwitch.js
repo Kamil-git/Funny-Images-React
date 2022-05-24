@@ -1,6 +1,6 @@
 import Brightness4 from "@mui/icons-material/Brightness4"
 import Brightness7 from "@mui/icons-material/Brightness7"
-import { Box, FormControlLabel, FormGroup, Switch } from "@mui/material"
+import {  Switch } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import {
   addDarkTheme,
