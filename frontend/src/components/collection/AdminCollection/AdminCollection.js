@@ -22,11 +22,12 @@ export default function AdminCollection() {
   const { isEdited, isDeleted, collectionList } = stateCollection
   const itemState = useSelector((state) => state?.item)
   const commentState = useSelector((state) => state.comment)
- 
+
   useEffect(() => {
     dispatch(fetchCollectionAction())
 
-    if (!userAuth || userAuth.isBlocked || !userAuth.isAdmin) return navigate("/")
+    if (!userAuth || userAuth.isBlocked || !userAuth.isAdmin)
+      return navigate("/")
   }, [
     isDeleted,
     isEdited,
@@ -54,11 +55,7 @@ export default function AdminCollection() {
           </div>
         ) : appErr || serverErr ? (
           <div>
-            <Alert
-              variant="outlined"
-              severity="error"
-              sx={{ maxHeight: "200px", width: "400px" }}
-            >
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
               {appErr}
               {serverErr}
             </Alert>

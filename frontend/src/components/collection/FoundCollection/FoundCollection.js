@@ -36,7 +36,7 @@ export default function FoundCollection() {
         ) : appErr || serverErr ? (
           <div>
             <Alert
-              variant="outlined"
+              
               severity="error"
               sx={{ maxHeight: "200px", width: "400px" }}
             >
@@ -46,7 +46,7 @@ export default function FoundCollection() {
           </div>
         ) : serverErr || appErr  ? (
           <Alert
-            variant="outlined"
+            
             severity="error"
             sx={{ maxHeight: "200px", width: "400px" }}
           >

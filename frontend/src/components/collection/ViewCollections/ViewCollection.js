@@ -37,7 +37,7 @@ export default function ViewCollection() {
         ) : appErr || serverErr ? (
           <div>
             <Alert
-              variant="outlined"
+              
               severity="error"
               sx={{ maxHeight: "200px", width: "400px" }}
             >
@@ -47,7 +47,7 @@ export default function ViewCollection() {
           </div>
         ) : serverErr || appErr || !Array.isArray(collectionList) ? (
           <Alert
-            variant="outlined"
+            
             severity="error"
             sx={{ maxHeight: "200px", width: "400px" }}
           >

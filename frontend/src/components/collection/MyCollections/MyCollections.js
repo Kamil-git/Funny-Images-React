@@ -53,29 +53,17 @@ export default function MyCollections() {
           </div>
         ) : appErr || serverErr ? (
           <div>
-            <Alert
-              variant="outlined"
-              severity="error"
-              sx={{ maxHeight: "200px", width: "400px" }}
-            >
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
               {appErr}
               {serverErr}
             </Alert>
           </div>
         ) : serverErr || appErr || !Array.isArray(userCollections) ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
+          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
             {t("No_collection_found")}
           </Alert>
         ) : userCollections?.length <= 0 ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
+          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
             {t("No_collection_found")}
           </Alert>
         ) : (
