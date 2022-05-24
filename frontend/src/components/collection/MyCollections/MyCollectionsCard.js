@@ -84,8 +84,7 @@ const {userAuth} = user
         width: 350,
         maxHeight: "100%",
         margin: "2rem",
-        bgcolor:"background.default"
-        
+        bgcolor: "background.default",
       }}
     >
       <CardHeader
@@ -115,7 +114,6 @@ const {userAuth} = user
       <CardActions disableSpacing>
         <Box>
           <ExpandMore
-            
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
@@ -125,7 +123,6 @@ const {userAuth} = user
           </ExpandMore>
         </Box>
         <ExpandMore
-          
           expand={collectionItems}
           onClick={handleCollectionItemsClick}
           aria-expanded={collectionItems}
@@ -150,7 +147,6 @@ const {userAuth} = user
               onChange={formik.handleChange("description")}
               onBlur={formik.handleBlur("description")}
               sx={{ width: "85%" }}
-              
               variant="standard"
             ></TextField>
             <IconButton type="submit">
@@ -159,8 +155,17 @@ const {userAuth} = user
           </form>
 
           {props?.collection?.comments.map((comment, index) => (
-            <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              {comment.user}:{comment.description}
+            <Typography
+              key={index}
+              sx={{ fontSize: "12px", display: "flex", flex: "row no-wrap" }}
+              paragraph
+            >
+              <Avatar
+                sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}
+              >
+                {comment.user.trim(0, 1)}
+              </Avatar>
+              <span style={{ alignSelf: "center" }}>{comment.description}</span>
             </Typography>
           ))}
         </CardContent>
@@ -169,7 +174,8 @@ const {userAuth} = user
         {props.collection.items.map((_, index) => (
           <div key={index}>
             <MyCollectionItem
-              items={props.collection.items[index]} user={props.collection.user}
+              items={props.collection.items[index]}
+              user={props.collection.user}
             ></MyCollectionItem>
           </div>
         ))}

@@ -75,19 +75,16 @@ export default function ViewCollectionCard(props) {
 
   return (
     <Card
-    
       sx={{
         width: 350,
         maxHeight: "min-content",
-        m:4,
-        bgcolor:"background.default"
-        
+        m: 4,
+        bgcolor: "background.default",
       }}
-      
     >
       <CardHeader
         avatar={
-          <Avatar sx={{bgcolor:"text.secondary"}}>
+          <Avatar sx={{ bgcolor: "text.secondary" }}>
             {props.collection.user.name.trim(0, 1)}
           </Avatar>
         }
@@ -111,7 +108,6 @@ export default function ViewCollectionCard(props) {
       <CardActions disableSpacing>
         <Box>
           <ExpandMore
-            
             expand={comments}
             onClick={handleCommentsClick}
             aria-expanded={comments}
@@ -120,7 +116,6 @@ export default function ViewCollectionCard(props) {
           </ExpandMore>
         </Box>
         <ExpandMore
-          
           expand={collectionItems}
           onClick={handleCollectionItemsClick}
           aria-expanded={collectionItems}
@@ -163,8 +158,17 @@ export default function ViewCollectionCard(props) {
             </form>
           ) : null}
           {props?.collection?.comments.map((comment, index) => (
-            <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              {comment.user}:{comment.description}
+            <Typography
+              key={index}
+              sx={{ fontSize: "12px", display: "flex", flex: "row no-wrap" }}
+              paragraph
+            >
+              <Avatar
+                sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}
+              >
+                {comment.user.trim(0, 1)}
+              </Avatar>
+              <span style={{ alignSelf: "center" }}>{comment.description}</span>
             </Typography>
           ))}
         </CardContent>

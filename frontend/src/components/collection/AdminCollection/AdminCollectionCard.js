@@ -153,8 +153,11 @@ export default function AdminCollectionCard(props) {
           </form>
 
           {props?.collection?.comments.map((comment, index) => (
-            <Typography key={index} sx={{ fontSize: "12px" }} paragraph>
-              {comment.user}:{comment.description}
+            <Typography key={index} sx={{ fontSize: "12px",display:"flex", flex:"row no-wrap" }} paragraph>
+              <Avatar sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}>
+                {comment.user.trim(0, 1)}
+              </Avatar>
+              <span style={{alignSelf:"center"}}>{comment.description}</span>
             </Typography>
           ))}
         </CardContent>
@@ -163,7 +166,8 @@ export default function AdminCollectionCard(props) {
         {props.collection.items.map((_, index) => (
           <div key={index}>
             <AdminCollectionItem
-              items={props.collection.items[index]} user={props.collection.user}
+              items={props.collection.items[index]}
+              user={props.collection.user}
             ></AdminCollectionItem>
           </div>
         ))}
