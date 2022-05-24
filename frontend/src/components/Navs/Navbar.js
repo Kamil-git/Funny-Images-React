@@ -1,4 +1,4 @@
-import { Box,  ButtonGroup,  Stack, } from "@mui/material"
+import { Box, ButtonGroup, Stack } from "@mui/material"
 import * as React from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
@@ -7,21 +7,15 @@ import { logoutAction } from "../../redux/slices/users/usersSlices"
 import { useTranslation } from "react-i18next"
 
 import UserIcon from "./NavIcons/UserIcon"
-import i18next from "i18next"
+
 import { ToggleSwitch } from "./ToggleSwitch"
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu"
+import SwitchLanguage from "./SwitchLanguage"
 function Navbar() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
   const { t } = useTranslation()
-  const switchLanguage = () => {
-    if (i18next.language === "en") {
-      return i18next.changeLanguage("pl")
-    } else {
-      i18next.changeLanguage("en")
-    }
-  }
 
   const collection = useSelector((state) => state?.collection.collectionList)
 
@@ -47,47 +41,10 @@ function Navbar() {
       <Box className="collapse navbar-collapse" id="navbarTogglerDemo01">
         <Stack minWidth="100%" className="navbar-nav">
           <Box className="d-flex" style={{ flexBasis: "100%" }}>
-            <Box className="iconNav" sx={{alignSelf:"center"}}>
+            <Box className="iconNav" sx={{ alignSelf: "center" }}>
               <ToggleSwitch />
             </Box>
-
-            <Box className="nav-item dropdown iconNav2">
-              <Box
-                className="nav-link dropdown-toggle text-reset"
-                to="#"
-                id="navbarDropdown"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {i18next.language === "en" ? (
-                  <i className="flag-united-kingdom flag m-0"></i>
-                ) : (
-                  <i className="flag-poland flag"></i>
-                )}
-              </Box>
-              <Box className="dropdown-menu " aria-labelledby="navbarDropdown">
-                <Box>
-                  <p className="dropdown-item" onClick={() => switchLanguage()}>
-                    <i className="flag-united-kingdom flag"></i>
-                    {t("English")}
-                    {i18next.language === "en" ? (
-                      <i className="fa fa-check text-success ms-2"></i>
-                    ) : null}
-                  </p>
-                </Box>
-
-                <Box>
-                  <p className="dropdown-item" onClick={() => switchLanguage()}>
-                    <i className="flag-poland flag"></i>
-                    {t("Polish")}
-                    {i18next.language === "pl" ? (
-                      <i className="fa fa-check text-success ms-2"></i>
-                    ) : null}
-                  </p>
-                </Box>
-              </Box>
-            </Box>
+            <SwitchLanguage />
           </Box>
 
           <Box className="d-flex wraplist">
@@ -199,10 +156,7 @@ function Navbar() {
                     </Box>
                   </Box>
                 </Box>
-                <Box
-                  className="nav-item"
-                  sx={{ minWidth: "fit-content"}}
-                >
+                <Box className="nav-item" sx={{ minWidth: "fit-content" }}>
                   <Link className="nav-link" to="/">
                     {t("Login")}
                   </Link>

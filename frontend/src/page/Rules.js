@@ -36,14 +36,12 @@ export default function Rules({ handleSubmit }) {
         <DialogTitle></DialogTitle>
         <DialogContent>
           <DialogContentText>
-            The owner of the website dont take responsibility for your shared
-            content. By registering you take responsibility for providing
-            illegal content.
+            {t("Rules")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="error" autoFocus onClick={handleClose}>
-            Disagree
+            {t("Disagree")}
           </Button>
           <Button
             type="submit"
@@ -51,7 +49,7 @@ export default function Rules({ handleSubmit }) {
             onClick={handleSubmit}
             autoFocus
           >
-            Agree
+            {t("Agree")}
           </Button>
         </DialogActions>
       </Dialog>

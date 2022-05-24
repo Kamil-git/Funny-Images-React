@@ -24,6 +24,8 @@ import FacebookIcon from "@mui/icons-material/Facebook"
 import GoogleIcon from "@mui/icons-material/Google"
 import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
 import Rules from "./Rules"
+import SwitchLanguage from "../components/Navs/SwitchLanguage"
+import { Box } from "@mui/system"
 
 //register schema
 const formSchema = Yup.object({
@@ -227,9 +229,17 @@ function Main() {
               ) : null}
 
               <div className="text-center">
-                <p>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flex: "row no-wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <ToggleSwitch />
-                  {t("Not_a_member")}?
+                  <SwitchLanguage />
+                  <Box>{t("Not_a_member")}?</Box>
                   <Link
                     className="text-reset"
                     style={{ textDecorationLine: "underline" }}
@@ -237,7 +247,7 @@ function Main() {
                   >
                     {t("Continue")}
                   </Link>
-                </p>
+                </Box>
               </div>
             </form>
           </div>
@@ -358,19 +368,32 @@ function Main() {
                   {appErr}
                 </Alert>
               ) : null}
-              <div className="text-center">
-                <p>
+              <Box className="text-center">
+                <Box
+                  style={{
+                    display: "flex",
+                    flex: "row no-wrap",
+                    justifyContent: "center",
+                    alignItems:"center"
+                  }}
+                >
                   <ToggleSwitch />
-                  {t("Not_a_member")}?
+                  <SwitchLanguage />
+                  <Box>{t("Not_a_member")}?</Box>
+
                   <Link
-                    className="text-reset "
-                    style={{ textDecorationLine: "underline" }}
+                    className="text-reset"
+                    style={{
+                      textDecorationLine: "underline",
+                      display: "block",
+                      
+                    }}
                     to="/view-collections"
                   >
                     {t("Continue")}
                   </Link>
-                </p>
-              </div>
+                </Box>
+              </Box>
             </form>
           </div>
         </div>

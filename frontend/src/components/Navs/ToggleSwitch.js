@@ -1,6 +1,6 @@
 import Brightness4 from "@mui/icons-material/Brightness4"
 import Brightness7 from "@mui/icons-material/Brightness7"
-import {  Switch } from "@mui/material"
+import {  Box, Switch } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import {
   addDarkTheme,
@@ -18,9 +18,9 @@ export const ToggleSwitch = () => {
   }, [darkTheme, dispatch])
 
   return (
-    <span >
+    <Box sx={{ alignSelf: "center" }}>
       <Switch checked={darkTheme} onChange={() => dispatch(toggleTheme())} />
       {darkTheme ? <Brightness4 /> : <Brightness7 />}
-    </span>
+    </Box>
   )
 }
