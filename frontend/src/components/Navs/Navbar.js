@@ -47,7 +47,7 @@ function Navbar() {
       <Box className="collapse navbar-collapse" id="navbarTogglerDemo01">
         <Stack minWidth="100%" className="navbar-nav">
           <Box className="d-flex" style={{ flexBasis: "100%" }}>
-            <Box className="iconNav">
+            <Box className="iconNav" sx={{alignSelf:"center"}}>
               <ToggleSwitch />
             </Box>
 
@@ -201,7 +201,7 @@ function Navbar() {
                 </Box>
                 <Box
                   className="nav-item"
-                  sx={{ minWidth: "fit-content", mr: 1.5 }}
+                  sx={{ minWidth: "fit-content"}}
                 >
                   <Link className="nav-link" to="/">
                     {t("Login")}
