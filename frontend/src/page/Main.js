@@ -224,7 +224,7 @@ function Main() {
                   severity="error"
                   sx={{ maxWidth: "350" }}
                 >
-                  {appErr}
+                 {appErr}...{serverErr}
                 </Alert>
               ) : null}
 
@@ -365,8 +365,7 @@ function Main() {
               )}
               {appErr || serverErr ? (
                 <Alert variant="outlined" severity="error">
-                  <p>{appErr}</p>
-                  <p>{serverErr}</p>
+                  {appErr}...{serverErr}
                 </Alert>
               ) : null}
               <Box className="text-center">

@@ -85,7 +85,7 @@ export default function ViewCollectionCard(props) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "text.secondary" }}>
-            {props.collection.user.name.trim(0, 1)}
+            {props.collection.user.name.slice(0, 1)}
           </Avatar>
         }
         action={<IconButton aria-label="settings"></IconButton>}

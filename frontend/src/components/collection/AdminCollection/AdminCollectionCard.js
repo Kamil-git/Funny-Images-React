@@ -88,7 +88,7 @@ export default function AdminCollectionCard(props) {
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {props.collection.user.name.trim(0, 1)}
+            {props.collection.user.name.slice(0, 1)}
           </Avatar>
         }
         action={

@@ -54,7 +54,7 @@ const {userAuth} = user
 
       <form
         onSubmit={formik.handleSubmit}
-        id="mainsection"
+        style={{minHeight:"100vh", alignItems:"center"}}
         className="p-4 d-flex justify-content-center w-100"
       >
         <div className="file-upload-wrapper">
