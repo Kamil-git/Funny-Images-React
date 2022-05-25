@@ -365,7 +365,8 @@ function Main() {
               )}
               {appErr || serverErr ? (
                 <Alert variant="outlined" severity="error">
-                  {appErr}
+                  <p>{appErr}</p>
+                  <p>{serverErr}</p>
                 </Alert>
               ) : null}
               <Box className="text-center">
@@ -374,7 +375,7 @@ function Main() {
                     display: "flex",
                     flex: "row no-wrap",
                     justifyContent: "center",
-                    alignItems:"center"
+                    alignItems: "center",
                   }}
                 >
                   <ToggleSwitch />
@@ -386,7 +387,6 @@ function Main() {
                     style={{
                       textDecorationLine: "underline",
                       display: "block",
-                      
                     }}
                     to="/view-collections"
                   >
