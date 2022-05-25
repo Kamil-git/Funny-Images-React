@@ -163,7 +163,7 @@ const {userAuth} = user
               <Avatar
                 sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}
               >
-                {comment.user.trim(0, 1)}
+                {comment.user.slice(0, 1)}
               </Avatar>
               <span style={{ alignSelf: "center" }}>{comment.description}</span>
             </Typography>
