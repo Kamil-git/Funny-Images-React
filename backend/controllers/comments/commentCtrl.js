@@ -67,7 +67,7 @@ const updateCommentCtrl = asyncHandler(async (req, res) => {
 })
 const deleteCommentCtrl = asyncHandler(async (req, res) => {
   const { id } = req.params
-  validateId(id)
+ 
   try {
     const comment = await Comment.findByIdAndDelete(id)
     res.json(comment)

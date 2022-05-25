@@ -36,6 +36,7 @@ export default function MyCollections() {
     navigate,
     dispatch,
     commentState.isCreated,
+    commentState.isDeleted
   ])
   return (
     <div>

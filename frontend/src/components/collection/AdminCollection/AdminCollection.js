@@ -38,6 +38,7 @@ export default function AdminCollection() {
     navigate,
     dispatch,
     commentState.isCreated,
+    commentState.isDeleted
   ])
   return (
     <div>

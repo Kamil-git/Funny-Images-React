@@ -12,13 +12,13 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
-import { TextField } from "@mui/material"
+import { InputBase, TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
 import CollectionsIcon from "@mui/icons-material/Collections"
 import { useDispatch, useSelector } from "react-redux"
 import ViewCollectionItem from "./ViewCollectionItem"
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 import { useFormik } from "formik"
 import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
 import * as Yup from "yup"
@@ -54,24 +54,23 @@ export default function ViewCollectionCard(props) {
   const user = useSelector((state) => state.users)
   const { userAuth } = user
 
-    const formik = useFormik({
-      initialValues: {
-        description: "",
-        userName: "",
+  const formik = useFormik({
+    initialValues: {
+      description: "",
+      userName: "",
+      collectionId: props?.collection?._id,
+    },
+    onSubmit: (values) => {
+      const data = {
+        description: values?.description,
+        userName: userAuth?.name,
         collectionId: props?.collection?._id,
-      },
-      onSubmit: (values) => {
-        const data = {
-          description: values?.description,
-          userName: userAuth?.name,
-          collectionId: props?.collection?._id,
-        }
+      }
 
-        dispatch(createCommentAction(data))
-      },
-      validationSchema: formSchema,
-    })
-  
+      dispatch(createCommentAction(data))
+    },
+    validationSchema: formSchema,
+  })
 
   return (
     <Card
@@ -158,18 +157,26 @@ export default function ViewCollectionCard(props) {
             </form>
           ) : null}
           {props?.collection?.comments.map((comment, index) => (
-            <Typography
-              key={index}
-              sx={{ fontSize: "12px", display: "flex", flex: "row no-wrap" }}
-              paragraph
-            >
+            <Box sx={{ display: "flex", alignItems: "flex-end" }} key={index}>
               <Avatar
-                sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}
+                sx={{
+                  color: "action.active",
+                  mr: 1,
+                  my: 0.5,
+                  fontSize: "12px",
+                  height: "1.5rem",
+                  width: "1.5rem",
+                }}
               >
                 {comment.user.slice(0, 1)}
               </Avatar>
-              <span style={{ alignSelf: "center" }}>{comment.description}</span>
-            </Typography>
+              <TextField
+                variant="standard"
+                disabled
+                label={comment.user}
+                value={comment.description}
+              />
+            </Box>
           ))}
         </CardContent>
       </Collapse>

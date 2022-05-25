@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import CommentIcon from "@mui/icons-material/Comment"
 import AddIcon from "@mui/icons-material/Add"
-import { TextField } from "@mui/material"
+import { Button,  TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import Moment from "react-moment"
 import CustomizedMenu from "../CollectionMenu/CustomizedMenu"
@@ -21,7 +21,10 @@ import MyCollectionItem from "./MyCollectionItem"
 import { useDispatch, useSelector } from "react-redux"
 import * as Yup from "yup"
 import { useFormik } from "formik"
-import { createCommentAction } from "../../../redux/slices/comments/commentsSlice"
+import DeleteIcon from "@mui/icons-material/Delete"
+
+import { createCommentAction, deleteCommentAction } from "../../../redux/slices/comments/commentsSlice"
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
   return <IconButton {...other} />
@@ -90,7 +93,7 @@ const {userAuth} = user
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {userAuth?.name?.slice(0,1)}
+            {userAuth?.name?.slice(0, 1)}
           </Avatar>
         }
         action={
@@ -155,18 +158,34 @@ const {userAuth} = user
           </form>
 
           {props?.collection?.comments.map((comment, index) => (
-            <Typography
-              key={index}
-              sx={{ fontSize: "12px", display: "flex", flex: "row no-wrap" }}
-              paragraph
-            >
+            <Box sx={{ display: "flex", alignItems: "flex-end" }} key={index}>
               <Avatar
-                sx={{ fontSize: "12px", height: "1.5rem", width: "1.5rem" }}
+                sx={{
+                  color: "action.active",
+                  mr: 1,
+                  my: 0.5,
+                  fontSize: "12px",
+                  height: "1.5rem",
+                  width: "1.5rem",
+                }}
               >
                 {comment.user.slice(0, 1)}
               </Avatar>
-              <span style={{ alignSelf: "center" }}>{comment.description}</span>
-            </Typography>
+              <TextField
+                fullWidth
+                variant="standard"
+                disabled
+                label={comment.user}
+                value={comment.description}
+              />
+
+              <IconButton
+                
+                onClick={()=>dispatch(deleteCommentAction(comment._id))}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           ))}
         </CardContent>
       </Collapse>
