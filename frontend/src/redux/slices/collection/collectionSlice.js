@@ -145,9 +145,9 @@ export const searchCollection = createAsyncThunk(
   async (query, { rejectWithValue, getState, dispatch }) => {
     
     
-    console.log(query)
+    
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.post(
         `${baseUrl}/api/collection/search/${query}`,
         
       )

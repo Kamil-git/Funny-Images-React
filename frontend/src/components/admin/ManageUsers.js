@@ -77,13 +77,24 @@ export default function ManageUsers() {
   return (
     <Grid>
       <Navbar />
-
-      <Box sx={{minHeight:"100vh", justifyContent:"center"}}>
+      {appErr || serverErr ? (
+        <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
+          {appErr}
+          {serverErr}
+        </Alert>
+      ) : null}
+      <Box sx={{ minHeight: "100vh", justifyContent: "center" }}>
         {loading ? (
           <CircularProgress />
         ) : (
           <DataGrid
-            sx={{ color: "inherit", height: "40rem",width:"auto", mr:5, ml:5 }}
+            sx={{
+              color: "inherit",
+              height: "40rem",
+              width: "auto",
+              mr: 5,
+              ml: 5,
+            }}
             rows={usersList}
             columns={columns}
             pageSize={9}
@@ -204,16 +215,6 @@ export default function ManageUsers() {
             }}
           />
         )}
-        {appErr || serverErr ? (
-          <Alert
-            variant="outlined"
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
-            {appErr}
-            {serverErr}
-          </Alert>
-        ) : null}
       </Box>
       <Footer />
     </Grid>

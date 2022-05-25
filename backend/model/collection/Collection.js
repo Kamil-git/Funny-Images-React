@@ -17,7 +17,6 @@ const collectionSchema = new mongoose.Schema(
     tags: {
       type: String,
     },
-
   },
 
   {
@@ -41,7 +40,7 @@ collectionSchema.virtual("items", {
   foreignField: "collectionId",
   localField: "_id",
 })
-
+collectionSchema.index({ name: "text", tags: "text" })
 const Collection = mongoose.model("Collection", collectionSchema)
 
 module.exports = Collection

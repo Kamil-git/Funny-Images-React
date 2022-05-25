@@ -220,7 +220,8 @@ function Main() {
               )}
               {appErr || serverErr ? (
                 <Alert
-                  variant="outlined"
+                  
+              
                   severity="error"
                   sx={{ maxWidth: "350" }}
                 >
@@ -364,7 +365,7 @@ function Main() {
                 <Rules handleSubmit={formik.handleSubmit} />
               )}
               {appErr || serverErr ? (
-                <Alert variant="outlined" severity="error">
+                <Alert  severity="error">
                   {appErr}...{serverErr}
                 </Alert>
               ) : null}

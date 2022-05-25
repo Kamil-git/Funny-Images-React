@@ -2,7 +2,7 @@ const express = require("express")
 const {
   updateCollectionCtrl,
   deleteCollection,
-  fetchCollectionItems,
+  
   fetchCollectionCtrl,
   createCollectionCtrl,
   searchCollectionCtrl
@@ -23,7 +23,7 @@ collectionRoutes.get("/", fetchCollectionCtrl)
 
 collectionRoutes.put("/:id", authMiddleware, updateCollectionCtrl)
 collectionRoutes.delete("/:id", authMiddleware, deleteCollection)
-collectionRoutes.get('/search/:query', searchCollectionCtrl)
+collectionRoutes.post('/search/:query', searchCollectionCtrl)
 
 
 module.exports = collectionRoutes

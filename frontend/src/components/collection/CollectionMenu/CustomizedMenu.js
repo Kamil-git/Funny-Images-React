@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem"
 
 import ArchiveIcon from "@mui/icons-material/Archive"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
-import { ButtonGroup} from "@mui/material"
+import { ButtonGroup, IconButton} from "@mui/material"
 import EditCollection from "./EditCollection"
 import { useDispatch } from "react-redux"
 import CreateItem from "./CreateItem"
@@ -65,8 +65,7 @@ export default function CustomizedMenu(props) {
   const collectionId = props.collection.collection._id
   //delete string to server
   const deleteString = `${userId},${collectionId}`
-console.log(userId)
-console.log(collectionId)
+
   return (
     <div>
       <ButtonGroup
@@ -96,12 +95,12 @@ console.log(collectionId)
           <CreateItem collection={props.collection} />
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
-          <ButtonGroup>
-            <ArchiveIcon
-              onClick={() => dispatch(deleteCollectionAction(deleteString))}
-            />
+          <IconButton
+            onClick={() => dispatch(deleteCollectionAction(deleteString))}
+          >
+            <ArchiveIcon />
             {t("Delete")}
-          </ButtonGroup>
+          </IconButton>
         </MenuItem>
       </StyledMenu>
     </div>

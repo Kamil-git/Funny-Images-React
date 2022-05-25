@@ -1,7 +1,7 @@
 import React from "react"
 import Footer from "../Navs/Footer"
 import Navbar from "../Navs/Navbar"
-import { Button, CircularProgress, TextField } from "@mui/material"
+import { Alert, Button, CircularProgress, TextField } from "@mui/material"
 import { createCollectionAction } from "../../redux/slices/collection/collectionSlice"
 import { useFormik } from "formik"
 import * as Yup from "yup"
@@ -37,24 +37,23 @@ function CreateCollection() {
     },
     validationSchema: formSchema,
   })
-  const user = useSelector((state)=> state?.users)
+  const user = useSelector((state) => state?.users)
   const coll = useSelector((state) => state?.collection)
-const {userAuth} = user
+  const { userAuth } = user
   const { loading, appErr, serverErr } = coll
   React.useEffect(() => {
-    if(!userAuth){
+    if (!userAuth) {
       navigate("/")
     }
-    
   }, [navigate, userAuth])
-  
+
   return (
     <div>
       <Navbar />
 
       <form
         onSubmit={formik.handleSubmit}
-        style={{minHeight:"100vh", alignItems:"center"}}
+        style={{ minHeight: "100vh", alignItems: "center" }}
         className="p-4 d-flex justify-content-center w-100"
       >
         <div className="file-upload-wrapper">
@@ -107,30 +106,10 @@ const {userAuth} = user
           )}
 
           {appErr || serverErr ? (
-            <div
-              className="toast show fade text-white bg-danger"
-              role="alert"
-              aria-live="assertive"
-              aria-atomic="true"
-              data-mdb-color="danger"
-              data-mdb-autohide="false"
-            >
-              <div className="toast-header text-white bg-danger">
-                <i className="fas fa-exclamation-circle fa-lg me-2"></i>
-                <strong className="me-auto">Error</strong>
-
-                <button
-                  type="button"
-                  className="btn-close btn-close-white"
-                  data-mdb-dismiss="toast"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="toast-body">
-                {appErr}
-                {serverErr}
-              </div>
-            </div>
+            <Alert severity="error" sx={{ maxWidth: "350" }}>
+              {appErr}
+              {serverErr}
+            </Alert>
           ) : null}
         </div>
       </form>
