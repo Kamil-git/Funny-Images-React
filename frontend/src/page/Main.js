@@ -239,7 +239,7 @@ function Main() {
                   }}
                 >
                   <ToggleSwitch />
-                  <SwitchLanguage />
+                  
                   <Box>{t("Not_a_member")}?</Box>
                   <Link
                     className="text-reset"
@@ -379,7 +379,7 @@ function Main() {
                   }}
                 >
                   <ToggleSwitch />
-                  <SwitchLanguage />
+                  
                   <Box>{t("Not_a_member")}?</Box>
 
                   <Link
