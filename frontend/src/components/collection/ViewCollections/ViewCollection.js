@@ -24,8 +24,8 @@ export default function ViewCollection() {
     collection
   const commentState = useSelector((state) => state.comment)
   useEffect(() => {
-    dispatch(fetchCollectionAction())
-  }, [dispatch, commentState.isCreated, likes,foundCollections])
+    dispatch(fetchCollectionAction(key))
+  }, [dispatch, commentState.isCreated, likes,foundCollections,key])
   
   return (
     <div>
