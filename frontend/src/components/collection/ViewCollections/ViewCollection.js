@@ -4,12 +4,13 @@ import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
 import { fetchCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { Alert, CircularProgress } from "@mui/material"
+import { Alert, CircularProgress,Box,FormControl,MenuItem,Select } from "@mui/material"
 import ViewCollectionCard from "./ViewCollectionCard"
 
 import { useTranslation } from "react-i18next"
 
 export default function ViewCollection() {
+  const [key, setKey] = React.useState("asc")
   const dispatch = useDispatch()
 
   const { t } = useTranslation()
@@ -30,6 +31,21 @@ export default function ViewCollection() {
     <div>
       <Navbar />
       <Grid container sx={{ minHeight: "100vh", justifyContent: "center" }}>
+      <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              variant="standard"
+              value={key}
+              label="Sorting"
+              onChange={(e) => setKey(e.target.value)}
+            >
+              <MenuItem value="asc">Smaller first</MenuItem>
+              <MenuItem value="dsc">Bigger first</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         {loading ? (
           <div>
             <CircularProgress sx={{ alignSelf: "center" }} />

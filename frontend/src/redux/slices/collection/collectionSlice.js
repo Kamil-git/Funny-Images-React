@@ -189,7 +189,22 @@ const collectionSlices = createSlice({
       state.loading = true
     })
     builder.addCase(fetchCollectionAction.fulfilled, (state, action) => {
-      state.collectionList = action?.payload
+      const { arg } = action.meta
+       switch (arg) {
+        case "asc":
+          state.collectionList = action?.payload.sort(
+            (a, b) => a?.items?.length - b?.items?.length
+          )
+          break
+        case "dsc":
+          state.collectionList = action?.payload.sort(
+            (a, b) => b?.items?.length - a?.items?.length 
+          )
+          break
+        default:
+          
+          break
+      }
       state.loading = false
       state.appErr = undefined
       state.serverErr = undefined
