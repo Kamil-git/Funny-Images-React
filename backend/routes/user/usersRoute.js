@@ -17,7 +17,7 @@ const {
 const authMiddleware = require("../../middlewares/auth/authMiddleware")
 const userRoutes = express.Router()
 
-// userRoutes.post("/register", userRegisterCtrl)
+userRoutes.post("/register", userRegisterCtrl)
 userRoutes.post("/login", loginUserCtrl)
 userRoutes.get("/", authMiddleware, fetchUsersCtrl)
 userRoutes.get("/profile/:id", authMiddleware, userProfileCtrl)
