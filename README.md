@@ -1,4 +1,3 @@
-# ReactAlbumApp
-My biggest react project
+Heroku:
 https://kamilreactproject.herokuapp.com/
 
