@@ -50,7 +50,6 @@ export const createItemAction = createAsyncThunk(
 export const deleteItemAction = createAsyncThunk(
   "item/delete",
   async (deleteString, { rejectWithValue, getState, dispatch }) => {
-    
     //get user token
     const user = getState()?.users
     const { userAuth } = user

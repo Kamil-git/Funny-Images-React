@@ -93,7 +93,7 @@ const searchCollectionCtrl = asyncHandler(async (req, res) => {
 
     res.json(collection)
   } catch (error) {
-    res.status(505).json({message:error.message})
+    res.status(505).json({ message: error.message })
   }
 })
 

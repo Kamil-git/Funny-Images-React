@@ -40,6 +40,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 })
 
+
 //Users
 const fetchUsersCtrl = asyncHandler(async (req, res) => {
   const { isAdmin } = req.user
@@ -202,6 +203,10 @@ const removeAdminCtrl = asyncHandler(async (req, res) => {
   }
 })
 
+
+
+
+
 module.exports = {
   userRegisterCtrl,
   loginUserCtrl,
@@ -215,4 +220,5 @@ module.exports = {
   unBlockUserCtrl,
   removeAdminCtrl,
   addAdminCtrl,
+ 
 }

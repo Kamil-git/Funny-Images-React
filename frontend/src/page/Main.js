@@ -5,14 +5,17 @@ import * as Yup from "yup"
 import { useDispatch, useSelector } from "react-redux"
 import {
   loginUserAction,
+  loginUserWithGithub,
   registerUserAction,
 } from "../redux/slices/users/usersSlices"
 
 import {
   Alert,
+  Box,
   Button,
   CircularProgress,
   Grid,
+  IconButton,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -24,8 +27,6 @@ import FacebookIcon from "@mui/icons-material/Facebook"
 import GoogleIcon from "@mui/icons-material/Google"
 import { ToggleSwitch } from "../components/Navs/ToggleSwitch"
 import Rules from "./Rules"
-import SwitchLanguage from "../components/Navs/SwitchLanguage"
-import { Box } from "@mui/system"
 
 //register schema
 const formSchema = Yup.object({
@@ -74,7 +75,7 @@ function Main() {
 
   //select state from store
   const storeData = useSelector((store) => store?.users)
-  const { loading, appErr, serverErr, registered, userAuth } = storeData
+  let { loading, appErr, serverErr, registered, userAuth } = storeData
 
   React.useEffect(() => {
     if (userAuth && !userAuth.isBlocked) {
@@ -83,8 +84,15 @@ function Main() {
     if (registered) {
       window.location.reload()
     }
+    
     return () => {}
   }, [navigate, userAuth, registered])
+  // const gitHubRedirectURL = "http://localhost:5000/api/auth"
+  // const path = "/"
+  const github = () => {
+    window.open("http://localhost:5000/api/auth/github", "_self")
+    
+  }
 
   return (
     <Grid
@@ -140,33 +148,33 @@ function Main() {
             <form onSubmit={formikLogin.handleSubmit}>
               <div className="text-center mb-4">
                 <p>{t("Sign_in_with")}:</p>
-                <Link to="#">
+                <IconButton>
                   <FacebookIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="#">
+                <IconButton>
                   <GoogleIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="#">
+                <IconButton>
                   <TwitterIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="#">
+                <IconButton onClick={github}>
                   <GitHubIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
               </div>
 
               <p className="text-center">{t("or")}:</p>
@@ -219,13 +227,8 @@ function Main() {
                 </Button>
               )}
               {appErr || serverErr ? (
-                <Alert
-                  
-              
-                  severity="error"
-                  sx={{ maxWidth: "350" }}
-                >
-                 {appErr}...{serverErr}
+                <Alert severity="error" sx={{ maxWidth: "350" }}>
+                  {appErr}...{serverErr}
                 </Alert>
               ) : null}
 
@@ -239,7 +242,7 @@ function Main() {
                   }}
                 >
                   <ToggleSwitch />
-                  
+
                   <Box>{t("Not_a_member")}?</Box>
                   <Link
                     className="text-reset"
@@ -262,33 +265,33 @@ function Main() {
             <form onSubmit={formik.handleSubmit}>
               <div className="text-center mb-4">
                 <p>{t("Sign_up_with")}:</p>
-                <Link to="">
+                <IconButton>
                   <FacebookIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="">
+                <IconButton>
                   <GoogleIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="">
+                <IconButton>
                   <TwitterIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
 
-                <Link to="">
+                <IconButton>
                   <GitHubIcon
                     fontSize="large"
                     sx={{ color: "text.secondary", m: 0.5 }}
                   />
-                </Link>
+                </IconButton>
               </div>
 
               <p className="text-center">or:</p>
@@ -365,7 +368,7 @@ function Main() {
                 <Rules handleSubmit={formik.handleSubmit} />
               )}
               {appErr || serverErr ? (
-                <Alert  severity="error">
+                <Alert severity="error">
                   {appErr}...{serverErr}
                 </Alert>
               ) : null}
@@ -379,7 +382,7 @@ function Main() {
                   }}
                 >
                   <ToggleSwitch />
-                  
+
                   <Box>{t("Not_a_member")}?</Box>
 
                   <Link

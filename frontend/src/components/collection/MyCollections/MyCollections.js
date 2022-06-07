@@ -4,7 +4,7 @@ import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchUsersCollection } from "../../../redux/slices/users/usersSlices"
-import { Alert, CircularProgress } from "@mui/material"
+import { Alert, Box, CircularProgress, FormControl, MenuItem, Select } from "@mui/material"
 import MyCollectionsCard from "./MyCollectionsCard"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
@@ -13,6 +13,7 @@ export default function MyCollections() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const [key, setKey] = React.useState("asc")
 
   const users = useSelector((state) => state?.users)
 
@@ -23,7 +24,7 @@ export default function MyCollections() {
   const commentState = useSelector((state) => state.comment)
 
   useEffect(() => {
-    dispatch(fetchUsersCollection())
+    dispatch(fetchUsersCollection(key))
 
     if (!userAuth || userAuth.isBlocked === true) return navigate("/")
   }, [
@@ -36,10 +37,11 @@ export default function MyCollections() {
     navigate,
     dispatch,
     commentState.isCreated,
-    commentState.isDeleted
+    commentState.isDeleted,
+    key
   ])
   return (
-    <div>
+    <Box>
       <Navbar />
       <Grid
         container
@@ -48,25 +50,44 @@ export default function MyCollections() {
           justifyContent: "center",
         }}
       >
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              variant="standard"
+              value={key}
+              label="Sorting"
+              onChange={(e) => setKey(e.target.value)}
+            >
+              <MenuItem value="asc">Smaller first</MenuItem>
+              <MenuItem value="dsc">Bigger first</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         {loading ? (
-          <div>
+          <Box sx={{ alignSelf: "center" }}>
             <CircularProgress sx={{ maxHeight: "200px" }} disableShrink />
-          </div>
+          </Box>
         ) : appErr || serverErr ? (
-          <div>
+          <Box>
             <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
               {appErr}
               {serverErr}
             </Alert>
-          </div>
+          </Box>
         ) : serverErr || appErr || !Array.isArray(userCollections) ? (
-          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-            {t("No_collection_found")}
-          </Alert>
+          <Box>
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
+              {t("No_collection_found")}
+            </Alert>
+          </Box>
         ) : userCollections?.length <= 0 ? (
-          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-            {t("No_collection_found")}
-          </Alert>
+          <Box>
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
+              {t("No_collection_found")}
+            </Alert>
+          </Box>
         ) : (
           <Grid
             justifyContent="center"
@@ -85,6 +106,6 @@ export default function MyCollections() {
         )}
       </Grid>
       <Footer />
-    </div>
+    </Box>
   )
 }

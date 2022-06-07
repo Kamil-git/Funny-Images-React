@@ -85,6 +85,24 @@ export const fetchUsersList = createAsyncThunk(
     }
   }
 )
+//TODO
+export const loginUserWithGithub = createAsyncThunk(
+  "user/login-github",
+  async (x, { rejectWithValue, getState, dispatch }) => {
+    try {
+      await axios
+        .get(`${baseUrl}/api/auth/github/login/success`)
+        .then((response) => {
+          return response.user
+        })
+    } catch (error) {
+      if (!error.response) {
+        throw error
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
 //-----------------------------------login
 export const loginUserAction = createAsyncThunk(
   "user/login",
@@ -110,6 +128,7 @@ export const loginUserAction = createAsyncThunk(
     }
   }
 )
+
 //logout action
 export const logoutAction = createAsyncThunk(
   "users/logout",
@@ -184,7 +203,7 @@ export const deleteUserAction = createAsyncThunk(
   "users/deleteUser",
   async (id, { rejectWithValue, getState, dispatch }) => {
     //get user token
-    console.log(id)
+
     const user = getState()?.users
     const { userAuth } = user
     const config = {
@@ -270,7 +289,6 @@ const usersSlices = createSlice({
   name: "users",
   initialState: {
     userAuth: userLoginFromStorage,
-    
   },
   extraReducers: (builder) => {
     //register
@@ -307,6 +325,23 @@ const usersSlices = createSlice({
       state.serverErr = action.error.message
       state.loading = false
     })
+    //login with github
+    builder.addCase(loginUserWithGithub.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(loginUserWithGithub.fulfilled, (state, action) => {
+      state.userAuth = action?.payload
+      state.loading = false
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(loginUserWithGithub.rejected, (state, action) => {
+      state.appErr = action?.payload?.message
+      state.serverErr = action.error.message
+      state.loading = false
+    })
     //logout
     builder.addCase(logoutAction.pending, (state, action) => {
       state.loading = false
@@ -327,7 +362,22 @@ const usersSlices = createSlice({
       state.loading = true
     })
     builder.addCase(fetchUsersCollection.fulfilled, (state, action) => {
-      state.userCollections = action?.payload
+     
+      const { arg } = action.meta
+      switch (arg) {
+        case "asc":
+          state.userCollections = action?.payload?.sort(
+            (a, b) => a?.items?.length - b?.items?.length
+          )
+          break
+        case "dsc":
+          state.userCollections = action?.payload?.sort(
+            (a, b) => b?.items?.length - a?.items?.length
+          )
+          break
+        default:
+          break
+      }
       state.loading = false
       state.appErr = undefined
       state.serverErr = undefined
@@ -337,6 +387,7 @@ const usersSlices = createSlice({
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
     })
+    //
     builder.addCase(fetchUsersList.pending, (state, action) => {
       state.loading = true
       state.appErr = undefined
@@ -349,7 +400,6 @@ const usersSlices = createSlice({
       state.serverErr = undefined
     })
     builder.addCase(fetchUsersList.rejected, (state, action) => {
-      
       state.loading = false
       state.appErr = action?.payload?.message
       state.serverErr = action?.error?.message
@@ -409,39 +459,39 @@ const usersSlices = createSlice({
       state.serverErr = action?.error?.message
     })
     //add admin
-     builder.addCase(addAdminUserAction.pending, (state, action) => {
-       state.loading = true
-       state.appErr = undefined
-       state.serverErr = undefined
-     })
-     builder.addCase(addAdminUserAction.fulfilled, (state, action) => {
-       state.loading = false
-       state.addedAdmin = action?.payload
-       state.appErr = undefined
-       state.serverErr = undefined
-     })
-     builder.addCase(addAdminUserAction.rejected, (state, action) => {
-       state.loading = false
-       state.appErr = action?.payload?.message
-       state.serverErr = action?.error?.message
-     })
-     //remove admin
-      builder.addCase(removeAdminUserAction.pending, (state, action) => {
-        state.loading = true
-        state.appErr = undefined
-        state.serverErr = undefined
-      })
-      builder.addCase(removeAdminUserAction.fulfilled, (state, action) => {
-        state.loading = false
-        state.removedAdmin = action?.payload
-        state.appErr = undefined
-        state.serverErr = undefined
-      })
-      builder.addCase(removeAdminUserAction.rejected, (state, action) => {
-        state.loading = false
-        state.appErr = action?.payload?.message
-        state.serverErr = action?.error?.message
-      })
+    builder.addCase(addAdminUserAction.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(addAdminUserAction.fulfilled, (state, action) => {
+      state.loading = false
+      state.addedAdmin = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(addAdminUserAction.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
+    //remove admin
+    builder.addCase(removeAdminUserAction.pending, (state, action) => {
+      state.loading = true
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(removeAdminUserAction.fulfilled, (state, action) => {
+      state.loading = false
+      state.removedAdmin = action?.payload
+      state.appErr = undefined
+      state.serverErr = undefined
+    })
+    builder.addCase(removeAdminUserAction.rejected, (state, action) => {
+      state.loading = false
+      state.appErr = action?.payload?.message
+      state.serverErr = action?.error?.message
+    })
   },
 })
 

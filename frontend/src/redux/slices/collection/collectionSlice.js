@@ -120,7 +120,6 @@ export const deleteCollectionAction = createAsyncThunk(
     const config = {
       headers: {
         Authorization: `Bearer ${userAuth?.token}`,
-        
       },
     }
     //http call
@@ -143,13 +142,9 @@ export const deleteCollectionAction = createAsyncThunk(
 export const searchCollection = createAsyncThunk(
   "collection/search",
   async (query, { rejectWithValue, getState, dispatch }) => {
-    
-    
-    
     try {
       const { data } = await axios.post(
-        `${baseUrl}/api/collection/search/${query}`,
-        
+        `${baseUrl}/api/collection/search/${query}`
       )
       return data
     } catch (error) {
@@ -190,7 +185,7 @@ const collectionSlices = createSlice({
     })
     builder.addCase(fetchCollectionAction.fulfilled, (state, action) => {
       const { arg } = action.meta
-       switch (arg) {
+      switch (arg) {
         case "asc":
           state.collectionList = action?.payload.sort(
             (a, b) => a?.items?.length - b?.items?.length
@@ -198,11 +193,10 @@ const collectionSlices = createSlice({
           break
         case "dsc":
           state.collectionList = action?.payload.sort(
-            (a, b) => b?.items?.length - a?.items?.length 
+            (a, b) => b?.items?.length - a?.items?.length
           )
           break
         default:
-          
           break
       }
       state.loading = false
@@ -272,7 +266,7 @@ const collectionSlices = createSlice({
     builder.addCase(searchCollection.pending, (state, action) => {
       state.loading = true
     })
-    builder.addCase(searchCollection.fulfilled, (state , action) => {
+    builder.addCase(searchCollection.fulfilled, (state, action) => {
       state.loading = false
       state.foundCollections = action?.payload
       state.appErr = undefined

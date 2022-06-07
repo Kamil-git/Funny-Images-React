@@ -14,6 +14,7 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
         //find the user by id
         
         req.user = await User.findById(decoded?.id).select("-password")
+        
         //attach the user to the request object
         next()
       }

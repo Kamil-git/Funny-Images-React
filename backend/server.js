@@ -3,28 +3,43 @@ const express = require("express")
 require("dotenv").config()
 const dbConnect = require("./config/db/dbConnect")
 const userRoutes = require("./routes/user/usersRoute")
-const { errorHandler} = require("./middlewares/error/errorHandler")
+const { errorHandler } = require("./middlewares/error/errorHandler")
 const itemRoutes = require("./routes/item/itemRoutes")
-const commentRoute = require('./routes/comment/commentRoute')
-const collectionRoutes = require('./routes/collection/collectionRoutes')
+const commentRoute = require("./routes/comment/commentRoute")
+const collectionRoutes = require("./routes/collection/collectionRoutes")
 const cors = require("cors")
 const path = require("path")
+const session = require("express-session")
+const cookieSession = require("cookie-session")
+const passport = require("passport")
+const passportSetup = require("./config/passport/passport")
+const socialMediaRoutes = require("./routes/socialMedia/socialMediaRoutes")
 dbConnect()
 //server
 const app = express()
 
-//middleware
+app.use(
+  session({
+    secret: process.env.GITHUB_CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+)
+//passport 
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(cors())
-app.use(express.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 //users route
 app.use("/api/users", userRoutes)
-app.use('/api/items', itemRoutes)
-app.use('/api/comments', commentRoute)
+app.use("/api/items", itemRoutes)
+app.use("/api/comments", commentRoute)
 app.use("/api/collection", collectionRoutes)
-
-
+app.use("/api/auth", socialMediaRoutes)
+//-------------------------------------------------------------------------
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")))
 

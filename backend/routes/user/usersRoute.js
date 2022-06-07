@@ -11,7 +11,10 @@ const {
   blockUserCtrl,
   unBlockUserCtrl,
   addAdminCtrl,
-  removeAdminCtrl
+  removeAdminCtrl,
+ 
+
+  
 } = require("../../controllers/users/usersController")
 
 const authMiddleware = require("../../middlewares/auth/authMiddleware")
@@ -29,5 +32,8 @@ userRoutes.put('/unblock-user', authMiddleware, unBlockUserCtrl)
 userRoutes.put("/password/update", authMiddleware, updateUserPasswordCtrl)
 userRoutes.delete("/delete/:id",authMiddleware,  deleteUsersCtrl)
 userRoutes.get("/:id", fetchUserDetailsCtrl)
+
+
+
 
 module.exports = userRoutes

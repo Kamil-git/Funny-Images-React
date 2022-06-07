@@ -4,7 +4,14 @@ import Navbar from "../../Navs/Navbar"
 import Grid from "@mui/material/Grid"
 import { fetchCollectionAction } from "../../../redux/slices/collection/collectionSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { Alert, CircularProgress,Box,FormControl,MenuItem,Select } from "@mui/material"
+import {
+  Alert,
+  CircularProgress,
+  Box,
+  FormControl,
+  MenuItem,
+  Select,
+} from "@mui/material"
 import ViewCollectionCard from "./ViewCollectionCard"
 
 import { useTranslation } from "react-i18next"
@@ -25,13 +32,13 @@ export default function ViewCollection() {
   const commentState = useSelector((state) => state.comment)
   useEffect(() => {
     dispatch(fetchCollectionAction(key))
-  }, [dispatch, commentState.isCreated, likes,foundCollections,key])
-  
+  }, [dispatch, commentState.isCreated, likes, foundCollections, key])
+
   return (
-    <div>
+    <Box>
       <Navbar />
       <Grid container sx={{ minHeight: "100vh", justifyContent: "center" }}>
-      <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <Select
               labelId="demo-simple-select-label"
@@ -47,40 +54,30 @@ export default function ViewCollection() {
           </FormControl>
         </Box>
         {loading ? (
-          <div>
+          <Box sx={{ alignSelf: "center" }}>
             <CircularProgress sx={{ alignSelf: "center" }} />
-          </div>
+          </Box>
         ) : appErr || serverErr ? (
-          <div>
-            <Alert
-              
-              severity="error"
-              sx={{ maxHeight: "200px", width: "400px" }}
-            >
+          <Box>
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
               {appErr}
               {serverErr}
             </Alert>
-          </div>
+          </Box>
         ) : serverErr || appErr || !Array.isArray(collectionList) ? (
-          <Alert
-            
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
+          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
             {t("No_collection_found")}
           </Alert>
-        ) :(
+        ) : (
           <Grid
             justifyContent="center"
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            
             {collectionList?.map((_, index) => (
               <div key={index}>
                 <ViewCollectionCard
-                
                   collection={collectionList[index]}
                 ></ViewCollectionCard>
               </div>
@@ -89,6 +86,7 @@ export default function ViewCollection() {
         )}
       </Grid>
       <Footer />
-    </div>
+    </Box>
   )
 }
+

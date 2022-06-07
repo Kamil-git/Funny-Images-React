@@ -6,12 +6,13 @@ import ManageUsers from "./components/admin/ManageUsers"
 import CreateCollection from "./components/collection/CreateCollection"
 import ViewCollection from "./components/collection/ViewCollections/ViewCollection"
 import MyCollections from "./components/collection/MyCollections/MyCollections"
-import {  useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import FoundCollection from "./components/collection/FoundCollection/FoundCollection"
 import { darkTheme, lightTheme } from "./redux/slices/theme/theme"
 import { ThemeProvider } from "@mui/material/styles"
 import { Paper } from "@mui/material"
 import AdminCollection from "./components/collection/AdminCollection/AdminCollection"
+
 export default function App() {
   // get theme from store
   const theme = useSelector((state) => state.theme)
@@ -46,8 +47,9 @@ export default function App() {
             <Route
               exact
               path="/found-collection"
-              element={<FoundCollection/>}
+              element={<FoundCollection />}
             ></Route>
+            
           </Routes>
         </BrowserRouter>
       </Paper>

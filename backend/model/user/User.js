@@ -14,9 +14,8 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      require:true,
+      required:true,
     },
-
     isBlocked: {
       type: Boolean,
       default: false,
@@ -25,21 +24,6 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    role: {
-      type: String,
-      enum: ["Admin", "Guest", "Registered User"],
-    },
-    // isAccountVerified: { type: Boolean, default: false },
-    // accountVerificationToken: String,
-    // accountVerificationTokenExpires: Date,
-    // passwordChangeAt: Date,
-    // passwordRessetToken: String,
-    // passwordResetExpires: Date,
-
-    // active: {
-    //   type: Boolean,
-    //   default: false,
-    // },
   },
   {
     toJSON: {
