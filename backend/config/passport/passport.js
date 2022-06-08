@@ -15,8 +15,6 @@ passport.deserializeUser((id, done) => {
   })
 })
 
-
-
 passport.use(
   new GitHubStrategy(
     {
@@ -28,7 +26,6 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       User.findOne({ name: profile.username }).then((currentUser) => {
         if (currentUser) {
-          console.log("user is: ", currentUser)
           done(null, currentUser)
         } else {
           new User({
@@ -38,7 +35,6 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              console.log("created new user: ", newUser)
               done(null, newUser)
             })
         }

@@ -89,11 +89,13 @@ function Main() {
   }, [navigate, userAuth, registered])
   // const gitHubRedirectURL = "http://localhost:5000/api/auth"
   // const path = "/"
-  const github = () => {
+  const github = async () => {
     window.open("http://localhost:5000/api/auth/github", "_self")
+
   }
   React.useEffect(() => {
-    dispatch(loginUserWithGithub())
+   
+    
   }, [dispatch])
 
   return (
@@ -250,6 +252,7 @@ function Main() {
                     className="text-reset"
                     style={{ textDecorationLine: "underline" }}
                     to="/view-collections"
+                    
                   >
                     {t("Continue")}
                   </Link>

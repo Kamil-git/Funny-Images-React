@@ -44,6 +44,21 @@ app.use("/api/items", itemRoutes)
 app.use("/api/comments", commentRoute)
 app.use("/api/collection", collectionRoutes)
 app.use("/api/auth", socialMediaRoutes)
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true)
+  res.header("Access-Control-Allow-Origin", req.headers.origin)
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE")
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  )
+  if ("OPTIONS" == req.method) {
+    res.send(200)
+  } else {
+    next()
+  }
+})
 //-------------------------------------------------------------------------
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")))

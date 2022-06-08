@@ -90,8 +90,10 @@ export const loginUserWithGithub = createAsyncThunk(
   "user/login-github",
   async (x, { rejectWithValue, getState, dispatch }) => {
     try {
-      const user = await axios.get(`${baseUrl}/api/auth/github/callback`)
-      return user
+      const { data } = await axios.get(`${baseUrl}/api/auth/github/getUser`)
+       localStorage.setItem("userInfo", JSON.stringify(data))
+       console.log(data)
+       return data
     } catch (error) {
       if (!error.response) {
         throw error
@@ -116,6 +118,7 @@ export const loginUserAction = createAsyncThunk(
         config
       )
       localStorage.setItem("userInfo", JSON.stringify(data))
+
       return data
     } catch (error) {
       if (!error?.response) {
