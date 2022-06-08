@@ -15,12 +15,15 @@ passport.deserializeUser((id, done) => {
   })
 })
 
+
+
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "/api/auth/github/callback",
+      
     },
     async (accessToken, refreshToken, profile, done) => {
       User.findOne({ name: profile.username }).then((currentUser) => {

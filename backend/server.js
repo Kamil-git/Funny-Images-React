@@ -18,19 +18,24 @@ dbConnect()
 //server
 const app = express()
 
+
+//passport 
+
 app.use(
   session({
     secret: process.env.GITHUB_CLIENT_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 )
-//passport 
+app.use(express.urlencoded({ extended: false }))
 app.use(passport.initialize())
+
 app.use(passport.session())
+
 app.use(cors())
-app.use(express.urlencoded({ extended: true }))
+
 app.use(express.json())
 
 //users route

@@ -14,8 +14,11 @@ socialMediaRoutes.get(
   "/github/callback",
   passport.authenticate("github", {
     failureRedirect: CLIENT_URL,
-    successRedirect: CLIENT_URL,
+    successRedirect: "http://localhost:5000/api/auth/getUser",
   })
 )
+socialMediaRoutes.get("/getUser", (req, res) => {
+  console.log(req.user)
+})
 
 module.exports = socialMediaRoutes

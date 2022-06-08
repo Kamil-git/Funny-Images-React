@@ -90,11 +90,8 @@ export const loginUserWithGithub = createAsyncThunk(
   "user/login-github",
   async (x, { rejectWithValue, getState, dispatch }) => {
     try {
-      await axios
-        .get(`${baseUrl}/api/auth/github/login/success`)
-        .then((response) => {
-          return response.user
-        })
+      const user = await axios.get(`${baseUrl}/api/auth/github/callback`)
+      return user
     } catch (error) {
       if (!error.response) {
         throw error
@@ -362,7 +359,6 @@ const usersSlices = createSlice({
       state.loading = true
     })
     builder.addCase(fetchUsersCollection.fulfilled, (state, action) => {
-     
       const { arg } = action.meta
       switch (arg) {
         case "asc":

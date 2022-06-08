@@ -84,15 +84,17 @@ function Main() {
     if (registered) {
       window.location.reload()
     }
-    
+
     return () => {}
   }, [navigate, userAuth, registered])
   // const gitHubRedirectURL = "http://localhost:5000/api/auth"
   // const path = "/"
   const github = () => {
     window.open("http://localhost:5000/api/auth/github", "_self")
-    
   }
+  React.useEffect(() => {
+    dispatch(loginUserWithGithub())
+  }, [dispatch])
 
   return (
     <Grid
