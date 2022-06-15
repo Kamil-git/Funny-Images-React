@@ -1,23 +1,74 @@
 @import "~mdb-ui-kit/css/mdb.min.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap');
- 
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap");
 
 .nav-link {
   color: unset;
 }
-#root{
+#root {
   height: fit-content;
+}
+* {
+  font-family: "Zen Maru Gothic", sans-serif;
+}
+
+.navbar__toggler {
+  display: none !important;
+}
+.wraplist {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.header__navigation {
+  display: flex;
+  width: 100%;
+  height: 80px;
+  box-shadow: rgba(117, 115, 115, 0.25) 0px 1px 12px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.navbar__logo {
+  font-size: 20px;
+}
+.hide__navbar {
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
   
+  align-items: center;
 }
-*{
-  font-family: 'Zen Maru Gothic', sans-serif;
+@media only screen and (max-width: 990px) {
+  .navbar__toggler {
+    display: inline-block !important;
+    
+    width: auto !important;
+    /* position: absolute; */
+    left: 0;
+  }
+  .visible__navbar{
+    display: none;
+  }
+  .hide__navbar {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end;
+    align-items: baseline;
+  }
+  .header__navigation {
+    display: flex;
+    flex-direction: column !important;
+    height: auto !important;
+    justify-content: flex-start !important;
+    align-items: flex-end !important;
+    flex-wrap: wrap ;
+    
+  }
 }
-
-
-
-/* ---------------Navbar responsivness --------------------------*/
-@media only screen and (max-width: 1000px) and (min-width:800px) {
+/* ---------------Navbar responsivness --------------------------
+@media only screen and (max-width: 1000px) and (min-width: 800px) {
   .wraplist {
     flex-direction: column;
   }
@@ -36,8 +87,13 @@
     top: 7%;
     right: 5%;
   }
+  .navbar__logo {
+    position: absolute;
+    top: 3%;
+    left: 20%;
+  }
 }
-@media only screen and (max-width: 800px) and (min-width:700px) {
+@media only screen and (max-width: 800px) and (min-width: 700px) {
   .wraplist {
     flex-direction: column;
   }
@@ -56,8 +112,13 @@
     top: 7%;
     right: 5%;
   }
+  .navbar__logo {
+    position: absolute;
+    top: 3%;
+    left: 25%;
+  }
 }
-@media only screen and (max-width: 700px) and (min-width:600px) {
+@media only screen and (max-width: 700px) and (min-width: 600px) {
   .wraplist {
     flex-direction: column;
   }
@@ -75,6 +136,11 @@
     position: absolute;
     top: 7%;
     right: 5%;
+  }
+  .navbar__logo {
+    position: absolute;
+    top: 3%;
+    left: 32%;
   }
 }
 @media only screen and (max-width: 600px) {
@@ -96,6 +162,12 @@
     top: 7%;
     right: 5%;
   }
+  .navbar__logo {
+    position: absolute;
+    top: 3%;
+    left: 38%;
+    font-size: 10px;
+  }
 }
 @media only screen and (max-width: 500px) {
   .iconNav2 {
@@ -103,9 +175,10 @@
     top: 3%;
     left: 35%;
   }
-}
-.navbar__logo{
-  display: flex;
-  font-size: 20px;
-  align-items: center;
-}
+  .navbar__logo {
+    position: absolute;
+    top: 3%;
+    left: 38%;
+    font-size: 10px;
+  }
+} */
