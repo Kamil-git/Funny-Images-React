@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler")
 const generateToken = require("../../config/token/generateToken")
 const validateId = require("../utils/validateId")
 
+const Collection = require("../../model/collection/Collection")
 //--------------------------------------Register
 const userRegisterCtrl = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email: req.body.email })
@@ -61,11 +62,28 @@ const deleteUsersCtrl = asyncHandler(async (req, res) => {
   try {
     const user = await User.deleteMany({
       _id: { $in: req.params.id.split(",").filter((id) => id.length > 0) },
-    }).then(() => localStorage.clear())
+    }).then(() => localStorage.clear() && await Collection.collection.drop())
+    // const collections = await User.findById(id).populate([
+    //   {
+    //     path: "collections",
+    //     model: "Collection",
+    //     populate: [
+    //       {
+    //         path: "items",
+    //         model: "Item",
+    //       },
+    //       {
+    //         path: "comments",
+    //         model: "Comment",
+    //       },
+    //     ],
+    //   },
+    // ])
     res.json(user)
   } catch (error) {
     res.json("Error couldnt delete user")
   }
+
 })
 
 //user details

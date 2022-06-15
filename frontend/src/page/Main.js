@@ -93,7 +93,7 @@ function Main() {
     window.open("http://localhost:5000/api/auth/github", "_self")
   }
   React.useEffect(() => {}, [dispatch])
-  const [alignment, setAlignment] = React.useState("web")
+  const [alignment, setAlignment] = React.useState("login")
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment)
@@ -103,14 +103,11 @@ function Main() {
     <Box
       id="mainsection"
       sx={{
-        display:"flex",
-        textAlign:"center",
+        display: "flex",
+        textAlign: "center",
         height: "100vh",
-        justifyContent:"center",
+        justifyContent: "center",
         padding: "80px",
-       
-        
-        
       }}
     >
       <Box container>
@@ -124,7 +121,7 @@ function Main() {
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <Box sx={{width:"350px"}}>
+        <Box sx={{ width: "350px" }}>
           {alignment === "login" ? (
             <Box>
               <form onSubmit={formikLogin.handleSubmit}>
@@ -291,10 +288,10 @@ function Main() {
                   <TextField
                     fullWidth
                     variant="standard"
-                    type="email"
                     value={formik.values.email}
                     onChange={formik.handleChange("email")}
                     onBlur={formik.handleBlur("email")}
+                    type="email"
                   />
                   <p>Email</p>
                   <p style={{ fontSize: "10px", color: "red" }}>

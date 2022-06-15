@@ -64,7 +64,7 @@ export default function ViewCollection() {
               {serverErr}
             </Alert>
           </Box>
-        ) : serverErr || appErr || !Array.isArray(collectionList) ? (
+        ) : serverErr || appErr ||  !Array.isArray(collectionList) ? (
           <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
             {t("No_collection_found")}
           </Alert>
