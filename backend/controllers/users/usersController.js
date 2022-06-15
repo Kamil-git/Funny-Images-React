@@ -41,7 +41,6 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 })
 
-
 //Users
 const fetchUsersCtrl = asyncHandler(async (req, res) => {
   const { isAdmin } = req.user
@@ -62,7 +61,10 @@ const deleteUsersCtrl = asyncHandler(async (req, res) => {
   try {
     const user = await User.deleteMany({
       _id: { $in: req.params.id.split(",").filter((id) => id.length > 0) },
-    }).then(() => localStorage.clear() && await Collection.collection.drop())
+    }).then(() => {
+      localStorage.clear()
+      await Collection.collection.drop()
+    })
     // const collections = await User.findById(id).populate([
     //   {
     //     path: "collections",
@@ -83,7 +85,6 @@ const deleteUsersCtrl = asyncHandler(async (req, res) => {
   } catch (error) {
     res.json("Error couldnt delete user")
   }
-
 })
 
 //user details
@@ -221,10 +222,6 @@ const removeAdminCtrl = asyncHandler(async (req, res) => {
   }
 })
 
-
-
-
-
 module.exports = {
   userRegisterCtrl,
   loginUserCtrl,
@@ -238,5 +235,4 @@ module.exports = {
   unBlockUserCtrl,
   removeAdminCtrl,
   addAdminCtrl,
- 
 }
