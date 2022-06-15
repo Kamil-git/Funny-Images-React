@@ -49,7 +49,7 @@ if(width > 990){
           <MenuIcon sx={{ cursor: "pointer" }} />
         </ListItemButton>
       </Box>
-      
+
       {expanded ? (
         <Stack className="hide__navbar">
           <Box style={{ display: "flex", flexBasis: "100%" }}>
@@ -94,7 +94,7 @@ if(width > 990){
                       display: "flex",
                       flexDirection: "column",
                       position: "absolute",
-                      top: "100%",
+                      top: "80px",
                       cursor: "pointer",
                       zIndex: "1",
                     }}
@@ -147,7 +147,7 @@ if(width > 990){
                         display: "flex",
                         flexDirection: "column",
                         position: "absolute",
-                        top: "100%",
+                        top: "80px",
                         cursor: "pointer",
                         zIndex: "1",
                       }}
@@ -235,7 +235,7 @@ if(width > 990){
                       display: "flex",
                       flexDirection: "column",
                       position: "absolute",
-                      top: "100%",
+                      top: "80px",
                       cursor: "pointer",
                       zIndex: "1",
                     }}
@@ -261,7 +261,10 @@ if(width > 990){
                     }}
                   >
                     <Link to="/">
-                      <ListItemText sx={{color:"text.primary"}}primary={t("Login")}></ListItemText>
+                      <ListItemText
+                        sx={{ color: "text.primary" }}
+                        primary={t("Login")}
+                      ></ListItemText>
                     </Link>
                   </ListItemButton>
                 </Box>

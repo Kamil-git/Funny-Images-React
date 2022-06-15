@@ -27,12 +27,11 @@ function SwitchLanguage() {
         sx={{
           width: "100%",
           height: "25px",
-          
         }}
         onClick={() => setOpen(!open)}
       >
         <ListItemText
-        sx={{justifyContent:'center'}}
+          sx={{ justifyContent: "center" }}
           primary={
             i18next.language === "en" ? (
               <i className="flag-united-kingdom flag m-0"></i>
@@ -41,8 +40,6 @@ function SwitchLanguage() {
             )
           }
         />
-
-
       </ListItemButton>
       {open ? (
         <List
@@ -53,13 +50,13 @@ function SwitchLanguage() {
             display: "flex",
             flexDirection: "column",
             position: "absolute",
-            top: "100%",
+            top: "80px",
             cursor: "pointer",
             zIndex: "1",
           }}
         >
           <ListItem>
-            <Box className="dropdown-item" onClick={() => switchLanguage()}>
+            <Box onClick={() => switchLanguage()}>
               <i className="flag-united-kingdom flag"></i>
               {t("English")}
               {i18next.language === "en" ? (
@@ -68,7 +65,7 @@ function SwitchLanguage() {
             </Box>
           </ListItem>
           <ListItem>
-            <Box className="dropdown-item" onClick={() => switchLanguage()}>
+            <Box onClick={() => switchLanguage()}>
               <i className="flag-poland flag"></i>
               {t("Polish")}
               {i18next.language === "pl" ? (
@@ -79,38 +76,6 @@ function SwitchLanguage() {
         </List>
       ) : null}
     </Box>
-
-    // <Box className="nav-item dropdown iconNav2" sx={{alignSelf:"center"}}>
-    //   <Box
-    //     className="nav-link dropdown-toggle text-reset"
-    //     to="#"
-    //     id="navbarDropdown"
-    //     role="button"
-    //     data-mdb-toggle="dropdown"
-    //     aria-expanded="false"
-    //   >
-    //     {i18next.language === "en" ? (
-    //       <i className="flag-united-kingdom flag m-0"></i>
-    //     ) : (
-    //       <i className="flag-poland flag"></i>
-    //     )}
-    //   </Box>
-    //   <Box className="dropdown-menu " aria-labelledby="navbarDropdown">
-    //     <Box>
-    //       <p className="dropdown-item" onClick={() => switchLanguage()}>
-    //         <i className="flag-united-kingdom flag"></i>
-    //         {t("English")}
-    //         {i18next.language === "en" ? (
-    //           <i className="fa fa-check text-success ms-2"></i>
-    //         ) : null}
-    //       </p>
-    //     </Box>
-
-    //     <Box>
-
-    //     </Box>
-    //   </Box>
-    // </Box>
   )
 }
 
