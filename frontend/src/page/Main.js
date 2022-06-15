@@ -164,7 +164,6 @@ function Main() {
                     onChange={formikLogin.handleChange("email")}
                     value={formikLogin.values.email}
                     onBlur={formikLogin.handleBlur("email")}
-                   
                     id="loginName"
                   />
                   <p>Email</p>

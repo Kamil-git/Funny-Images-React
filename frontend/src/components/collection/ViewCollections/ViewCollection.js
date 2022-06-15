@@ -64,11 +64,7 @@ export default function ViewCollection() {
               {serverErr}
             </Alert>
           </Box>
-        ) : serverErr || appErr ||  !Array.isArray(collectionList) ? (
-          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-            {t("No_collection_found")}
-          </Alert>
-        ) : (
+        ) : collectionList && Array.isArray(collectionList) ? (
           <Grid
             justifyContent="center"
             container
@@ -83,6 +79,10 @@ export default function ViewCollection() {
               </div>
             ))}
           </Grid>
+        ) : (
+          <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
+            {t("No_collection_found")}
+          </Alert>
         )}
       </Grid>
       <Footer />

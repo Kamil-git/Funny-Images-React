@@ -86,7 +86,7 @@ export default function ManageUsers() {
         <Box sx={{ minHeight: "100vh", justifyContent: "center" }}>
           {loading ? (
             <CircularProgress />
-          ) : usersList && Array.isArray(usersList) && userAuth ? (
+          ) : userAuth  ? (
             <DataGrid
               sx={{
                 color: "inherit",

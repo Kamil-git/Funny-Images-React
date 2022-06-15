@@ -197,6 +197,9 @@ const collectionSlices = createSlice({
           )
           break
         default:
+          state.collectionList = action?.payload.sort(
+            (a, b) => a?.items?.length - b?.items?.length
+          )
           break
       }
       state.loading = false

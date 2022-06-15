@@ -93,7 +93,7 @@ const {userAuth} = user
       <CardHeader
         avatar={
           <Avatar sx={{}} aria-label="recipe">
-            {userAuth?.name?.slice(0, 1)}
+            {userAuth && userAuth?.name?.slice(0, 1)}
           </Avatar>
         }
         action={

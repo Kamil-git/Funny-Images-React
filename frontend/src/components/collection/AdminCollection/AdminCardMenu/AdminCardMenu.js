@@ -62,8 +62,8 @@ export default function AdminCardMenu(props) {
   }
 
   // id to validate user
-  const userId = props.collection.collection.user.id
-  const collectionId = props.collection.collection._id
+  const userId = props?.collection?.collection?.user?.id
+  const collectionId = props?.collection?.collection?._id
   //delete string to server
   const deleteString = `${userId},${collectionId}`
  
@@ -93,7 +93,7 @@ export default function AdminCardMenu(props) {
           <AdminEditMenu collection={props} />
         </MenuItem>
         <MenuItem disableRipple>
-          <AdminCreateItem collection={props.collection} />
+          <AdminCreateItem collection={props?.collection} />
         </MenuItem>
         <MenuItem
           onClick={() => dispatch(deleteCollectionAction(deleteString))}

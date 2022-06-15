@@ -38,7 +38,7 @@ export default function AdminCollection() {
     navigate,
     dispatch,
     commentState.isCreated,
-    commentState.isDeleted
+    commentState.isDeleted,
   ])
   return (
     <div>
@@ -61,9 +61,7 @@ export default function AdminCollection() {
               {serverErr}
             </Alert>
           </div>
-        ) : userCollections?.length <= 0 ? (
-          <h2>{t("No_collection_found")}</h2>
-        ) : (
+        ) : Array.isArray(collectionList) && collectionList?.length > 0 ? (
           <Grid
             justifyContent="center"
             container
@@ -78,6 +76,8 @@ export default function AdminCollection() {
               </div>
             ))}
           </Grid>
+        ) : (
+          <h2>{t("No_collection_found")}</h2>
         )}
       </Grid>
       <Footer />
