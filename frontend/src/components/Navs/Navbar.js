@@ -45,6 +45,7 @@ function Navbar() {
               <ToggleSwitch />
             </Box>
             <SwitchLanguage />
+            <Box class="navbar__logo">Funny Images</Box>
           </Box>
 
           <Box className="d-flex wraplist">

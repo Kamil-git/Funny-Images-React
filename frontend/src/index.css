@@ -104,3 +104,8 @@
     left: 35%;
   }
 }
+.navbar__logo{
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+}

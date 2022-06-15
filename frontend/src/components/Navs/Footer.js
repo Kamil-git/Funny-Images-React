@@ -44,7 +44,7 @@ function Footer() {
           <GitHubIcon fontSize="large" sx={{ color: "text.secondary" }} />
         </Link>
       </Box>
-      <Box sx={{ m: 1 }}>© 2022 Copyright: Kamil Kwiatkowski</Box>
+      <Box sx={{ m: 1 }}>© 2022 Copyright: Funny Images</Box>
     </Box>
   )
 }
