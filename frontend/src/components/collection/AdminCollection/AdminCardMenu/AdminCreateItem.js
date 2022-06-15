@@ -26,8 +26,8 @@ export default function AdminCreateItem(props) {
 
   const { t } = useTranslation()
   //------collection id
-  const id = props.collection.collection.id
-  const userId = props.collection.collection.user.id
+  const id = props?.collection?.collection?.id
+  const userId = props?.collection?.collection?.user?.id
 
   
 
