@@ -63,7 +63,7 @@ const deleteUsersCtrl = asyncHandler(async (req, res) => {
       _id: { $in: req.params.id.split(",").filter((id) => id.length > 0) },
     }).then(() => {
       localStorage.clear()
-      await Collection.collection.drop()
+      Collection.collection.drop()
     })
     // const collections = await User.findById(id).populate([
     //   {
