@@ -91,322 +91,289 @@ function Main() {
   // const path = "/"
   const github = async () => {
     window.open("http://localhost:5000/api/auth/github", "_self")
-
   }
-  React.useEffect(() => {
-   
-    
-  }, [dispatch])
+  React.useEffect(() => {}, [dispatch])
+  const [alignment, setAlignment] = React.useState("web")
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment)
+  }
 
   return (
-    <Grid
+    <Box
       id="mainsection"
-      className="w-100 p-4 d-flex justify-content-center pb-4"
-      sx={{ minHeight: "100vh" }}
+      sx={{
+        display:"flex",
+        textAlign:"center",
+        height: "100vh",
+        justifyContent:"center",
+        padding: "80px",
+       
+        
+        
+      }}
     >
-      <div style={{ width: "26rem" }}>
-        <ToggleButtonGroup
-          className="d-flex nav nav-tabs justify-content-center mb-3"
-          id="myTab"
-          role="tablist"
-          color="primary"
-          exclusive
-        >
-          <ToggleButton
-            color="standard"
-            size="medium"
-            id="login-tab"
-            data-toggle="tab"
-            href="#login"
-            role="tab"
-            aria-controls="login"
-            aria-selected="true"
-            value="login"
-          >
+      <Box container>
+        <ToggleButtonGroup value={alignment} exclusive onChange={handleChange}>
+          <ToggleButton color="standard" size="medium" value="login">
             {t("Login")}
           </ToggleButton>
 
-          <ToggleButton
-            color="standard"
-            size="medium"
-            id="register-tab"
-            data-toggle="tab"
-            href="#register"
-            role="tab"
-            aria-controls="register"
-            aria-selected="false"
-            value="register"
-          >
+          <ToggleButton color="standard" size="medium" value="register">
             {t("Register")}
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <div className="tab-content min-vh-100">
-          {/* ------------Login-------------  */}
-          <div
-            className="tab-pane active"
-            id="login"
-            role="tabpanel"
-            aria-labelledby="login-tab"
-          >
-            <form onSubmit={formikLogin.handleSubmit}>
-              <div className="text-center mb-4">
-                <p>{t("Sign_in_with")}:</p>
-                <IconButton>
-                  <FacebookIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
+        <Box sx={{width:"350px"}}>
+          {alignment === "login" ? (
+            <Box>
+              <form onSubmit={formikLogin.handleSubmit}>
+                <Box>
+                  <p>{t("Sign_in_with")}:</p>
+                  <IconButton>
+                    <FacebookIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
 
-                <IconButton>
-                  <GoogleIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
+                  <IconButton>
+                    <GoogleIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
 
-                <IconButton>
-                  <TwitterIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
+                  <IconButton>
+                    <TwitterIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
 
-                <IconButton onClick={github}>
-                  <GitHubIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
-              </div>
-
-              <p className="text-center">{t("or")}:</p>
-
-              <div className="form-outline mb-4 text-center">
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  onChange={formikLogin.handleChange("email")}
-                  value={formikLogin.values.email}
-                  onBlur={formikLogin.handleBlur("email")}
-                  type="email"
-                  id="loginName"
-                  className="form-control active"
-                />
-                <label className="form-label ">Email</label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.email}
-                </span>
-              </div>
-
-              <div className="form-outline mb-4 text-center">
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  onChange={formikLogin.handleChange("password")}
-                  value={formikLogin.values.password}
-                  onBlur={formikLogin.handleBlur("password")}
-                  type="password"
-                  id="loginPassword"
-                  className="form-control active"
-                />
-                <label className="form-label" htmlFor="loginPassword">
-                  {t("Password")}
-                </label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.password}
-                </span>
-              </div>
-              {loading ? (
-                <CircularProgress />
-              ) : (
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="inherit"
-                  fullWidth
-                >
-                  {t("Login")}
-                </Button>
-              )}
-              {appErr || serverErr ? (
-                <Alert severity="error" sx={{ maxWidth: "350" }}>
-                  {appErr}...{serverErr}
-                </Alert>
-              ) : null}
-
-              <div className="text-center">
-                <Box
-                  sx={{
-                    display: "flex",
-                    flex: "row no-wrap",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ToggleSwitch />
-
-                  <Box>{t("Not_a_member")}?</Box>
-                  <Link
-                    className="text-reset"
-                    style={{ textDecorationLine: "underline" }}
-                    to="/view-collections"
-                    
-                  >
-                    {t("Continue")}
-                  </Link>
+                  <IconButton onClick={github}>
+                    <GitHubIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
                 </Box>
-              </div>
-            </form>
-          </div>
-          {/* ------------Register-------------  */}
-          <div
-            className="tab-pane"
-            id="register"
-            role="tabpanel"
-            aria-labelledby="register-tab"
-          >
-            <form onSubmit={formik.handleSubmit}>
-              <div className="text-center mb-4">
-                <p>{t("Sign_up_with")}:</p>
-                <IconButton>
-                  <FacebookIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
+                <p>{t("or")}:</p>
+
+                <div>
+                  <TextField
+                    variant="standard"
+                    fullWidth
+                    onChange={formikLogin.handleChange("email")}
+                    value={formikLogin.values.email}
+                    onBlur={formikLogin.handleBlur("email")}
+                    type="email"
+                    id="loginName"
                   />
-                </IconButton>
+                  <p>Email</p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.email}
+                  </p>
+                </div>
 
-                <IconButton>
-                  <GoogleIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
+                <Box>
+                  <TextField
+                    variant="standard"
+                    fullWidth
+                    onChange={formikLogin.handleChange("password")}
+                    value={formikLogin.values.password}
+                    onBlur={formikLogin.handleBlur("password")}
+                    type="password"
+                    id="loginPassword"
                   />
-                </IconButton>
+                  <p>{t("Password")}</p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.password}
+                  </p>
+                </Box>
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="inherit"
+                    fullWidth
+                  >
+                    {t("Login")}
+                  </Button>
+                )}
+                {appErr || serverErr ? (
+                  <Alert severity="error" sx={{ maxWidth: "350" }}>
+                    {appErr}...{serverErr}
+                  </Alert>
+                ) : null}
 
-                <IconButton>
-                  <TwitterIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
-
-                <IconButton>
-                  <GitHubIcon
-                    fontSize="large"
-                    sx={{ color: "text.secondary", m: 0.5 }}
-                  />
-                </IconButton>
-              </div>
-
-              <p className="text-center">or:</p>
-
-              <div className="form-outline mb-3 text-center">
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  type="text"
-                  className="form-control active"
-                  onChange={formik.handleChange("name")}
-                  value={formik.values.name}
-                  onBlur={formik.handleBlur("name")}
-                />
-                <label className="form-label">{t("Name")}</label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.name}
-                </span>
-              </div>
-
-              <div className="form-outline mb-3 text-center">
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  type="email"
-                  className="form-control active"
-                  value={formik.values.email}
-                  onChange={formik.handleChange("email")}
-                  onBlur={formik.handleBlur("email")}
-                />
-                <label className="form-label">Email</label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.email}
-                </span>
-              </div>
-
-              <div className="form-outline mb-3 text-center">
-                <TextField
-                  fullWidth
-                  variant="standard"
-                  type="password"
-                  className="form-control active"
-                  value={formik.values.password}
-                  onChange={formik.handleChange("password")}
-                  onBlur={formik.handleBlur("password")}
-                />
-                <label className="form-label">{t("Password")}</label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.password}
-                </span>
-              </div>
-
-              <div className="form-outline mb-3 text-center">
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  value={formik.values.password2}
-                  onChange={formik.handleChange("password2")}
-                  onBlur={formik.handleBlur("password2")}
-                  type="password"
-                  className="form-control active"
-                />
-                <label className="form-label">
-                  {t("Repeat")} {t("Password")}
-                </label>
-                <span style={{ fontSize: "10px", color: "red" }}>
-                  {formik.errors.password2}
-                </span>
-              </div>
-
-              {loading ? (
-                <CircularProgress />
-              ) : (
-                <Rules handleSubmit={formik.handleSubmit} />
-              )}
-              {appErr || serverErr ? (
-                <Alert severity="error">
-                  {appErr}...{serverErr}
-                </Alert>
-              ) : null}
-              <Box className="text-center">
-                <Box
-                  style={{
-                    display: "flex",
-                    flex: "row no-wrap",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <ToggleSwitch />
-
-                  <Box>{t("Not_a_member")}?</Box>
-
-                  <Link
-                    className="text-reset"
-                    style={{
-                      textDecorationLine: "underline",
-                      display: "block",
+                <div>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flex: "row no-wrap",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                    to="/view-collections"
                   >
-                    {t("Continue")}
-                  </Link>
+                    <ToggleSwitch />
+
+                    <Box>{t("Not_a_member")}?</Box>
+
+                    <Link to="/view-collections">
+                      <Box
+                        sx={{
+                          textDecorationLine: "underline",
+                          color: "text.primary",
+                        }}
+                      >
+                        {t("Continue")}
+                      </Box>
+                    </Link>
+                  </Box>
+                </div>
+              </form>
+            </Box>
+          ) : (
+            <Box>
+              <form onSubmit={formik.handleSubmit}>
+                <Box>
+                  <p>{t("Sign_up_with")}:</p>
+                  <IconButton>
+                    <FacebookIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
+
+                  <IconButton>
+                    <GoogleIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
+
+                  <IconButton>
+                    <TwitterIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
+
+                  <IconButton>
+                    <GitHubIcon
+                      fontSize="large"
+                      sx={{ color: "text.secondary", m: 0.5 }}
+                    />
+                  </IconButton>
                 </Box>
-              </Box>
-            </form>
-          </div>
-        </div>
-      </div>
-    </Grid>
+
+                <p>or:</p>
+
+                <div>
+                  <TextField
+                    fullWidth
+                    variant="standard"
+                    type="text"
+                    onChange={formik.handleChange("name")}
+                    value={formik.values.name}
+                    onBlur={formik.handleBlur("name")}
+                  />
+                  <p>{t("Name")}</p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.name}
+                  </p>
+                </div>
+
+                <div>
+                  <TextField
+                    fullWidth
+                    variant="standard"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange("email")}
+                    onBlur={formik.handleBlur("email")}
+                  />
+                  <p>Email</p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.email}
+                  </p>
+                </div>
+
+                <div className="form-outline mb-3 text-center">
+                  <TextField
+                    fullWidth
+                    variant="standard"
+                    type="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange("password")}
+                    onBlur={formik.handleBlur("password")}
+                  />
+                  <p>{t("Password")}</p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.password}
+                  </p>
+                </div>
+
+                <div>
+                  <TextField
+                    variant="standard"
+                    fullWidth
+                    value={formik.values.password2}
+                    onChange={formik.handleChange("password2")}
+                    onBlur={formik.handleBlur("password2")}
+                    type="password"
+                  />
+                  <p>
+                    {t("Repeat")} {t("Password")}
+                  </p>
+                  <p style={{ fontSize: "10px", color: "red" }}>
+                    {formik.errors.password2}
+                  </p>
+                </div>
+
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Rules handleSubmit={formik.handleSubmit} />
+                )}
+                {appErr || serverErr ? (
+                  <Alert severity="error">
+                    {appErr}...{serverErr}
+                  </Alert>
+                ) : null}
+                <Box>
+                  <Box
+                    style={{
+                      display: "flex",
+                      flex: "row no-wrap",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ToggleSwitch />
+
+                    <Box>{t("Not_a_member")}?</Box>
+
+                    <Link
+                      style={{
+                        textDecorationLine: "underline",
+                        display: "block",
+                      }}
+                      to="/view-collections"
+                    >
+                      {t("Continue")}
+                    </Link>
+                  </Box>
+                </Box>
+              </form>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Box>
   )
 }
 
