@@ -1,5 +1,5 @@
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
-import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Box, ClickAwayListener, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import i18next from 'i18next'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,67 +15,72 @@ function SwitchLanguage() {
          i18next.changeLanguage("en")
        }
      }
+     const onClickAwayListener = () =>{
+      setOpen(false)
+     }
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <ListItemButton
+    <ClickAwayListener onClickAway={onClickAwayListener}>
+      <Box
         sx={{
-          width: "100%",
-          height: "25px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        onClick={() => setOpen(!open)}
       >
-        <ListItemText
-          sx={{ justifyContent: "center" }}
-          primary={
-            i18next.language === "en" ? (
-              <i className="flag-united-kingdom flag m-0"></i>
-            ) : (
-              <i className="flag-poland flag"></i>
-            )
-          }
-        />
-      </ListItemButton>
-      {open ? (
-        <List
+        <ListItemButton
           sx={{
-            backgroundColor: "#fff",
-            color: "#000",
-            border: "1px solid #000",
-            display: "flex",
-            flexDirection: "column",
-            position: "absolute",
-            top: "80px",
-            cursor: "pointer",
-            zIndex: "1",
+            width: "100%",
+            height: "25px",
           }}
+          onClick={() => setOpen(!open)}
         >
-          <ListItem>
-            <Box onClick={() => switchLanguage()}>
-              <i className="flag-united-kingdom flag"></i>
-              {t("English")}
-              {i18next.language === "en" ? (
-                <i className="fa fa-check text-success ms-2"></i>
-              ) : null}
-            </Box>
-          </ListItem>
-          <ListItem>
-            <Box onClick={() => switchLanguage()}>
-              <i className="flag-poland flag"></i>
-              {t("Polish")}
-              {i18next.language === "pl" ? (
-                <i className="fa fa-check text-success ms-2"></i>
-              ) : null}
-            </Box>
-          </ListItem>
-        </List>
-      ) : null}
-    </Box>
+          <ListItemText
+            sx={{ justifyContent: "center" }}
+            primary={
+              i18next.language === "en" ? (
+                <i className="flag-united-kingdom flag m-0"></i>
+              ) : (
+                <i className="flag-poland flag"></i>
+              )
+            }
+          />
+        </ListItemButton>
+        {open ? (
+          <List
+            sx={{
+              backgroundColor: "#fff",
+              color: "#000",
+              border: "1px solid #000",
+              display: "flex",
+              flexDirection: "column",
+              position: "absolute",
+              top: "80px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <ListItem>
+              <Box onClick={() => switchLanguage()}>
+                <i className="flag-united-kingdom flag"></i>
+                {t("English")}
+                {i18next.language === "en" ? (
+                  <i className="fa fa-check text-success ms-2"></i>
+                ) : null}
+              </Box>
+            </ListItem>
+            <ListItem>
+              <Box onClick={() => switchLanguage()}>
+                <i className="flag-poland flag"></i>
+                {t("Polish")}
+                {i18next.language === "pl" ? (
+                  <i className="fa fa-check text-success ms-2"></i>
+                ) : null}
+              </Box>
+            </ListItem>
+          </List>
+        ) : null}
+      </Box>
+    </ClickAwayListener>
   )
 }
 

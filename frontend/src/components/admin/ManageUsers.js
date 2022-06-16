@@ -77,16 +77,16 @@ export default function ManageUsers() {
   return (
     <Grid>
       <Navbar />
-      {appErr || serverErr ? (
-        <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-          {appErr}...
-          {serverErr}
-        </Alert>
+      {loading ? (
+        <CircularProgress />
       ) : (
         <Box sx={{ minHeight: "100vh", justifyContent: "center" }}>
-          {loading ? (
-            <CircularProgress />
-          ) : userAuth  ? (
+          {appErr || serverErr ? (
+            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
+              {appErr}...
+              {serverErr}
+            </Alert>
+          ) : userAuth.isAdmin && usersList ? (
             <DataGrid
               sx={{
                 color: "inherit",
