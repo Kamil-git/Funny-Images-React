@@ -45,7 +45,7 @@ function Navbar() {
     setOpen1(false)
   }
   const onClickAwayListener2 = () => {
-    setOpen1(false)
+    setOpen2(false)
   }
 
   return (
