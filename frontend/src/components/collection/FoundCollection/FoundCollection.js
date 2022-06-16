@@ -44,14 +44,6 @@ export default function FoundCollection() {
               {serverErr}
             </Alert>
           </div>
-        ) : serverErr || appErr  ? (
-          <Alert
-            
-            severity="error"
-            sx={{ maxHeight: "200px", width: "400px" }}
-          >
-            {t("No_collection_found")}
-          </Alert>
         ) : (
           <Grid
             justifyContent="center"

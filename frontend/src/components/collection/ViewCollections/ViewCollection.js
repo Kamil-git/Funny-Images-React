@@ -37,9 +37,9 @@ export default function ViewCollection() {
   return (
     <Box>
       <Navbar />
-      <Grid container sx={{ minHeight: "100vh", justifyContent: "center" }}>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
+      <Box sx={{minHeight:"100vh", display:'flex',alignItems:"center",flexDirection:"column"}}>
+        <Box sx={{ width: "120px", mb:5, mt:5 }}>
+          <FormControl>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -84,9 +84,8 @@ export default function ViewCollection() {
             {t("No_collection_found")}
           </Alert>
         )}
-      </Grid>
+      </Box>
       <Footer />
     </Box>
   )
 }
-

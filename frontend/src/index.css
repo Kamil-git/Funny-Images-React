@@ -1,4 +1,4 @@
-@import "~mdb-ui-kit/css/mdb.min.css";
+/* @import "~mdb-ui-kit/css/mdb.min.css"; */
 
 @import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap");
 
@@ -6,12 +6,17 @@
   color: unset;
 }
 #root {
-  height: fit-content;
+  height: 100%;
+  width:100%;
 }
 * {
   font-family: "Zen Maru Gothic", sans-serif;
+  margin:0;
+  padding: 0;
 }
-
+a{
+  text-decoration: none;
+}
 .navbar__toggler {
   display: none !important;
 }

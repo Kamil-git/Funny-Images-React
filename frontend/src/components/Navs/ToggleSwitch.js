@@ -18,7 +18,7 @@ export const ToggleSwitch = () => {
   }, [darkTheme, dispatch])
 
   return (
-    <Box sx={{ alignSelf: "center" }}>
+    <Box sx={{ alignSelf: "center",display:"flex",alignItems:"center" }}>
       <Switch checked={darkTheme} onChange={() => dispatch(toggleTheme())} />
       {darkTheme ? <Brightness4 /> : <Brightness7 />}
     </Box>

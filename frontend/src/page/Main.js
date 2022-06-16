@@ -13,6 +13,7 @@ import {
   Alert,
   Box,
   Button,
+  ButtonGroup,
   CircularProgress,
   Grid,
   IconButton,
@@ -31,13 +32,13 @@ import Rules from "./Rules"
 //register schema
 const formSchema = Yup.object({
   name: Yup.string().required("Name is required"),
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().required("Email is required").email("Invalid email format"),
   password: Yup.string().required("Password is required"),
   password2: Yup.string().required("Password2 is required"),
 })
 //login schema
 const loginSchema = Yup.object({
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().required('Email is required').email("Invalid email format"),
   password: Yup.string().required("Password is required"),
 })
 
@@ -98,7 +99,22 @@ function Main() {
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment)
   }
+ const validate = (
+   values,
+   props /* only available when using withFormik */
+ ) => {
+   const errors = {}
 
+   if (!values.email) {
+     errors.email = "Required"
+   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+     errors.email = "Invalid email address"
+   }
+
+   //...
+
+   return errors
+ }
   return (
     <Box
       id="mainsection"
@@ -112,11 +128,29 @@ function Main() {
     >
       <Box container>
         <ToggleButtonGroup value={alignment} exclusive onChange={handleChange}>
-          <ToggleButton color="standard" size="medium" value="login">
+          <ToggleButton
+            sx={{
+              borderTop: "0",
+              borderLeft: "0",
+              borderRight: "0",
+              borderRadius: "0",
+            }}
+            size="medium"
+            value="login"
+          >
             {t("Login")}
           </ToggleButton>
 
-          <ToggleButton color="standard" size="medium" value="register">
+          <ToggleButton
+            sx={{
+              borderTop: "0",
+              borderRight: "0",
+              borderLeft: "0",
+              borderRadius: "0",
+            }}
+            size="medium"
+            value="register"
+          >
             {t("Register")}
           </ToggleButton>
         </ToggleButtonGroup>
@@ -168,7 +202,7 @@ function Main() {
                   />
                   <p>Email</p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.email}
+                    {formik.touched.email && formik.errors.email}
                   </p>
                 </div>
 
@@ -184,7 +218,7 @@ function Main() {
                   />
                   <p>{t("Password")}</p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.password}
+                    {formik.touched.password && formik.errors.password}
                   </p>
                 </Box>
                 {loading ? (
@@ -279,7 +313,7 @@ function Main() {
                   />
                   <p>{t("Name")}</p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.name}
+                    {formik.touched.name && formik.errors.name}
                   </p>
                 </div>
 
@@ -294,7 +328,7 @@ function Main() {
                   />
                   <p>Email</p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.email}
+                    {formik.touched.email && formik.errors.email}
                   </p>
                 </div>
 
@@ -309,7 +343,7 @@ function Main() {
                   />
                   <p>{t("Password")}</p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.password}
+                    {formik.touched.password && formik.errors.password}
                   </p>
                 </div>
 
@@ -326,7 +360,7 @@ function Main() {
                     {t("Repeat")} {t("Password")}
                   </p>
                   <p style={{ fontSize: "10px", color: "red" }}>
-                    {formik.errors.password2}
+                    {formik.touched.password2 && formik.errors.password2}
                   </p>
                 </div>
 
@@ -356,11 +390,10 @@ function Main() {
                     <Link
                       style={{
                         textDecorationLine: "underline",
-                        display: "block",
                       }}
                       to="/view-collections"
                     >
-                      {t("Continue")}
+                      <Box sx={{ color: "text.primary" }}>{t("Continue")}</Box>
                     </Link>
                   </Box>
                 </Box>
