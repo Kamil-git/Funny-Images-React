@@ -32,13 +32,17 @@ import Rules from "./Rules"
 //register schema
 const formSchema = Yup.object({
   name: Yup.string().required("Name is required"),
-  email: Yup.string().required("Email is required").email("Invalid email format"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email format"),
   password: Yup.string().required("Password is required"),
   password2: Yup.string().required("Password2 is required"),
 })
 //login schema
 const loginSchema = Yup.object({
-  email: Yup.string().required('Email is required').email("Invalid email format"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email format"),
   password: Yup.string().required("Password is required"),
 })
 
@@ -99,22 +103,7 @@ function Main() {
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment)
   }
- const validate = (
-   values,
-   props /* only available when using withFormik */
- ) => {
-   const errors = {}
 
-   if (!values.email) {
-     errors.email = "Required"
-   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-     errors.email = "Invalid email address"
-   }
-
-   //...
-
-   return errors
- }
   return (
     <Box
       id="mainsection"
@@ -387,13 +376,15 @@ function Main() {
 
                     <Box>{t("Not_a_member")}?</Box>
 
-                    <Link
-                      style={{
-                        textDecorationLine: "underline",
-                      }}
-                      to="/view-collections"
-                    >
-                      <Box sx={{ color: "text.primary" }}>{t("Continue")}</Box>
+                    <Link to="/view-collections">
+                      <Box
+                        sx={{
+                          color: "text.primary",
+                          textDecorationLine: "underline",
+                        }}
+                      >
+                        {t("Continue")}
+                      </Box>
                     </Link>
                   </Box>
                 </Box>
