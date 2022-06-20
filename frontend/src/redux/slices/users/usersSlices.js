@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, createAction } from "@reduxjs/toolkit"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 import { baseUrl } from "../../../utils/baseURL"
 
 //----------------------------------------register action
@@ -133,9 +134,10 @@ export const loginUserAction = createAsyncThunk(
 export const logoutAction = createAsyncThunk(
   "users/logout",
   async (payload, { rejectWithValue, getState, dispatch }) => {
+
     try {
       localStorage.removeItem("userInfo")
-      window.location.reload()
+     
     } catch (error) {
       if (!error?.response) {
         throw error

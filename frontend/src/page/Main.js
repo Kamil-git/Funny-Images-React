@@ -147,21 +147,21 @@ function Main() {
               <form onSubmit={formikLogin.handleSubmit}>
                 <Box>
                   <p>{t("Sign_in_with")}:</p>
-                  <IconButton>
+                  <IconButton disabled>
                     <FacebookIcon
                       fontSize="large"
                       sx={{ color: "text.secondary", m: 0.5 }}
                     />
                   </IconButton>
 
-                  <IconButton>
+                  <IconButton disabled>
                     <GoogleIcon
                       fontSize="large"
                       sx={{ color: "text.secondary", m: 0.5 }}
                     />
                   </IconButton>
 
-                  <IconButton>
+                  <IconButton disabled>
                     <TwitterIcon
                       fontSize="large"
                       sx={{ color: "text.secondary", m: 0.5 }}

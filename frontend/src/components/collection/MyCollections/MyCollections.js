@@ -43,28 +43,15 @@ export default function MyCollections() {
   return (
     <Box>
       <Navbar />
-      <Grid
+      <Box
         container
         sx={{
           minHeight: "100vh",
-          justifyContent: "center",
+          alignItems:"center",
+          display:"flex",
+          flexDirection:"column"
         }}
       >
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              variant="standard"
-              value={key}
-              label="Sorting"
-              onChange={(e) => setKey(e.target.value)}
-            >
-              <MenuItem value="asc">Smaller first</MenuItem>
-              <MenuItem value="dsc">Bigger first</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
         {loading ? (
           <Box sx={{ alignSelf: "center" }}>
             <CircularProgress sx={{ maxHeight: "200px" }} disableShrink />
@@ -89,22 +76,39 @@ export default function MyCollections() {
             </Alert>
           </Box>
         ) : (
-          <Grid
-            justifyContent="center"
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
-          >
-            {userCollections?.map((_, index) => (
-              <div key={index}>
-                <MyCollectionsCard
-                  collection={userCollections[index]}
-                ></MyCollectionsCard>
-              </div>
-            ))}
-          </Grid>
+          <React.Fragment>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  variant="standard"
+                  value={key}
+                  label="Sorting"
+                  onChange={(e) => setKey(e.target.value)}
+                >
+                  <MenuItem value="asc">Smaller first</MenuItem>
+                  <MenuItem value="dsc">Bigger first</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Grid
+              justifyContent="center"
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              {userCollections?.map((_, index) => (
+                <div key={index}>
+                  <MyCollectionsCard
+                    collection={userCollections[index]}
+                  ></MyCollectionsCard>
+                </div>
+              ))}
+            </Grid>
+          </React.Fragment>
         )}
-      </Grid>
+      </Box>
       <Footer />
     </Box>
   )

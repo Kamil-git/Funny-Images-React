@@ -75,154 +75,166 @@ export default function ManageUsers() {
   }, [dispatch,block,unblock,deletedUser,addedAdmin,removedAdmin,navigate, userAuth])
 
   return (
-    <Grid>
+    <React.Fragment>
       <Navbar />
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Box sx={{ minHeight: "100vh", justifyContent: "center" }}>
-          {appErr || serverErr ? (
-            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-              {appErr}...
-              {serverErr}
-            </Alert>
-          ) : userAuth.isAdmin && usersList ? (
-            <DataGrid
-              sx={{
-                color: "inherit",
-                height: "40rem",
-                width: "auto",
-                mr: 5,
-                ml: 5,
-              }}
-              rows={usersList}
-              columns={columns}
-              pageSize={9}
-              rowsPerPageOptions={[5]}
-              checkboxSelection
-              disableSelectionOnClick
-              components={{
-                Toolbar: GridToolbar,
+      <Box sx={{ minHeight: "100vh" }}>
+        {loading ? (
+          <Box sx={{display:"flex",justifyContent:"center"}}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <React.Fragment>
+            {appErr || serverErr ? (
+              <Alert
+                severity="error"
+                sx={{ maxHeight: "200px", width: "400px" }}
+              >
+                {appErr}...
+                {serverErr}
+              </Alert>
+            ) : userAuth.isAdmin && usersList ? (
+              <Box>
+                <DataGrid
+                  sx={{
+                    mr: 5,
+                    ml: 5,
+                  }}
+                  autoHeight
+                  autoPageSize
+                  rows={usersList}
+                  columns={columns}
+                  pageSize={9}
+                  rowsPerPageOptions={[5]}
+                  checkboxSelection
+                  disableSelectionOnClick
+                  components={{
+                    Toolbar: GridToolbar,
 
-                Footer: function CustomToolBar() {
-                  const [anchorEl, setAnchorEl] = React.useState()
+                    Footer: function CustomToolBar() {
+                      const [anchorEl, setAnchorEl] = React.useState()
 
-                  const handleClick = (event) => {
-                    setAnchorEl(event.currentTarget)
-                  }
+                      const handleClick = (event) => {
+                        setAnchorEl(event.currentTarget)
+                      }
 
-                  const handleClose = () => {
-                    setAnchorEl(null)
-                  }
+                      const handleClose = () => {
+                        setAnchorEl(null)
+                      }
 
-                  const open = Boolean(anchorEl)
-                  const id = open ? "simple-popover" : undefined
-                  return (
-                    <>
-                      <IconButton
-                        aria-describedby={id}
-                        variant="contained"
-                        onClick={handleClick}
-                        color="primary"
-                        sx={{ fontSize: "1.5rem" }}
-                      >
-                        <ManageAccountsIcon></ManageAccountsIcon>{" "}
-                        {t("Manage_users")}
-                      </IconButton>
-                      <Popover
-                        id={id}
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "right",
-                        }}
-                      >
-                        <List>
-                          <ListItem>
-                            <IconButton
-                              color="error"
-                              size="small"
-                              onClick={() =>
-                                dispatch(deleteUserAction(gridItemsIds))
-                              }
-                            >
-                              {t("Delete")}
-                            </IconButton>
-                          </ListItem>
-                          <Divider />
-                          <ListItem button divider>
-                            <IconButton
-                              color="warning"
-                              size="small"
-                              onClick={() =>
-                                dispatch(blockUserAction(gridItemsIds))
-                              }
-                            >
-                              {t("Block")}
-                            </IconButton>
-                          </ListItem>
-                          <ListItem button>
-                            <IconButton
-                              color="success"
-                              size="small"
-                              onClick={() =>
-                                dispatch(unBlockUserAction(gridItemsIds))
-                              }
-                            >
-                              {t("Unblock")}
-                            </IconButton>
-                          </ListItem>
-                          <Divider light />
-                          <ListItem button>
-                            <IconButton
-                              color="info"
-                              size="small"
-                              onClick={() =>
-                                dispatch(addAdminUserAction(gridItemsIds))
-                              }
-                            >
-                              {t("Add_admin")}
-                            </IconButton>
-                          </ListItem>
-                          <Divider />
-                          <ListItem button>
-                            <IconButton
-                              color="error"
-                              size="small"
-                              onClick={() =>
-                                dispatch(removeAdminUserAction(gridItemsIds))
-                              }
-                            >
-                              {t("Remove_admin")}
-                            </IconButton>
-                          </ListItem>
-                        </List>
-                      </Popover>
-                    </>
-                  )
-                },
-              }}
-              onSelectionModelChange={(ids) => {
-                const selectedIDs = new Set(ids)
-                //whole objects catcher
-                // const selectedRowData = usersList.filter((row) =>
-                //   selectedIDs.has(row._id)
-                // )
+                      const open = Boolean(anchorEl)
+                      const id = open ? "simple-popover" : undefined
+                      return (
+                        <>
+                          <IconButton
+                            aria-describedby={id}
+                            variant="contained"
+                            onClick={handleClick}
+                            color="primary"
+                            sx={{ fontSize: "1.5rem" }}
+                          >
+                            <ManageAccountsIcon></ManageAccountsIcon>{" "}
+                            {t("Manage_users")}
+                          </IconButton>
+                          <Popover
+                            id={id}
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                          >
+                            <List>
+                              <ListItem>
+                                <IconButton
+                                  color="error"
+                                  size="small"
+                                  onClick={() =>
+                                    dispatch(deleteUserAction(gridItemsIds))
+                                  }
+                                >
+                                  {t("Delete")}
+                                </IconButton>
+                              </ListItem>
+                              <Divider />
+                              <ListItem button divider>
+                                <IconButton
+                                  color="warning"
+                                  size="small"
+                                  onClick={() =>
+                                    dispatch(blockUserAction(gridItemsIds))
+                                  }
+                                >
+                                  {t("Block")}
+                                </IconButton>
+                              </ListItem>
+                              <ListItem button>
+                                <IconButton
+                                  color="success"
+                                  size="small"
+                                  onClick={() =>
+                                    dispatch(unBlockUserAction(gridItemsIds))
+                                  }
+                                >
+                                  {t("Unblock")}
+                                </IconButton>
+                              </ListItem>
+                              <Divider light />
+                              <ListItem button>
+                                <IconButton
+                                  color="info"
+                                  size="small"
+                                  onClick={() =>
+                                    dispatch(addAdminUserAction(gridItemsIds))
+                                  }
+                                >
+                                  {t("Add_admin")}
+                                </IconButton>
+                              </ListItem>
+                              <Divider />
+                              <ListItem button>
+                                <IconButton
+                                  color="error"
+                                  size="small"
+                                  onClick={() =>
+                                    dispatch(
+                                      removeAdminUserAction(gridItemsIds)
+                                    )
+                                  }
+                                >
+                                  {t("Remove_admin")}
+                                </IconButton>
+                              </ListItem>
+                            </List>
+                          </Popover>
+                        </>
+                      )
+                    },
+                  }}
+                  onSelectionModelChange={(ids) => {
+                    const selectedIDs = new Set(ids)
+                    //whole objects catcher
+                    // const selectedRowData = usersList.filter((row) =>
+                    //   selectedIDs.has(row._id)
+                    // )
 
-                setGridItemsIds(Array.from(selectedIDs))
-              }}
-            />
-          ) : (
-            <Alert severity="error" sx={{ maxHeight: "200px", width: "400px" }}>
-              No UsersList...
-            </Alert>
-          )}
-        </Box>
-      )}
-
+                    setGridItemsIds(Array.from(selectedIDs))
+                  }}
+                />
+              </Box>
+            ) : (
+              <Alert
+                severity="error"
+                sx={{ maxHeight: "200px", width: "400px" }}
+              >
+                No UsersList...
+              </Alert>
+            )}
+          </React.Fragment>
+        )}
+      </Box>
       <Footer />
-    </Grid>
+    </React.Fragment>
   )
 }

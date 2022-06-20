@@ -2,7 +2,7 @@ import { Box, ListItemButton } from "@mui/material"
 import * as React from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
 import { useTranslation } from "react-i18next"
 
@@ -17,7 +17,7 @@ import CollectionWithoutAuth from "./NavElements/CollectionWithoutAuth"
 function Navbar() {
   const [expanded, setExpanded] = React.useState(false)
   const { width } = useWindowDimensions()
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { userAuth } = useSelector((state) => state.users)
   const { t } = useTranslation()
@@ -68,7 +68,11 @@ function Navbar() {
                       alignItems: "center",
                     }}
                   >
-                    <ListItemButton onClick={() => dispatch(logoutAction())}>
+                    <ListItemButton
+                      onClick={() => {
+                        dispatch(logoutAction()).then(() => navigate("/"))
+                      }}
+                    >
                       {t("Logout")}
                     </ListItemButton>
                   </Box>

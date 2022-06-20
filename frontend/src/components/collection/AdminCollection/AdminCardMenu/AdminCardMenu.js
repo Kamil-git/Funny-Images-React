@@ -99,10 +99,10 @@ export default function AdminCardMenu(props) {
           onClick={() => dispatch(deleteCollectionAction(deleteString))}
           disableRipple
         >
-          <ButtonGroup>
-            <ArchiveIcon />
+          
+            <ArchiveIcon/>
             {t("Delete")}
-          </ButtonGroup>
+          
         </MenuItem>
       </StyledMenu>
     </div>

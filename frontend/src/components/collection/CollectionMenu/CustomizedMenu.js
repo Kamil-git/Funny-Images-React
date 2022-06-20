@@ -98,10 +98,10 @@ export default function CustomizedMenu(props) {
           onClick={() => dispatch(deleteCollectionAction(deleteString))}
           disableRipple
         >
-          <ButtonGroup>
+          
             <ArchiveIcon />
             {t("Delete")}
-          </ButtonGroup>
+        
         </MenuItem>
       </StyledMenu>
     </div>

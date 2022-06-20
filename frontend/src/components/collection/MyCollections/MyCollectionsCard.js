@@ -107,7 +107,8 @@ const {userAuth} = user
 
       <CardMedia
         component="img"
-        height="194"
+        
+        
         image={`${props.collection.imageLink}`}
         alt="collection photo"
       />

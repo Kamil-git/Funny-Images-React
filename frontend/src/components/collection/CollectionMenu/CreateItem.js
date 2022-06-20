@@ -56,9 +56,9 @@ export default function CreateItem(props) {
   return (
     <PopupState variant="popover" popupId="demo-popup-popover">
       {(popupState) => (
-        <div>
-          <ButtonGroup {...bindTrigger(popupState)}>
-            <AddToPhotosIcon />
+        <React.Fragment>
+          <ButtonGroup fullWidth {...bindTrigger(popupState)}>
+            <AddToPhotosIcon style={{width:'maxContent'}}/>
             {t("Add_Item")}
           </ButtonGroup>
           <Popover
@@ -119,7 +119,7 @@ export default function CreateItem(props) {
               </IconButton>
             </form>
           </Popover>
-        </div>
+        </React.Fragment>
       )}
     </PopupState>
   )
