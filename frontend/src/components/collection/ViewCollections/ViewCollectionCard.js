@@ -97,7 +97,7 @@ export default function ViewCollectionCard(props) {
       />
       <CardMedia
         component="img"
-        height="194"
+       
         image={`${props?.collection.imageLink}`}
         alt=""
       />

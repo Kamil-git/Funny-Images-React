@@ -102,7 +102,7 @@ export default function AdminCollectionCard(props) {
 
       <CardMedia
         component="img"
-        height="194"
+        
         image={`${props.collection.imageLink}`}
         alt="collection photo"
       />
