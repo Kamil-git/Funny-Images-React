@@ -1,20 +1,17 @@
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown"
+
 import {
   Box,
-  ClickAwayListener,
-  List,
   ListItem,
   ListItemButton,
-  ListItemText,
+  Popover,
 } from "@mui/material"
 import i18next from "i18next"
 import React from "react"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
+
 import Flag from "react-world-flags"
 import DoneIcon from "@mui/icons-material/Done"
 function SwitchLanguage() {
-  const [open, setOpen] = React.useState(false)
   const { t } = useTranslation()
   const switchLanguage = () => {
     if (i18next.language === "en") {
@@ -23,69 +20,56 @@ function SwitchLanguage() {
       i18next.changeLanguage("en")
     }
   }
-  const onClickAwayListener = () => {
-    setOpen(false)
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
   }
-  
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? "simple-popover" : undefined
   return (
-    <ClickAwayListener onClickAway={onClickAwayListener}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+    <React.Fragment>
+      <ListItemButton
+        aria-describedby={id}
+        onClick={handleClick}
+        sx={{ maxWidth: "50px" }}
       >
-        <ListItemButton
-          sx={{
-            width: "100%",
-            height: "25px",
-          }}
-          onClick={() => setOpen(!open)}
-        >
-          {i18next.language === "en" ? (
-            <Flag
-              code="gb"
-              height="16"
-              width="22"
-              style={{ display: "block" }}
-            />
-          ) : (
+        {i18next.language === "en" ? (
+          <Flag code="gb" height="16" width="22" style={{ display: "block" }} />
+        ) : (
+          <Flag code="pol" height="16" width="22" />
+        )}
+      </ListItemButton>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        sx={{ cursor: "pointer" }}
+      >
+        <ListItem>
+          <Box sx={{ color: "text.primary" }} onClick={() => switchLanguage()}>
+            <Flag code="gb" height="16" width="22" />
+            {t("English")}
+            {i18next.language === "en" ? <DoneIcon color="success" /> : null}
+          </Box>
+        </ListItem>
+        <ListItem>
+          <Box sx={{ color: "text.primary" }} onClick={() => switchLanguage()}>
             <Flag code="pol" height="16" width="22" />
-          )}
-        </ListItemButton>
-        {open ? (
-          <List
-            sx={{
-              bgcolor:"background.paper",
-              color: "#000",
-              border: "1px solid #000",
-              display: "flex",
-              flexDirection: "column",
-              position: "absolute",
-              top: "80px",
-              cursor: "pointer",
-              zIndex: "1",
-            }}
-          >
-            <ListItem>
-              <Box sx={{color:'text.primary'}} onClick={() => switchLanguage()}>
-                <Flag code="gb" height="16" width="22" />
-                {t("English")}
-                {i18next.language === "en" ? <DoneIcon color="success" /> : null}
-              </Box>
-            </ListItem>
-            <ListItem>
-              <Box sx={{color:'text.primary'}} onClick={() => switchLanguage()}>
-                <Flag code="pol" height="16" width="22" />
-                {t("Polish")}
-                {i18next.language === "pl" ? <DoneIcon color="success" /> : null}
-              </Box>
-            </ListItem>
-          </List>
-        ) : null}
-      </Box>
-    </ClickAwayListener>
+            {t("Polish")}
+            {i18next.language === "pl" ? <DoneIcon color="success" /> : null}
+          </Box>
+        </ListItem>
+      </Popover>
+    </React.Fragment>
   )
 }
 

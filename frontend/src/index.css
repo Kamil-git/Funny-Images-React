@@ -36,6 +36,7 @@ a{
 }
 .navbar__logo {
   font-size: 20px;
+  align-self: center;
 }
 .hide__navbar {
   width: 100%;
@@ -72,118 +73,4 @@ a{
     
   }
 }
-/* ---------------Navbar responsivness --------------------------
-@media only screen and (max-width: 1000px) and (min-width: 800px) {
-  .wraplist {
-    flex-direction: column;
-  }
-  .iconNav {
-    position: absolute;
-    top: 3%;
-    left: 5%;
-  }
-  .iconNav2 {
-    position: absolute;
-    top: 3%;
-    left: 15%;
-  }
-  .iconNav3 {
-    position: absolute;
-    top: 7%;
-    right: 5%;
-  }
-  .navbar__logo {
-    position: absolute;
-    top: 3%;
-    left: 20%;
-  }
-}
-@media only screen and (max-width: 800px) and (min-width: 700px) {
-  .wraplist {
-    flex-direction: column;
-  }
-  .iconNav {
-    position: absolute;
-    top: 3%;
-    left: 10%;
-  }
-  .iconNav2 {
-    position: absolute;
-    top: 3%;
-    left: 20%;
-  }
-  .iconNav3 {
-    position: absolute;
-    top: 7%;
-    right: 5%;
-  }
-  .navbar__logo {
-    position: absolute;
-    top: 3%;
-    left: 25%;
-  }
-}
-@media only screen and (max-width: 700px) and (min-width: 600px) {
-  .wraplist {
-    flex-direction: column;
-  }
-  .iconNav {
-    position: absolute;
-    top: 3%;
-    left: 10%;
-  }
-  .iconNav2 {
-    position: absolute;
-    top: 3%;
-    left: 24%;
-  }
-  .iconNav3 {
-    position: absolute;
-    top: 7%;
-    right: 5%;
-  }
-  .navbar__logo {
-    position: absolute;
-    top: 3%;
-    left: 32%;
-  }
-}
-@media only screen and (max-width: 600px) {
-  .wraplist {
-    flex-direction: column;
-  }
-  .iconNav {
-    position: absolute;
-    top: 3%;
-    left: 10%;
-  }
-  .iconNav2 {
-    position: absolute;
-    top: 3%;
-    left: 28%;
-  }
-  .iconNav3 {
-    position: absolute;
-    top: 7%;
-    right: 5%;
-  }
-  .navbar__logo {
-    position: absolute;
-    top: 3%;
-    left: 38%;
-    font-size: 10px;
-  }
-}
-@media only screen and (max-width: 500px) {
-  .iconNav2 {
-    position: absolute;
-    top: 3%;
-    left: 35%;
-  }
-  .navbar__logo {
-    position: absolute;
-    top: 3%;
-    left: 38%;
-    font-size: 10px;
-  }
-} */
+

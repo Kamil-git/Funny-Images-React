@@ -1,18 +1,11 @@
-import {
-  Box,
-  ClickAwayListener,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material"
+import { Box, ListItemButton } from "@mui/material"
 import * as React from "react"
 import SearchBar from "./SearchBar"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { logoutAction } from "../../redux/slices/users/usersSlices"
 import { useTranslation } from "react-i18next"
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown"
+
 import UserIcon from "./NavElements/UserIcon"
 import useWindowDimensions from "../../hooks/WindowDimensionHook"
 import { ToggleSwitch } from "./ToggleSwitch"

@@ -1,6 +1,6 @@
 import * as React from "react"
 import Popover from "@mui/material/Popover"
-import { List, ListItem, ListItemButton } from "@mui/material"
+import {  ListItem, ListItemButton } from "@mui/material"
 import { Link } from "react-router-dom"
 import { Box } from "@mui/system"
 import { useTranslation } from "react-i18next"
@@ -20,7 +20,7 @@ export default function ManageUsers() {
   const id = open ? "simple-popover" : undefined
 
   return (
-    <div>
+    <React.Fragment>
       <ListItemButton
         aria-describedby={id}
         
@@ -52,6 +52,6 @@ export default function ManageUsers() {
           </Link>
         </ListItem>
       </Popover>
-    </div>
+    </React.Fragment>
   )
 }
