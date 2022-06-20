@@ -145,7 +145,7 @@ function Main() {
           {alignment === "login" ? (
             <Box>
               <form onSubmit={formikLogin.handleSubmit}>
-                <Box>
+                <Box sx={{ m: 2 }}>
                   <p>{t("Sign_in_with")}:</p>
                   <IconButton disabled>
                     <FacebookIcon
@@ -177,7 +177,7 @@ function Main() {
                 </Box>
                 <p>{t("or")}:</p>
 
-                <div>
+                <Box sx={{ m: 2 }}>
                   <TextField
                     variant="standard"
                     fullWidth
@@ -190,9 +190,9 @@ function Main() {
                   <p style={{ fontSize: "10px", color: "red" }}>
                     {formik.touched.email && formik.errors.email}
                   </p>
-                </div>
+                </Box>
 
-                <Box>
+                <Box sx={{ m: 2 }}>
                   <TextField
                     variant="standard"
                     fullWidth
@@ -225,70 +225,36 @@ function Main() {
                   </Alert>
                 ) : null}
 
-                <div>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flex: "row no-wrap",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ToggleSwitch />
+                <Box
+                  sx={{
+                    display: "flex",
+                    flex: "row no-wrap",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ToggleSwitch />
 
-                    <Box>{t("Not_a_member")}?</Box>
+                  <Box>{t("Not_a_member")}?</Box>
 
-                    <Link to="/view-collections">
-                      <Box
-                        sx={{
-                          textDecorationLine: "underline",
-                          color: "text.primary",
-                        }}
-                      >
-                        {t("Continue")}
-                      </Box>
-                    </Link>
-                  </Box>
-                </div>
+                  <Link to="/view-collections">
+                    <Box
+                      sx={{
+                        textDecorationLine: "underline",
+                        color: "text.primary",
+                      }}
+                    >
+                      {t("Continue")}
+                    </Box>
+                  </Link>
+                </Box>
               </form>
             </Box>
           ) : (
             <Box>
               <form onSubmit={formik.handleSubmit}>
-                <Box>
-                  <p>{t("Sign_up_with")}:</p>
-                  <IconButton>
-                    <FacebookIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary", m: 0.5 }}
-                    />
-                  </IconButton>
-
-                  <IconButton>
-                    <GoogleIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary", m: 0.5 }}
-                    />
-                  </IconButton>
-
-                  <IconButton>
-                    <TwitterIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary", m: 0.5 }}
-                    />
-                  </IconButton>
-
-                  <IconButton>
-                    <GitHubIcon
-                      fontSize="large"
-                      sx={{ color: "text.secondary", m: 0.5 }}
-                    />
-                  </IconButton>
-                </Box>
-
-                <p>or:</p>
-
-                <div>
+                
+                <Box sx={{ m: 2 }}>
                   <TextField
                     fullWidth
                     variant="standard"
@@ -301,9 +267,9 @@ function Main() {
                   <p style={{ fontSize: "10px", color: "red" }}>
                     {formik.touched.name && formik.errors.name}
                   </p>
-                </div>
+                </Box>
 
-                <div>
+                <Box sx={{ m: 2 }}>
                   <TextField
                     fullWidth
                     variant="standard"
@@ -316,9 +282,9 @@ function Main() {
                   <p style={{ fontSize: "10px", color: "red" }}>
                     {formik.touched.email && formik.errors.email}
                   </p>
-                </div>
+                </Box>
 
-                <div className="form-outline mb-3 text-center">
+                <Box sx={{ m: 2 }}>
                   <TextField
                     fullWidth
                     variant="standard"
@@ -331,9 +297,9 @@ function Main() {
                   <p style={{ fontSize: "10px", color: "red" }}>
                     {formik.touched.password && formik.errors.password}
                   </p>
-                </div>
+                </Box>
 
-                <div>
+                <Box sx={{ m: 2 }}>
                   <TextField
                     variant="standard"
                     fullWidth
@@ -348,7 +314,7 @@ function Main() {
                   <p style={{ fontSize: "10px", color: "red" }}>
                     {formik.touched.password2 && formik.errors.password2}
                   </p>
-                </div>
+                </Box>
 
                 {loading ? (
                   <CircularProgress />
