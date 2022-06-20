@@ -1,5 +1,5 @@
 
-Create account ,add, edit or delete colllections of images. 
+Create account, add, edit or delete colllections of images. 
 
 Manages users as admin or view collections without loging in.
 
