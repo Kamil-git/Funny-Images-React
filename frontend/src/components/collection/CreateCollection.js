@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next"
 import Dropzone from "react-dropzone"
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"
 import { useNavigate } from "react-router-dom"
+import { Box } from "@mui/system"
 const formSchema = Yup.object({
   name: Yup.string().required("Collection name required"),
   tags: Yup.string().required("Tags are required"),
@@ -48,15 +49,15 @@ function CreateCollection() {
   }, [navigate, userAuth])
 
   return (
-    <div>
+    <React.Fragment>
       <Navbar />
 
       <form
         onSubmit={formik.handleSubmit}
-        style={{ minHeight: "100vh", alignItems: "center" }}
+        style={{ minHeight: "100vh", display:"flex", width: "100%", justifyContent: "center" }}
         className="p-4 d-flex justify-content-center w-100"
       >
-        <div className="file-upload-wrapper">
+        <Box sx={{}}>
           <TextField
             onChange={formik.handleChange("name")}
             value={formik.values.name}
@@ -84,17 +85,15 @@ function CreateCollection() {
             }}
           >
             {({ getRootProps, getInputProps, acceptedFiles }) => (
-              <section>
-                <div {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <CloudUploadIcon sx={{ m: 0.5 }} />
-                  {acceptedFiles.map((file) => (
-                    <li style={{ listStyle: "none" }} key={file.path}>
-                      {file.path}
-                    </li>
-                  ))}
-                </div>
-              </section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <CloudUploadIcon sx={{ m: 0.5 }} />
+                {acceptedFiles.map((file) => (
+                  <li style={{ listStyle: "none" }} key={file.path}>
+                    {file.path}
+                  </li>
+                ))}
+              </div>
             )}
           </Dropzone>
           {loading ? (
@@ -104,17 +103,17 @@ function CreateCollection() {
               {t("Create")}
             </Button>
           )}
+        </Box>
 
-          {appErr || serverErr ? (
-            <Alert severity="error" sx={{ maxWidth: "350" }}>
-              {appErr}
-              {serverErr}
-            </Alert>
-          ) : null}
-        </div>
+        {appErr || serverErr ? (
+          <Alert severity="error" sx={{ maxWidth: "350" }}>
+            {appErr}
+            {serverErr}
+          </Alert>
+        ) : null}
       </form>
       <Footer />
-    </div>
+    </React.Fragment>
   )
 }
 

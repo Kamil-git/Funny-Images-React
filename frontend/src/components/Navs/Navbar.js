@@ -51,7 +51,7 @@ function Navbar() {
               <ToggleSwitch />
             </Box>
             <SwitchLanguage />
-            <Box className="navbar__logo">Funny Images</Box>
+            <Box className="navbar__logo">Photo Album</Box>
           </Box>
 
           <Box sx={{ display: "flex" }} className="wraplist">
